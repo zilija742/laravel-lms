@@ -74,6 +74,10 @@ return array (
       array (
         'title' => 'Teachers',
       ),
+      'companies' =>
+      array (
+        'title' => 'Companies',
+      ),
       'hero-slider' =>
       array (
         'title' => 'Hero Slider',

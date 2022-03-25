@@ -781,6 +781,25 @@ return array (
       'edit' => 'Edit Sponsors',
       'view' => 'View Sponsors',
     ),
+    'companies' => 
+    array(
+      'title' => 'Companies',
+      'fields' =>
+      array(
+        'name' => 'Company Name',
+        'number' => 'Company Number',
+        'contact_number' => 'Phone Number',
+        'contact_email' => 'Email Address',
+        'address' => 'Address',
+        'hours' => 'Hours',
+        'location' => 'Location',
+        'description' => 'Description',
+        'status' => 'Status',
+      ),
+      'create' => 'Create Company',
+      'edit' => 'Edit Company',
+      'view' => 'View Companies',
+    ),
     'teachers' =>
     array (
       'fields' =>

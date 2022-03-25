@@ -27,7 +27,10 @@ Route::group(['middleware' => 'role:administrator'], function () {
     Route::post('teachers_restore/{id}', ['uses' => 'Admin\TeachersController@restore', 'as' => 'teachers.restore']);
     Route::delete('teachers_perma_del/{id}', ['uses' => 'Admin\TeachersController@perma_del', 'as' => 'teachers.perma_del']);
     Route::post('teacher/status', ['uses' => 'Admin\TeachersController@updateStatus', 'as' => 'teachers.status']);
-
+    
+    //===== Companies Routes =====//
+    Route::resource('companies', 'Admin\CompaniesController');
+    Route::get('get-companies-data', ['uses' => 'Admin\CompaniesController@getData', 'as' => 'companies.get_data']);
 
     //===== FORUMS Routes =====//
     Route::resource('forums-category', 'Admin\ForumController');
