@@ -146,7 +146,7 @@
 
             });
             @if(auth()->user()->isAdmin())
-            $('.actions').html('<a href="' + '{{ route('admin.teachers.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
+            $('.actions').html('<a href="' + '{{ route('admin.companies.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
             @endif
 
 
@@ -156,7 +156,7 @@
             var id = $(this).data('id');
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.teachers.status') }}",
+                url: "{{ route('admin.companies.status') }}",
                 data: {
                     _token:'{{ csrf_token() }}',
                     id: id,

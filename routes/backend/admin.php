@@ -31,6 +31,8 @@ Route::group(['middleware' => 'role:administrator'], function () {
     //===== Companies Routes =====//
     Route::resource('companies', 'Admin\CompaniesController');
     Route::get('get-companies-data', ['uses' => 'Admin\CompaniesController@getData', 'as' => 'companies.get_data']);
+    Route::post('companies_mass_destroy', ['uses' => 'Admin\CompaniesController@massDestroy', 'as' => 'companies.mass_destroy']);
+    Route::post('company/status', ['uses' => 'Admin\CompaniesController@updateStatus', 'as' => 'companies.status']);
 
     //===== FORUMS Routes =====//
     Route::resource('forums-category', 'Admin\ForumController');

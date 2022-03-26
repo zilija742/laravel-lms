@@ -112,4 +112,20 @@ class CompaniesController extends Controller
 
         return view('backend.companies.show', compact('company'));
     }
+
+    public function destroy($id)
+    {
+        $company = Company::findOrFail($id);
+
+        $company->delete();
+
+        return redirect()->route('admin.companies.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
+    }
+
+    public function updateStatus()
+    {
+        $company = Company::find(request('id'));
+        $company->active = $company->active == 1? 0 : 1;
+        $company->save();
+    }
 }
