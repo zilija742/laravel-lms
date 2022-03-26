@@ -105,4 +105,11 @@ class CompaniesController extends Controller
 
         return redirect()->route('admin.companies.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
+
+    public function show($id)
+    {
+        $company = Company::findOrFail($id);
+
+        return view('backend.companies.show', compact('company'));
+    }
 }
