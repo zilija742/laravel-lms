@@ -64,7 +64,7 @@ class CompaniesController extends Controller
                     $view .= $delete;
                 }
 
-                // $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.index', ['cat_id' => $q->id]) . '">' . trans('labels.backend.courses.title') . '</a>';
+                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.teachers.index', ['company_id' => $q->id]) . '">' . trans('labels.backend.teachers.title') . '</a>';
 
 
                 return $view;

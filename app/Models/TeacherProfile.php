@@ -22,4 +22,8 @@ class TeacherProfile extends Model
     public function teacher(){
         return $this->belongsTo(User::class);
     }
+
+    public function company(){
+        return $this->belongsTo(Company::class);
+    }
 }

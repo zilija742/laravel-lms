@@ -809,6 +809,8 @@ return array (
         'password' => 'Password',
         'image' => 'Image',
         'status' => 'Status',
+        'company' => 'Company',
+        'hourly_rate' => 'Hourly Rate'
       ),
       'title' => 'Teachers',
       'create' => 'Create Teacher',
