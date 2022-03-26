@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
-                        <div class="d-block">
+                        <!-- <div class="d-block">
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <a href="{{ route('admin.teachers.index') }}"
@@ -32,7 +32,7 @@
                                        style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
 
 
                         <table id="myTable"
@@ -80,10 +80,10 @@
 
 
 
-            var route = '{{route('admin.teachers.get_data')}}';
+            var route = '{{route('admin.companies.get_data')}}';
 
             @if(request('show_deleted') == 1)
-                route = '{{route('admin.teachers.get_data',['show_deleted' => 1])}}';
+                route = '{{route('admin.companies.get_data',['show_deleted' => 1])}}';
             @endif
 
            var table = $('#myTable').DataTable({
@@ -118,9 +118,10 @@
                         @endif
                     {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false, orderable:false},
                     {data: "id", name: 'id'},
-                    {data: "first_name", name: 'first_name'},
-                    {data: "last_name", name: 'last_name'},
-                    {data: "email", name: 'email'},
+                    {data: "name", name: 'name'},
+                    {data: "number", name: 'number'},
+                    {data: "contact_number", name: 'contact_number'},
+                    {data: "contact_email", name: 'contact_email'},
                     {data: "status", name: 'status'},
                     {data: "actions", name: 'actions'}
                 ],

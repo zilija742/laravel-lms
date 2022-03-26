@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Model\Company;
+use App\Models\Company;
+use App\Http\Requests\Admin\StoreCompaniesRequest;
+use Yajra\DataTables\DataTables;
+
 
 class CompaniesController extends Controller
 {
@@ -20,22 +23,69 @@ class CompaniesController extends Controller
         $has_edit = false;
         $companies = "";
 
-
         if (request('show_deleted') == 1) {
-            $companies = Company::all()->onlyTrashed()->orderBy('created_at', 'desc');
+            // $companies = Company::all()->onlyTrashed()->orderBy('created_at', 'desc');
         } else {
-            $companies = Company::all()->orderBy('created_at', 'desc');
+            $companies = Company::orderBy('created_at', 'desc')->get();
         }
-
         if (auth()->user()->isAdmin()) {
             $has_view = true;
             $has_edit = true;
             $has_delete = true;
         }
+
+        return DataTables::of($companies)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
+                $view = "";
+                $edit = "";
+                $delete = "";
+                $allow_delete = false;
+
+                if ($request->show_deleted == 1) {
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.companies', 'label' => 'id', 'value' => $q->id]);
+                }
+                if ($has_view) {
+                    $view = view('backend.datatable.action-view')
+                        ->with(['route' => route('admin.companies.show', ['company' => $q->id])])->render();
+                }
+                if ($has_edit) {
+                    $edit = view('backend.datatable.action-edit')
+                        ->with(['route' => route('admin.companies.edit', ['company' => $q->id])])
+                        ->render();
+                    $view .= $edit;
+                }
+
+                if ($has_delete) {
+                    $delete = view('backend.datatable.action-delete')
+                        ->with(['route' => route('admin.companies.destroy', ['company' => $q->id])])
+                        ->render();
+                    $view .= $delete;
+                }
+
+                // $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.index', ['cat_id' => $q->id]) . '">' . trans('labels.backend.courses.title') . '</a>';
+
+
+                return $view;
+            })
+            ->addColumn('status', function ($q) {
+                $html = html()->label(html()->checkbox('')->id($q->id)
+                ->checked(($q->active == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->active == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');
+                return $html;
+            })
+            ->rawColumns(['actions', 'icon'])
+            ->make();
     }
 
     public function create()
     {
         return view('backend.companies.create');
+    }
+
+    public function store(StoreCompaniesRequest $request)
+    {
+        $company = Company::create($request->all());
+
+        return redirect()->route('admin.companies.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
 }

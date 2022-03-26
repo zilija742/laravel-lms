@@ -790,7 +790,6 @@ return array (
         'number' => 'Company Number',
         'contact_number' => 'Phone Number',
         'contact_email' => 'Email Address',
-        'address' => 'Address',
         'hours' => 'Hours',
         'location' => 'Location',
         'description' => 'Description',

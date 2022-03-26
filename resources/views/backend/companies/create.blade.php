@@ -53,12 +53,24 @@
                     </div><!--form-group-->
 
                     <div class="form-group row">
-                        {{ html()->label(__('labels.backend.companies.fields.address'))->class('col-md-2 form-control-label')->for('address') }}
+                        {{ html()->label(__('labels.backend.companies.fields.contact_number'))->class('col-md-2 form-control-label')->for('contact_number') }}
 
                         <div class="col-md-10">
-                            {{ html()->email('address')
+                            {{ html()->text('contact_number')
                                 ->class('form-control')
-                                ->placeholder(__('labels.backend.companies.fields.address'))
+                                ->placeholder(__('labels.backend.companies.fields.contact_number'))
+                                ->attribute('maxlength', 191)
+                                ->required() }}
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.companies.fields.location'))->class('col-md-2 form-control-label')->for('location') }}
+
+                        <div class="col-md-10">
+                            {{ html()->text('location')
+                                ->class('form-control')
+                                ->placeholder(__('labels.backend.companies.fields.location'))
                                 ->attribute('maxlength', 191)
                                 ->required() }}
                         </div><!--col-->
