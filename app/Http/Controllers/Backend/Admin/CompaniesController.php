@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Http\Requests\Admin\StoreCompaniesRequest;
+use App\Http\Requests\Admin\UpdateCompaniesRequest;
 use Yajra\DataTables\DataTables;
 
 
@@ -87,5 +88,21 @@ class CompaniesController extends Controller
         $company = Company::create($request->all());
 
         return redirect()->route('admin.companies.index')->withFlashSuccess(trans('alerts.backend.general.created'));
+    }
+
+    public function edit($id)
+    {
+        $company = Company::findOrFail($id);
+        return view('backend.companies.edit', compact('company'));
+    }
+
+    public function update(UpdateCompaniesRequest $request, $id)
+    {
+        $company = Company::findOrFail($id);
+        $company->update($request->except('email'));
+        $company->active = isset($request->active)?1:0;
+        $company->save();
+
+        return redirect()->route('admin.companies.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 }
