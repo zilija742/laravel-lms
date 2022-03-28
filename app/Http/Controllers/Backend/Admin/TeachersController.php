@@ -87,6 +87,12 @@ class TeachersController extends Controller
 
                 return $view;
             })
+            ->addColumn('company', function ($q) {
+                return $q->teacherProfile->company->name;
+            })
+            ->addColumn('hourly_rate', function ($q) {
+                return $q->teacherProfile->hourly_rate;
+            })
             ->addColumn('status', function ($q) {
                 $html = html()->label(html()->checkbox('')->id($q->id)
                 ->checked(($q->active == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->active == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');
@@ -104,7 +110,8 @@ class TeachersController extends Controller
      */
     public function create()
     {
-        return view('backend.teachers.create');
+        $companies = Company::where('active', '=', 1)->pluck('name', 'id');
+        return view('backend.teachers.create', compact('companies'));
     }
 
     /**
@@ -142,6 +149,8 @@ class TeachersController extends Controller
             'payment_method'    => request()->payment_method,
             'payment_details'   => json_encode($payment_details),
             'description'       => request()->description,
+            'company_id'        => request()->company_id,
+            'hourly_rate'       => request()->hourly_rate,
         ];
         TeacherProfile::create($data);
 

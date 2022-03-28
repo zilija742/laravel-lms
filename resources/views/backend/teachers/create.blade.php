@@ -14,6 +14,16 @@
         </div>
         <div class="card-body">
             <div class="row">
+                <div class="col-10 form-group">
+                    {!! Form::label('company_id',trans('labels.backend.teachers.fields.company'), ['class' => 'control-label']) !!}
+                    {!! Form::select('company_id', $companies, old('company_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
+                </div>
+                <div class="col-2 d-flex form-group flex-column">
+                    OR <a target="_blank" class="btn btn-primary mt-auto"
+                          href="{{route('admin.companies.create')}}">{{trans('labels.backend.teachers.add_companies')}}</a>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-12">
                     <div class="form-group row">
                         {{ html()->label(__('labels.backend.teachers.fields.first_name'))->class('col-md-2 form-control-label')->for('first_name') }}
@@ -83,6 +93,16 @@
                                 <input type="radio" name="gender" value="other"> {{__('validation.attributes.frontend.other')}}
                             </label>
                         </div>
+                    </div>
+
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.teachers.fields.hourly_rate'))->class('col-md-2 form-control-label')->for('hourly_rate') }}
+
+                        <div class="col-md-10">
+                            {{ html()->number('hourly_rate')
+                                            ->class('form-control')
+                                            ->placeholder(__('labels.backend.teachers.fields.hourly_rate')) }}
+                        </div><!--col-->
                     </div>
 
                     <div class="form-group row">
