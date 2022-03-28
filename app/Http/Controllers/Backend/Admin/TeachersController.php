@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\StoreTeachersRequest;
 use App\Http\Requests\Admin\UpdateTeachersRequest;
 use App\Models\Auth\User;
 use App\Models\TeacherProfile;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -158,7 +159,8 @@ class TeachersController extends Controller
     public function edit($id)
     {
         $teacher = User::findOrFail($id);
-        return view('backend.teachers.edit', compact('teacher'));
+        $companies = Company::where('active', '=', 1)->pluck('name', 'id');
+        return view('backend.teachers.edit', compact('teacher', 'companies'));
     }
 
     /**
@@ -171,7 +173,6 @@ class TeachersController extends Controller
     public function update(UpdateTeachersRequest $request, $id)
     {
 //        $request = $this->saveFiles($request);
-
         $teacher = User::findOrFail($id);
         $teacher->update($request->except('email'));
         if ($request->has('image')) {
@@ -196,6 +197,8 @@ class TeachersController extends Controller
             'payment_method'    => request()->payment_method,
             'payment_details'   => json_encode($payment_details),
             'description'       => request()->description,
+            'company_id'        => request()->company_id,
+            'hourly_rate'        => request()->hourly_rate,
         ];
         $teacher->teacherProfile->update($data);
 

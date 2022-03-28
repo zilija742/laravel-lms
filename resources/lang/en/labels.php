@@ -816,6 +816,7 @@ return array (
       'create' => 'Create Teacher',
       'edit' => 'Edit Teacher',
       'view' => 'View Teachers',
+      'add_companies' => 'Add Companies',
     ),
     'testimonials' =>
     array (
