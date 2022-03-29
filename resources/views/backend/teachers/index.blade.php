@@ -87,6 +87,10 @@
                 route = '{{route('admin.teachers.get_data',['show_deleted' => 1])}}';
             @endif
 
+            @if(request('company_id') != "")
+                route = '{{route('admin.teachers.get_data',['company_id' => request('company_id')])}}';
+            @endif
+
            var table = $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
