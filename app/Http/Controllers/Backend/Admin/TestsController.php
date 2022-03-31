@@ -25,7 +25,13 @@ class TestsController extends Controller
             return abort(401);
         }
 
-        $courses = Course::ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
+        if (auth()->user()->hasRole('company admin')) {
+            $courses = Course::ofCompany()->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $courses = Course::ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
+        }
+
+//        $courses = Course::ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
 
         return view('backend.tests.index', compact('courses'));
     }
@@ -125,7 +131,13 @@ class TestsController extends Controller
         if (! Gate::allows('test_create')) {
             return abort(401);
         }
-        $courses = \App\Models\Course::ofTeacher()->get();
+
+        if (auth()->user()->hasRole('company admin')) {
+            $courses = \App\Models\Course::ofCompany()->get();
+        } else {
+
+            $courses = \App\Models\Course::ofTeacher()->get();
+        }
         $courses_ids = $courses->pluck('id');
         $courses = $courses->pluck('title', 'id')->prepend('Please select', '');
         $lessons = \App\Models\Lesson::whereIn('course_id', $courses_ids)->get()->pluck('title', 'id')->prepend('Please select', '');
@@ -194,7 +206,12 @@ class TestsController extends Controller
         if (! Gate::allows('test_edit')) {
             return abort(401);
         }
-        $courses = \App\Models\Course::ofTeacher()->get();
+
+        if (auth()->user()->hasRole('company admin')) {
+            $courses = \App\Models\Course::ofCompany()->get();
+        } else {
+            $courses = \App\Models\Course::ofTeacher()->get();
+        }
         $courses_ids = $courses->pluck('id');
         $courses = $courses->pluck('title', 'id')->prepend('Please select', '');
         $lessons = \App\Models\Lesson::whereIn('course_id', $courses_ids)->get()->pluck('title', 'id')->prepend('Please select', '');

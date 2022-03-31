@@ -278,7 +278,12 @@ class LessonsController extends Controller
             return abort(401);
         }
         $videos = '';
-        $courses = Course::has('category')->ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+
+        if (auth()->user()->hasRole('company admin')) {
+            $courses = Course::has('category')->ofCompany()->get()->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $courses = Course::has('category')->ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        }
 
         $lesson = Lesson::with('media')->findOrFail($id);
         if ($lesson->media) {
