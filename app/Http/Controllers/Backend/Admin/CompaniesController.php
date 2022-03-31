@@ -26,7 +26,7 @@ class CompaniesController extends Controller
         $companies = "";
 
         if (request('show_deleted') == 1) {
-            // $companies = Company::all()->onlyTrashed()->orderBy('created_at', 'desc');
+             $companies = Company::all()->onlyTrashed()->orderBy('created_at', 'desc');
         } else {
             $companies = Company::orderBy('created_at', 'desc')->get();
         }

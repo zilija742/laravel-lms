@@ -30,7 +30,10 @@ class LessonsController extends Controller
         if (!Gate::allows('lesson_access')) {
             return abort(401);
         }
-        $courses = $courses = Course::has('category')->ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
+        $courses = Course::has('category')->ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
+        if (auth()->user()->hasRole('company admin')) {
+            $courses = Course::has('category')->ofCompany()->pluck('title', 'id')->prepend('Please select', '');
+        }
 
         return view('backend.lessons.index', compact('courses'));
     }

@@ -185,9 +185,21 @@ class CoursesController extends Controller
         if (!Gate::allows('course_create')) {
             return abort(401);
         }
-        $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
-            $q->where('role_id', 2);
-        })->get()->pluck('name', 'id');
+
+        if (auth()->user()->hasRole('company admin')) {
+            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->whereHas('teacherProfile', function ($q) {
+                $q->where('company_id', auth()->user()->teacherProfile->company_id);
+            })
+                ->get()->pluck('name', 'id');
+        } else {
+
+            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->get()->pluck('name', 'id');
+
+        }
 
         $categories = Category::where('status', '=', 1)->pluck('name', 'id');
 
@@ -341,6 +353,14 @@ class CoursesController extends Controller
         $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
             $q->where('role_id', 2);
         })->get()->pluck('name', 'id');
+        if (auth()->user()->hasRole('company admin')) {
+            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->whereHas('teacherProfile', function ($q) {
+                $q->where('company_id', auth()->user()->teacherProfile->company_id);
+            })
+                ->get()->pluck('name', 'id');
+        }
         $categories = Category::where('status', '=', 1)->pluck('name', 'id');
 
 
@@ -448,7 +468,7 @@ class CoursesController extends Controller
             $course->save();
         }
 
-        $teachers = \Auth::user()->isAdmin() ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
+        $teachers = (\Auth::user()->isAdmin() || \Auth::user()->hasRole('company admin')) ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.updated'));

@@ -16,7 +16,7 @@
 
         <div class="card-body">
 
-            @if (Auth::user()->isAdmin())
+            @if (Auth::user()->isAdmin() || Auth::user()->hasRole('company admin'))
                 <div class="row">
 
                     <div class="col-10 form-group">
