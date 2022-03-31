@@ -30,9 +30,10 @@ class LessonsController extends Controller
         if (!Gate::allows('lesson_access')) {
             return abort(401);
         }
-        $courses = Course::has('category')->ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
         if (auth()->user()->hasRole('company admin')) {
             $courses = Course::has('category')->ofCompany()->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $courses = Course::has('category')->ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
         }
 
         return view('backend.lessons.index', compact('courses'));
@@ -49,7 +50,11 @@ class LessonsController extends Controller
         $has_delete = false;
         $has_edit = false;
         $lessons = "";
-        $lessons = Lesson::query()->where('live_lesson', '=', 0)->whereIn('course_id', Course::ofTeacher()->pluck('id'));
+        if (auth()->user()->hasRole('company admin')) {
+            $lessons = Lesson::query()->where('live_lesson', '=', 0)->whereIn('course_id', Course::ofCompany()->pluck('id'));
+        } else {
+            $lessons = Lesson::query()->where('live_lesson', '=', 0)->whereIn('course_id', Course::ofTeacher()->pluck('id'));
+        }
 
 
         if ($request->course_id != "") {
@@ -135,7 +140,11 @@ class LessonsController extends Controller
         if (!Gate::allows('lesson_create')) {
             return abort(401);
         }
-        $courses = Course::has('category')->ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        if (auth()->user()->hasRole('company admin')) {
+            $courses = Course::has('category')->ofCompany()->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $courses = Course::has('category')->ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
+        }
         return view('backend.lessons.create', compact('courses'));
     }
 
