@@ -36,11 +36,11 @@
 
 
                         <table id="myTable"
-                               class="table table-bordered table-striped @if(auth()->user()->isAdmin()) @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
+                               class="table table-bordered table-striped @if(auth()->user()->isAdmin() || auth()->user()->hasRole('company admin')) @if ( request('show_deleted') != 1 ) dt-select @endif @endif">
                             <thead>
                             <tr>
 
-                                @can('category_delete')
+                                @can('user_delete')
                                     @if ( request('show_deleted') != 1 )
                                         <th style="text-align:center;"><input type="checkbox" class="mass"
                                                                               id="select-all"/>
@@ -60,6 +60,7 @@
                                 @else
                                     <th>&nbsp; @lang('strings.backend.general.actions')</th>
                                 @endif
+
                             </tr>
                             </thead>
 
@@ -90,8 +91,7 @@
             @if(request('company_id') != "")
                 route = '{{route('admin.teachers.get_data',['company_id' => request('company_id')])}}';
             @endif
-
-           var table = $('#myTable').DataTable({
+            var table = $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
                 iDisplayLength: 10,
@@ -151,7 +151,7 @@
                 }
 
             });
-            @if(auth()->user()->isAdmin())
+            @if(auth()->user()->isAdmin() || auth()->user()->hasRole('company admin'))
             $('.actions').html('<a href="' + '{{ route('admin.teachers.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
             @endif
 

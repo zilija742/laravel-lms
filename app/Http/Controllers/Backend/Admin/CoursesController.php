@@ -6,6 +6,7 @@ use App\Models\Auth\User;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseTimeline;
+use App\Models\Company;
 use App\Models\Media;
 use function foo\func;
 use Illuminate\Support\Facades\File;
@@ -47,29 +48,45 @@ class CoursesController extends Controller
         $has_edit = false;
         $courses = "";
 
-        if (request('show_deleted') == 1) {
-            if (!Gate::allows('course_delete')) {
-                return abort(401);
+        if (auth()->user()->hasRole('company admin')) {
+            if (request('show_deleted') == 1) {
+                if (!Gate::allows('course_delete')) {
+                    return abort(401);
+                }
+                $courses = Course::query()->onlyTrashed()
+                    ->whereHas('category')
+                    ->ofTeacher()->orderBy('created_at', 'desc');
+            } else {
+                $courses = Course::query()->ofCompany()
+                    ->whereHas('category')
+                    ->orderBy('created_at', 'desc');
             }
-            $courses = Course::query()->onlyTrashed()
-                ->whereHas('category')
-                ->ofTeacher()->orderBy('created_at', 'desc');
-        } elseif (request('teacher_id') != "") {
-            $id = request('teacher_id');
-            $courses = Course::query()->ofTeacher()
-                ->whereHas('category')
-                ->whereHas('teachers', function ($q) use ($id) {
-                    $q->where('course_user.user_id', '=', $id);
-                })->orderBy('created_at', 'desc');
-        } elseif (request('cat_id') != "") {
-            $id = request('cat_id');
-            $courses = Course::query()->ofTeacher()
-                ->whereHas('category')
-                ->where('category_id', '=', $id)->orderBy('created_at', 'desc');
         } else {
-            $courses = Course::query()->ofTeacher()
-                ->whereHas('category')
-                ->orderBy('created_at', 'desc');
+
+            if (request('show_deleted') == 1) {
+                if (!Gate::allows('course_delete')) {
+                    return abort(401);
+                }
+                $courses = Course::query()->onlyTrashed()
+                    ->whereHas('category')
+                    ->ofTeacher()->orderBy('created_at', 'desc');
+            } elseif (request('teacher_id') != "") {
+                $id = request('teacher_id');
+                $courses = Course::query()->ofTeacher()
+                    ->whereHas('category')
+                    ->whereHas('teachers', function ($q) use ($id) {
+                        $q->where('course_user.user_id', '=', $id);
+                    })->orderBy('created_at', 'desc');
+            } elseif (request('cat_id') != "") {
+                $id = request('cat_id');
+                $courses = Course::query()->ofTeacher()
+                    ->whereHas('category')
+                    ->where('category_id', '=', $id)->orderBy('created_at', 'desc');
+            } else {
+                $courses = Course::query()->ofTeacher()
+                    ->whereHas('category')
+                    ->orderBy('created_at', 'desc');
+            }
         }
 
 

@@ -25,6 +25,7 @@ class TeachersController extends Controller
      */
     public function index()
     {
+//        dd(auth()->user()->teacherProfile->company_id);
         return view('backend.teachers.index');
     }
 
@@ -68,7 +69,7 @@ class TeachersController extends Controller
             }
         }
 
-        if (auth()->user()->isAdmin() || auth()->user()->hasRole('company admin') ) {
+        if (auth()->user()->isAdmin() || auth()->user()->hasRole('company admin')) {
             $has_view = true;
             $has_edit = true;
             $has_delete = true;

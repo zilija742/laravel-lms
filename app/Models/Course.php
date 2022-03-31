@@ -150,6 +150,17 @@ class Course extends Model
         return $query;
     }
 
+    public function scopeOfCompany($query) {
+        if(auth()->user()->hasRole('company admin')) {
+            return $query->whereHas('teachers', function ($q) {
+                $q->whereHas('teacherProfile', function ($q) {
+                    $q->where('company_id', auth()->user()->teacherProfile->company_id);
+                });
+            });
+        }
+        return $query;
+    }
+
     public function getRatingAttribute()
     {
         return $this->reviews->avg('rating');
