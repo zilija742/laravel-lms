@@ -18,6 +18,7 @@
         @endphp
 
         <div class="card-body">
+            @if (auth()->user()->isAdmin())
             <div class="row">
                 <div class="col-10 form-group">
                     {!! Form::label('company_id',trans('labels.backend.teachers.fields.company'), ['class' => 'control-label']) !!}
@@ -28,6 +29,7 @@
                           href="{{route('admin.companies.create')}}">{{trans('labels.backend.teachers.add_companies')}}</a>
                 </div>
             </div>
+            @endif
 
             <div class="row">
                 <div class="col-12">
