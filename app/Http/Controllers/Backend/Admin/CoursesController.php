@@ -331,7 +331,7 @@ class CoursesController extends Controller
         }
 
 
-        $teachers = \Auth::user()->isAdmin() ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
+        $teachers = (\Auth::user()->isAdmin() || \Auth::user()->hasRole('company admin')) ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 
 

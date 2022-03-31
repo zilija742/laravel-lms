@@ -90,7 +90,7 @@
                         </p>
                     @endif
                 </div>
-                @if (Auth::user()->isAdmin())
+                @if (Auth::user()->isAdmin() || Auth::user()->hasRole('company admin'))
                 <div class="col-12 col-lg-4 form-group">
                     {!! Form::label('expire_at', trans('labels.backend.courses.fields.expire_at').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}
                     {!! Form::text('expire_at', old('expire_at'), ['class' => 'form-control date', 'pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.courses.fields.expire_at').' (Ex . 2019-01-01)','autocomplete' => 'off']) !!}
@@ -144,7 +144,7 @@
                         {!! Form::label('published', trans('labels.backend.courses.fields.published'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
 
-                    @if (Auth::user()->isAdmin())
+                    @if (Auth::user()->isAdmin() || Auth::user()->hasRole('company admin'))
 
                     <div class="checkbox d-inline mr-4">
                         {!! Form::hidden('featured', 0) !!}
