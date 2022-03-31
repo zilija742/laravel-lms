@@ -88,6 +88,54 @@
                     </div>
 
                     <div class="form-group row">
+                        {{ html()->label(__('labels.backend.companies.fields.admin_first_name'))->class('col-md-2 form-control-label')->for('first_name') }}
+
+                        <div class="col-md-10">
+                            {{ html()->text('first_name')
+                                ->class('form-control')
+                                ->placeholder(__('labels.backend.companies.fields.admin_first_name'))
+                                ->attribute('maxlength', 191)
+                                ->required() }}
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.companies.fields.admin_last_name'))->class('col-md-2 form-control-label')->for('last_name') }}
+
+                        <div class="col-md-10">
+                            {{ html()->text('last_name')
+                                ->class('form-control')
+                                ->placeholder(__('labels.backend.companies.fields.admin_last_name'))
+                                ->attribute('maxlength', 191)
+                                ->required() }}
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.companies.fields.admin_email'))->class('col-md-2 form-control-label')->for('email') }}
+
+                        <div class="col-md-10">
+                            {{ html()->email('email')
+                                ->class('form-control')
+                                ->placeholder(__('labels.backend.companies.fields.admin_email'))
+                                ->attribute('maxlength', 191)
+                                ->required() }}
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.companies.fields.admin_password'))->class('col-md-2 form-control-label')->for('password') }}
+
+                        <div class="col-md-10">
+                            {{ html()->password('password')
+                                ->class('form-control')
+                                ->placeholder(__('labels.backend.companies.fields.admin_password'))
+                                ->attribute('maxlength', 191)
+                                ->required() }}
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
                         {{ html()->label(__('labels.backend.companies.fields.status'))->class('col-md-2 form-control-label')->for('active') }}
                         <div class="col-md-10">
                             {{ html()->label(html()->checkbox('')->name('active')

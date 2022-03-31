@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\Auth\User;
+use App\Models\TeacherProfile;
 use App\Http\Requests\Admin\StoreCompaniesRequest;
 use App\Http\Requests\Admin\UpdateCompaniesRequest;
 use Yajra\DataTables\DataTables;
-
 
 class CompaniesController extends Controller
 {
@@ -86,6 +87,16 @@ class CompaniesController extends Controller
     public function store(StoreCompaniesRequest $request)
     {
         $company = Company::create($request->all());
+
+        $admin = User::create($request->all());
+        $admin->confirmed = 1;
+        $admin->save();
+        $admin->assignRole('company admin');
+        $data = [
+            'user_id'           => $admin->id,
+            'company_id'        => $company->id,
+        ];
+        TeacherProfile::create($data);
 
         return redirect()->route('admin.companies.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
