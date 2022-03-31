@@ -68,7 +68,7 @@ class TeachersController extends Controller
             }
         }
 
-        if (auth()->user()->isAdmin()) {
+        if (auth()->user()->isAdmin() || auth()->user()->hasRole('company admin') ) {
             $has_view = true;
             $has_edit = true;
             $has_delete = true;
@@ -227,7 +227,7 @@ class TeachersController extends Controller
             'payment_method'    => request()->payment_method,
             'payment_details'   => json_encode($payment_details),
             'description'       => request()->description,
-            'company_id'        => request()->company_id,
+            'company_id'        => auth()->user()->hasRole('company admin') ? auth()->user()->teacherProfile->company_id : request()->company_id,
             'hourly_rate'        => request()->hourly_rate,
         ];
         $teacher->teacherProfile->update($data);
