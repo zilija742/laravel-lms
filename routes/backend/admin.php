@@ -18,7 +18,8 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 Route::group(['middleware' => 'role:teacher|administrator'], function () {
     Route::resource('orders', 'Admin\OrderController');
 });
-Route::group(['middleware' => 'role:administrator'], function () {
+
+Route::group(['middleware' => 'role:company admin|administrator'], function () {
 
     //===== Teachers Routes =====//
     Route::resource('teachers', 'Admin\TeachersController');
@@ -27,7 +28,10 @@ Route::group(['middleware' => 'role:administrator'], function () {
     Route::post('teachers_restore/{id}', ['uses' => 'Admin\TeachersController@restore', 'as' => 'teachers.restore']);
     Route::delete('teachers_perma_del/{id}', ['uses' => 'Admin\TeachersController@perma_del', 'as' => 'teachers.perma_del']);
     Route::post('teacher/status', ['uses' => 'Admin\TeachersController@updateStatus', 'as' => 'teachers.status']);
-    
+});
+
+Route::group(['middleware' => 'role:administrator'], function () {
+
     //===== Companies Routes =====//
     Route::resource('companies', 'Admin\CompaniesController');
     Route::get('get-companies-data', ['uses' => 'Admin\CompaniesController@getData', 'as' => 'companies.get_data']);

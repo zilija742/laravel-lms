@@ -40,17 +40,32 @@ class TeachersController extends Controller
         $has_edit = false;
         $teachers = "";
 
-
-        if (request('show_deleted') == 1) {
-            $teachers = User::query()->role('teacher')->onlyTrashed()->orderBy('created_at', 'desc');
-        } elseif (request('company_id') != "") {
-            $id = request('company_id');
-            $teachers = User::query()->role('teacher')
-                ->whereHas('teacherProfile', function ($q) use ($id) {
-                    $q->where('company_id', '=', $id);
-                })->orderBy('created_at', 'desc');
+        if (auth()->user()->hasRole('company admin')) {
+            $id = auth()->user()->teacherProfile->company_id;
+            if (request('show_deleted') == 1) {
+                $teachers = User::query()->role('teacher')->onlyTrashed()
+                    ->whereHas('teacherProfile', function ($q) use ($id) {
+                        $q->where('company_id', '=', $id);
+                    })->orderBy('created_at', 'desc');
+            } else {
+                $teachers = User::query()->role('teacher')
+                    ->whereHas('teacherProfile', function ($q) use ($id) {
+                        $q->where('company_id', '=', $id);
+                    })->orderBy('created_at', 'desc');
+            }
         } else {
-            $teachers = User::query()->role('teacher')->orderBy('created_at', 'desc');
+
+            if (request('show_deleted') == 1) {
+                $teachers = User::query()->role('teacher')->onlyTrashed()->orderBy('created_at', 'desc');
+            } elseif (request('company_id') != "") {
+                $id = request('company_id');
+                $teachers = User::query()->role('teacher')
+                    ->whereHas('teacherProfile', function ($q) use ($id) {
+                        $q->where('company_id', '=', $id);
+                    })->orderBy('created_at', 'desc');
+            } else {
+                $teachers = User::query()->role('teacher')->orderBy('created_at', 'desc');
+            }
         }
 
         if (auth()->user()->isAdmin()) {

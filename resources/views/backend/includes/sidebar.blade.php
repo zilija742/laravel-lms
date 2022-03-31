@@ -32,6 +32,9 @@
                         <span class="title">@lang('menus.backend.sidebar.companies.title')</span>
                     </a>
                 </li>
+            @endif
+
+            @can('user_access')
                 <li class="nav-item ">
                     <a class="nav-link {{ $request->segment(2) == 'teachers' ? 'active' : '' }}"
                        href="{{ route('admin.teachers.index') }}">
@@ -39,7 +42,7 @@
                         <span class="title">@lang('menus.backend.sidebar.teachers.title')</span>
                     </a>
                 </li>
-            @endif
+            @endcan
 
             @can('category_access')
                 <li class="nav-item ">
