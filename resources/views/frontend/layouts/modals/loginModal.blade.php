@@ -61,7 +61,7 @@
                     </div>
                     <div class="popup-text text-center">
                         <h2>@lang('labels.frontend.modal.my_account') </h2>
-                        <p>@lang('labels.frontend.modal.login_register')</p>
+{{--                        <p>@lang('labels.frontend.modal.login_register')</p>--}}
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 
@@ -77,9 +77,9 @@
                             <form class="contact_form" id="loginForm" action="{{route('frontend.auth.login.post')}}"
                                   method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <a href="#" class="go-register float-left text-info pl-0">
-                                    @lang('labels.frontend.modal.new_user_note')
-                                </a>
+{{--                                <a href="#" class="go-register float-left text-info pl-0">--}}
+{{--                                    @lang('labels.frontend.modal.new_user_note')--}}
+{{--                                </a>--}}
                                 <div class="contact-info mb-2">
                                     {{ html()->email('email')
                                         ->class('form-control mb-0')

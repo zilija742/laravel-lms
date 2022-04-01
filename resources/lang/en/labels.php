@@ -1629,6 +1629,7 @@ return array (
     array(
         'title' => 'Companies',
         'company_detail' => 'Company Detail',
+        'courses_by_company' => 'Courses <span>By Company.</span>',
     ),
     'user' =>
     array (

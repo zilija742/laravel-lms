@@ -225,12 +225,11 @@ class HomeController extends Controller
     public function showCompany(Request $request)
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        $teacher = User::with('teacherProfile')->role('teacher')->where('id', '=', $request->id)->first();
-        $courses = $teacher->courses;
-        if (count($teacher->courses) > 0) {
-            $courses = $teacher->courses()->paginate(12);
-        }
-        return view($this->path . '.teachers.show', compact('teacher', 'recent_news', 'courses'));
+        $company = Company::where('id', '=', $request->id)->first();
+        $courses = Course::whereHas('teachers.teacherProfile', function ($q) use ($request) {
+            $q->where('company_id', $request->id);
+        })->paginate(12);
+        return view($this->path . '.companies.show', compact('company', 'recent_news', 'courses'));
     }
 
     public function getDownload(Request $request)

@@ -42,7 +42,7 @@
         <div class="container">
             <div class="page-breadcrumb-content text-center">
                 <div class="page-breadcrumb-title">
-                    <h2 class="breadcrumb-head black bold">{{env('APP_NAME')}} <span>{{$teacher->full_name}}</span></h2>
+                    <h2 class="breadcrumb-head black bold">{{env('APP_NAME')}} <span>{{$company->name}}</span></h2>
                 </div>
             </div>
         </div>
@@ -51,54 +51,55 @@
         ============================================= -->
 
 
-    <!-- Start of teacher details area
+    <!-- Start of company details area
         ============================================= -->
     <section id="teacher-details" class="teacher-details-area">
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    <div class="teacher-details-content mb45">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="teacher-details-img">
-                                    <img style="height: 100px" src="{{$teacher->picture}}" alt="">
-                                </div>
+                    <div class="course-details-item border-bottom-0 mb-0">
+                        <div class="course-single-pic mb30">
+                            @if($company->picture != "")
+                                <img src="{{asset('storage/uploads/'.$company->picture)}}"
+                                     alt="">
+                            @endif
+                        </div>
+                        <div class="teacher-details-text">
+                            <div class="section-title-2 mb-2  headline text-left">
+                                <h2>{{$company->name}}</h2>
                             </div>
-                            <div class="col-md-10">
-                                <div class="teacher-details-text">
-                                    <div class="section-title-2 mb-2  headline text-left">
-                                        <h2>{{$teacher->first_name}} <span>{{$teacher->last_name}}</span></h2>
 
-                                    </div>
-
-                                    <div class="teacher-address">
-                                        <div class="address-details ul-li-block">
-                                            <ul class="d-inline-block w-100">
-                                                <li class="d-inline-block w-100">
-                                                    <div class="addrs-icon">
-                                                        <i class="fas fa-envelope"></i>
-                                                    </div>
-                                                    <div class="add-info">
-                                                        <span>{{$teacher->email}}</span>
-                                                    </div>
-                                                </li>
-                                                <li class="d-inline-block w-100">
-                                                    <div class="addrs-icon">
-                                                        <i class="fas fa-comments"></i>
-                                                    </div>
-                                                    <div class="add-info">
-                                                        <a href="{{route('admin.messages',['teacher_id' => $teacher->id])}}"><span> @lang('labels.frontend.teacher.send_now') <i
-                                                                        class="fa fa-arrow-right text-primary"></i></span></a>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        @if(isset($teacher['teacherProfile']['description']))
-                                            <div class="address-details">
-                                                {{ $teacher['teacherProfile']['description'] }}
+                            <div class="teacher-address">
+                                <div class="address-details ul-li-block">
+                                    <ul class="d-inline-block w-100">
+                                        <li class="d-inline-block w-100">
+                                            <div class="addrs-icon">
+                                                <i class="fas fa-envelope"></i>
                                             </div>
-                                        @endif
-                                    </div>
+                                            <div class="add-info">
+                                                <span>{{$company->contact_email}}</span>
+                                            </div>
+                                        </li>
+                                        <li class="d-inline-block w-100">
+                                            <div class="addrs-icon">
+                                                <i class="fas fa-phone"></i>
+                                            </div>
+                                            <div class="add-info">
+                                                <span>{{$company->contact_number}}</span>
+                                            </div>
+                                        </li>
+                                        <li class="d-inline-block w-100">
+                                            <div class="addrs-icon">
+                                                <i class="fas fa-address-book"></i>
+                                            </div>
+                                            <div class="add-info">
+                                                <span>{{$company->location}}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="address-details">
+                                    {{ $company->description }}
                                 </div>
                             </div>
                         </div>
@@ -106,7 +107,7 @@
 
                     <div class="about-teacher mb45">
                         <div class="section-title-2  mb-0 headline text-left">
-                            <h2>@lang('labels.frontend.teacher.courses_by_teacher')</h2>
+                            <h2>@lang('labels.frontend.company.courses_by_company')</h2>
                         </div>
                         @if(count($courses) > 0)
                             <div class="row">
