@@ -366,13 +366,13 @@
                 </a>
             </li>
             @endif
-            @if ($logged_in_user->isAdmin())
+            @if ($logged_in_user->isAdmin() || auth()->user()->hasRole('company admin'))
 
 
                 <li class="nav-title">
                     @lang('menus.backend.sidebar.system')
                 </li>
-
+                @if ($logged_in_user->isAdmin())
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['admin/stripe*','admin/stripe/plans*']), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/stripe*')) }}"
                        href="#">
@@ -387,6 +387,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/auth*'), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/auth*')) }}"
                        href="#">
@@ -417,7 +418,7 @@
                     </ul>
                 </li>
 
-
+                @if ($logged_in_user->isAdmin())
                 <!--==================================================================-->
                 <li class="divider"></li>
 
@@ -493,6 +494,7 @@
                         <span class="title">@lang('menus.backend.sidebar.update.title')</span>
                     </a>
                 </li>
+                @endif
             @endif
 
             @if ($logged_in_user->hasRole('teacher'))

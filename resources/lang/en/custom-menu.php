@@ -3,7 +3,7 @@
   array (
     'blog' => 'Blog',
     'courses' => 'Courses',
-    'bundles' => 'Bundles',
+    'companies' => 'Companies',
     'forums' => 'Forums',
     'contact' => 'Contact',
     'about-us' => 'About Us',

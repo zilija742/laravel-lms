@@ -1624,6 +1624,10 @@ return array (
       'courses_by_teacher' => 'Courses <span>By Teacher.</span>',
       'course_detail' => 'Course Detail',
     ),
+    'company' =>
+    array(
+        'title' => 'Companies',
+    ),
     'user' =>
     array (
       'passwords' =>

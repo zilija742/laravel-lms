@@ -77,6 +77,8 @@ Route::get('blog/comment/delete/{id}', 'BlogController@deleteComment')->name('bl
 Route::get('teachers', 'Frontend\HomeController@getTeachers')->name('teachers.index');
 Route::get('teachers/{id}/show', 'Frontend\HomeController@showTeacher')->name('teachers.show');
 
+Route::get('companies', 'Frontend\HomeController@getCompanies')->name('companies.index');
+Route::get('companies/{id}/show', 'Frontend\HomeController@showCompany')->name('companies.show');
 
 Route::post('newsletter/subscribe', 'Frontend\HomeController@subscribe')->name('subscribe');
 
