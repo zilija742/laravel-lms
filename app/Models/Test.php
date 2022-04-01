@@ -40,6 +40,17 @@ class Test extends Model
                     });
                 });
             }
+            if (auth()->user()->hasRole('company admin')) {
+                static::addGlobalScope('filter', function (Builder $builder) {
+                   $builder->whereHas('course', function ($q) {
+                      $q->whereHas('teachers', function ($t) {
+                         $t->whereHas('teacherProfile', function ($s) {
+                            $s->where('company_id', auth()->user()->teacherProfile->company_id);
+                         });
+                      });
+                   });
+                });
+            }
         }
 
     }

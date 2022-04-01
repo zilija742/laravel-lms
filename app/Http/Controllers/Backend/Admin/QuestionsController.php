@@ -30,7 +30,6 @@ class QuestionsController extends Controller
         }
 
         $tests = Test::where('published', '=', 1)->pluck('title', 'id')->prepend('Please select', '');
-
         return view('backend.questions.index', compact('tests'));
     }
 
@@ -56,9 +55,16 @@ class QuestionsController extends Controller
             })->orderBy('created_at', 'desc');
         }
 
-        if (!auth()->user()->role('administrator')) {
+        if (auth()->user()->hasRole('company admin')) {
+            $questions->whereHas('user', function ($q) {
+                $q->whereHas('teacherProfile', function ($t) {
+                    $t->where('company_id', auth()->user()->teacherProfile->company_id);
+                });
+            });
+        } else if (!auth()->user()->role('administrator')) {
             $questions->where('user_id', '=', auth()->user()->id);
         }
+
 
         if ($request->show_deleted == 1) {
             if (!Gate::allows('question_delete')) {

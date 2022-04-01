@@ -63,6 +63,10 @@ class Question extends Model
         return $this->hasMany('App\Models\QuestionsOption');
     }
 
+    public function user() {
+        return $this->belongsTo('App\Models\Auth\User');
+    }
+
     public function isAttempted($result_id){
         $result = TestsResultsAnswer::where('tests_result_id', '=', $result_id)
             ->where('question_id', '=', $this->id)
