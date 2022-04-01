@@ -1627,6 +1627,7 @@ return array (
     'company' =>
     array(
         'title' => 'Companies',
+        'company_detail' => 'Company Detail',
     ),
     'user' =>
     array (

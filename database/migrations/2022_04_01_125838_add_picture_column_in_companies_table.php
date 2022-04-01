@@ -14,7 +14,7 @@ class AddPictureColumnInCompaniesTable extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            //
+            $table->string('picture')->nullable();
         });
     }
 

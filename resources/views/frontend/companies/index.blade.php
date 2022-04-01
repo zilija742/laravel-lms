@@ -57,31 +57,25 @@
 							<div class="row">
                                 @if(count($companies) > 0)
                                 @foreach($companies as $item)
-								<div class="col-md-4 col-sm-6">
-									<div class="teacher-pic-content">
-										<div class="teacher-img-content relative-position">
-											<img src="{{$item->picture}}" alt="">
-											<div class="teacher-hover-item">
-												<div class="teacher-social-name ul-li-block">
-													<ul>
-                                                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                                                        <li><a href="{{route('admin.messages',['teacher_id'=>$item->id])}}"><i class="fa fa-comments"></i></a></li>
-													</ul>
+									<div class="col-md-4">
+										<div class="best-course-pic-text relative-position">
+											<div class="best-course-pic relative-position"
+												 @if($item->picture != "") style="background-image: url('{{asset('storage/uploads/'.$item->picture)}}')" @endif>
+												<div class="course-details-btn">
+													<a href="{{route('companies.show',['id'=>$item->id])}}">@lang('labels.frontend.company.company_detail')
+														<i class="fas fa-arrow-right"></i></a>
 												</div>
-												{{--<div class="teacher-text">--}}
-													{{--Lorem ipsum dolor  consectuer adipiscing elit, nonummy nibh euismod tincidunt.--}}
-												{{--</div>--}}
+												<div class="blakish-overlay"></div>
 											</div>
-											<div class="teacher-next text-center">
-												<a href="{{route('companies.show',['id'=>$item->id])}}"><i class="text-gradiant fas fa-arrow-right"></i></a>
+											<div class="best-course-text">
+												<div class="course-title mb20 headline relative-position">
+													<h3>
+														<a href="{{route('companies.show',['id'=>$item->id])}}">{{$item->name}}</a>
+													</h3>
+												</div>
 											</div>
-										</div>
-										<div class="teacher-name-designation">
-											<span class="teacher-name">{{$item->name}}</span>
-											{{--<span class="teacher-designation">Mobile Apps</span>--}}
 										</div>
 									</div>
-								</div>
                                 @endforeach
                                 @else
                                     <h4>@lang('lables.general.no_data_available')</h4>

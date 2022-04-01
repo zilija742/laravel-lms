@@ -10,9 +10,13 @@ use App\Models\TeacherProfile;
 use App\Http\Requests\Admin\StoreCompaniesRequest;
 use App\Http\Requests\Admin\UpdateCompaniesRequest;
 use Yajra\DataTables\DataTables;
+use App\Http\Controllers\Traits\FileUploadTrait;
 
 class CompaniesController extends Controller
 {
+
+    use FileUploadTrait;
+
     public function index()
     {
         return view('backend.companies.index');
@@ -86,6 +90,8 @@ class CompaniesController extends Controller
 
     public function store(StoreCompaniesRequest $request)
     {
+        $request->all();
+        $request = $this->saveFiles($request);
         $company = Company::create($request->all());
 
         $admin = User::create($request->all());
