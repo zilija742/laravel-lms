@@ -41,6 +41,19 @@
                     </div><!--form-group-->
 
                     <div class="form-group row">
+                        {{ html()->label(__('labels.backend.courses.fields.course_image'))->class('col-md-2 form-control-label')->for('picture') }}
+
+                        <div class="col-md-10">
+                            {{ html()->file('picture')
+                                ->class('form-control')
+                             }}
+                            {!! Form::hidden('course_image_max_size', 8) !!}
+                            {!! Form::hidden('course_image_max_width', 4000) !!}
+                            {!! Form::hidden('course_image_max_height', 4000) !!}
+                        </div><!--col-->
+                    </div>
+
+                    <div class="form-group row">
                         {{ html()->label(__('labels.backend.companies.fields.contact_email'))->class('col-md-2 form-control-label')->for('contact_email') }}
 
                         <div class="col-md-10">

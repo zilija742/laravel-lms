@@ -116,6 +116,7 @@ class CompaniesController extends Controller
     public function update(UpdateCompaniesRequest $request, $id)
     {
         $company = Company::findOrFail($id);
+        $request = $this->saveFiles($request);
         $company->update($request->except('email'));
         $company->active = isset($request->active)?1:0;
         $company->save();
