@@ -32,7 +32,14 @@
                             <th>@lang('labels.backend.companies.fields.number')</th>
                             <td>{{ $company->number }}</td>
                         </tr>
-                        
+                         <tr>
+                            <th>@lang('labels.backend.companies.fields.company_image')</th>
+                            <td>@if($company->picture)<a
+                                        href="{{ asset('storage/uploads/' . $company->picture) }}"
+                                        target="_blank"><img
+                                            src="{{ asset('storage/uploads/' . $company->picture) }}"
+                                            height="50px"/></a>@endif</td>
+                        </tr>
                         <tr>
                             <th>@lang('labels.backend.companies.fields.contact_email')</th>
                             <td>{{ $company->contact_email }}</td>

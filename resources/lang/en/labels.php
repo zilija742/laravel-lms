@@ -788,6 +788,7 @@ return array (
       array(
         'name' => 'Company Name',
         'number' => 'Company Number',
+        'company_image' => 'Company Image',
         'contact_number' => 'Phone Number',
         'contact_email' => 'Email Address',
         'hours' => 'Hours',

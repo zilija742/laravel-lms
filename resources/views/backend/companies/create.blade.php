@@ -41,7 +41,7 @@
                     </div><!--form-group-->
 
                     <div class="form-group row">
-                        {{ html()->label(__('labels.backend.courses.fields.course_image'))->class('col-md-2 form-control-label')->for('picture') }}
+                        {{ html()->label(__('labels.backend.companies.fields.company_image'))->class('col-md-2 form-control-label')->for('picture') }}
 
                         <div class="col-md-10">
                             {{ html()->file('picture')
