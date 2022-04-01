@@ -23,7 +23,11 @@ class LiveLessonController extends Controller
         if (!Gate::allows('live_lesson_access')) {
             return abort(401);
         }
-        $courses = $courses = Course::has('category')->ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
+        if (auth()->user()->hasRole('company admin')) {
+            $courses = $courses = Course::has('category')->ofCompany()->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $courses = $courses = Course::has('category')->ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
+        }
         return view('backend.live-lessons.index', compact('courses'));
     }
 
@@ -38,7 +42,11 @@ class LiveLessonController extends Controller
         $has_delete = false;
         $has_edit = false;
         $liveLessons = "";
-        $liveLessons = Lesson::query()->where('live_lesson', '=', 1)->whereIn('course_id', Course::ofTeacher()->pluck('id'));
+        if (auth()->user()->hasRole('company admin')) {
+            $liveLessons = Lesson::query()->where('live_lesson', '=', 1)->whereIn('course_id', Course::ofCompany()->pluck('id'));
+        } else {
+            $liveLessons = Lesson::query()->where('live_lesson', '=', 1)->whereIn('course_id', Course::ofTeacher()->pluck('id'));
+        }
 
 
         if ($request->course_id != "") {
@@ -115,10 +123,19 @@ class LiveLessonController extends Controller
         if (!Gate::allows('live_lesson_create')) {
             return abort(401);
         }
-        $teachers = User::whereHas('roles', function ($q) {
-            $q->where('role_id', 2);
-        })->get()->pluck('name', 'id');
-        $courses = Course::has('category')->ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        if (auth()->user()->hasRole('company admin')) {
+            $teachers = User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->whereHas('teacherProfile', function ($q) {
+                $q->where('company_id', auth()->user()->teacherProfile->company_id);
+            })->get()->pluck('name', 'id');
+            $courses = Course::has('category')->ofCompany()->get()->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $teachers = User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->get()->pluck('name', 'id');
+            $courses = Course::has('category')->ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        }
         return view('backend.live-lessons.create', compact('courses', 'teachers'));
     }
 
@@ -185,10 +202,19 @@ class LiveLessonController extends Controller
         if (!Gate::allows('live_lesson_edit')) {
             return abort(401);
         }
-        $teachers = User::whereHas('roles', function ($q) {
-            $q->where('role_id', 2);
-        })->get()->pluck('name', 'id');
-        $courses = Course::has('category')->ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        if (auth()->user()->hasRole('company admin')) {
+            $teachers = User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->whereHas('teacherProfile', function ($q) {
+                $q->where('company_id', auth()->user()->teacherProfile->company_id);
+            })->get()->pluck('name', 'id');
+            $courses = Course::has('category')->ofCompany()->get()->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $teachers = User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->get()->pluck('name', 'id');
+            $courses = Course::has('category')->ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        }
         return view('backend.live-lessons.edit', compact('courses', 'liveLesson', 'teachers'));
     }
 
