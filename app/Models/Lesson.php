@@ -187,6 +187,14 @@ class Lesson extends Model
         return $query;
     }
 
+    public function scopeOfCompany($query) {
+        if (auth()->user()->hasRole('company admin')) {
+            return $query->whereHas('course.teachers.teacherProfile', function ($q) {
+               $q->where('company_id', auth()->user()->teacherProfile->company_id);
+            });
+        }
+    }
+
     public function liveLessonSlots()
     {
         return $this->hasMany(LiveLessonSlot::class);

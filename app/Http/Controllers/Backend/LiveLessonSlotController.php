@@ -26,7 +26,11 @@ class LiveLessonSlotController extends Controller
         if (!Gate::allows('live_lesson_slot_access')) {
             return abort(401);
         }
-        $liveLessons = Lesson::ofTeacher()->where('live_lesson',1)->pluck('title', 'id')->prepend('Please select', '');
+        if (auth()->user()->hasRole('company admin')) {
+            $liveLessons = Lesson::ofCompany()->where('live_lesson',1)->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $liveLessons = Lesson::ofTeacher()->where('live_lesson',1)->pluck('title', 'id')->prepend('Please select', '');
+        }
         return view('backend.live-lesson-slots.index', compact('liveLessons'));
     }
 
@@ -41,7 +45,11 @@ class LiveLessonSlotController extends Controller
         $has_delete = false;
         $has_edit = false;
         $liveLessonsSlots = "";
-        $liveLessonsSlots = LiveLessonSlot::query()->whereIn('lesson_id', Lesson::ofTeacher()->where('live_lesson',1)->pluck('id'));
+        if (auth()->user()->hasRole('company admin')) {
+            $liveLessonsSlots = LiveLessonSlot::query()->whereIn('lesson_id', Lesson::ofCompany()->where('live_lesson',1)->pluck('id'));
+        } else {
+            $liveLessonsSlots = LiveLessonSlot::query()->whereIn('lesson_id', Lesson::ofTeacher()->where('live_lesson',1)->pluck('id'));
+        }
 
 
         if ($request->live_lesson_id != "") {
@@ -125,7 +133,11 @@ class LiveLessonSlotController extends Controller
             return abort(401);
         }
 
-        $lessons = Lesson::ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        if (auth()->user()->hasRole('company admin')) {
+            $lessons = Lesson::ofCompany()->get()->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $lessons = Lesson::ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        }
         return view('backend.live-lesson-slots.create', compact('lessons'));
     }
 
@@ -200,7 +212,11 @@ class LiveLessonSlotController extends Controller
         if(!Gate::allows('live_lesson_slot_edit')){
             return abort(401);
         }
-        $lessons = Lesson::ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        if (auth()->user()->hasRole('company admin')) {
+            $lessons = Lesson::ofCompany()->get()->pluck('title', 'id')->prepend('Please select', '');
+        } else {
+            $lessons = Lesson::ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        }
         return view('backend.live-lesson-slots.edit', compact('lessons','liveLessonSlot'));
     }
 
