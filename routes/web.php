@@ -8,7 +8,25 @@ use App\Http\Controllers\Frontend\HomeController;
  * Routes that are used between both frontend and backend.
  */
 
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    return 'Routes cache cleared';
+});
 
+Route::get('/route-cache', function() {
+    $exitCode = Artisan::call('route:cache');
+    return 'Routes cache cleared';
+});
+
+Route::get('/config-cache', function() {
+    $exitCode = Artisan::call('config:cache');
+    return 'Routes cache cleared';
+});
+
+Route::get('/view-clear', function() {
+    $exitCode = Artisan::call('view:clear');
+    return 'Routes cache cleared';
+});
 
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
