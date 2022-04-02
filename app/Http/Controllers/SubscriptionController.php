@@ -8,8 +8,8 @@ use App\Models\Order;
 use App\Models\Stripe\StripePlan;
 use App\Models\Stripe\SubscribeBundle;
 use App\Models\Stripe\SubscribeCourse;
-use App\Models\stripe\Subscription;
-use App\Models\stripe\UserCourses;
+use App\Models\Stripe\Subscription;
+use App\Models\Stripe\UserCourses;
 use Illuminate\Http\Request;
 use ManagesCustomer;
 class SubscriptionController extends Controller

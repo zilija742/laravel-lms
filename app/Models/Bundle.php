@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Auth\User;
-use App\Models\stripe\UserCourses;
+use App\Models\Stripe\UserCourses;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
