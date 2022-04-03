@@ -27,10 +27,10 @@
                             $teacherProfile = $teacher->teacherProfile?:'';
                             $payment_details = $teacher->teacherProfile?json_decode($teacher->teacherProfile->payment_details):new stdClass();
                         @endphp
-                        <tr>
-                            <th>@lang('labels.backend.teachers.fields.company')</th>
-                            <td>{{ $teacherProfile->company->name }}</td>
-                        </tr>
+{{--                        <tr>--}}
+{{--                            <th>@lang('labels.backend.teachers.fields.company')</th>--}}
+{{--                            <td>{{ $teacherProfile->company->name }}</td>--}}
+{{--                        </tr>--}}
 
                         <tr>
                             <th>@lang('labels.backend.access.users.tabs.content.overview.avatar')</th>

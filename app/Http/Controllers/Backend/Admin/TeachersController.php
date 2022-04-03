@@ -109,9 +109,9 @@ class TeachersController extends Controller
 
                 return $view;
             })
-            ->addColumn('company', function ($q) {
-                return $q->teacherProfile->company->name;
-            })
+//            ->addColumn('company', function ($q) {
+//                return $q->teacherProfile->company->name;
+//            })
             ->addColumn('hourly_rate', function ($q) {
                 return $q->teacherProfile->hourly_rate;
             })

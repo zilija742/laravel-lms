@@ -32,7 +32,7 @@ class StoreTeachersRequest extends FormRequest
             'facebook_link'       => ['nullable', 'url'],
             'twitter_link'        => ['nullable', 'url'],
             'linkedin_link'       => ['nullable', 'url'],
-            'payment_method'      => ['required'],
+//            'payment_method'      => ['required'],
             'bank_name'           => ['required_if:payment_method,bank'],
             'ifsc_code'           => ['required_if:payment_method,bank'],
             'account_number'      => ['required_if:payment_method,bank'],

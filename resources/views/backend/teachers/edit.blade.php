@@ -18,18 +18,18 @@
         @endphp
 
         <div class="card-body">
-            @if (auth()->user()->isAdmin())
-            <div class="row">
-                <div class="col-10 form-group">
-                    {!! Form::label('company_id',trans('labels.backend.teachers.fields.company'), ['class' => 'control-label']) !!}
-                    {!! Form::select('company_id', $companies, old('company_id') ?? $teacherProfile->company_id, ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
-                </div>
-                <div class="col-2 d-flex form-group flex-column">
-                    OR <a target="_blank" class="btn btn-primary mt-auto"
-                          href="{{route('admin.companies.create')}}">{{trans('labels.backend.teachers.add_companies')}}</a>
-                </div>
-            </div>
-            @endif
+{{--            @if (auth()->user()->isAdmin())--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-10 form-group">--}}
+{{--                    {!! Form::label('company_id',trans('labels.backend.teachers.fields.company'), ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::select('company_id', $companies, old('company_id') ?? $teacherProfile->company_id, ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}--}}
+{{--                </div>--}}
+{{--                <div class="col-2 d-flex form-group flex-column">--}}
+{{--                    OR <a target="_blank" class="btn btn-primary mt-auto"--}}
+{{--                          href="{{route('admin.companies.create')}}">{{trans('labels.backend.teachers.add_companies')}}</a>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            @endif--}}
 
             <div class="row">
                 <div class="col-12">
@@ -150,70 +150,70 @@
                         </div><!--col-->
                     </div>
 
-                    <div class="form-group row">
-                        {{ html()->label(__('labels.teacher.payment_details'))->class('col-md-2 form-control-label')->for('payment_details') }}
-                        <div class="col-md-10">
-                            <select class="form-control" name="payment_method" id="payment_method" required>
-                                <option value="bank" {{ $teacherProfile->payment_method == 'bank'?'selected':'' }}>{{ trans('labels.teacher.bank') }}</option>
-                                <option value="paypal" {{ $teacherProfile->payment_method == 'paypal'?'selected':'' }}>{{ trans('labels.teacher.paypal') }}</option>
-                            </select>
-                        </div>
+{{--                    <div class="form-group row">--}}
+{{--                        {{ html()->label(__('labels.teacher.payment_details'))->class('col-md-2 form-control-label')->for('payment_details') }}--}}
+{{--                        <div class="col-md-10">--}}
+{{--                            <select class="form-control" name="payment_method" id="payment_method" required>--}}
+{{--                                <option value="bank" {{ $teacherProfile->payment_method == 'bank'?'selected':'' }}>{{ trans('labels.teacher.bank') }}</option>--}}
+{{--                                <option value="paypal" {{ $teacherProfile->payment_method == 'paypal'?'selected':'' }}>{{ trans('labels.teacher.paypal') }}</option>--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
 
-                    </div>
+{{--                    </div>--}}
 
-                    <div class="bank_details" style="display:{{ $teacher->teacherProfile->payment_method == 'bank'?'':'none' }}">
-                        <div class="form-group row">
-                            {{ html()->label(__('labels.teacher.bank_details.name'))->class('col-md-2 form-control-label')->for('bank_name') }}
-                            <div class="col-md-10">
-                                {{ html()->text('bank_name')
-                                        ->class('form-control')
-                                        ->value($payment_details->bank_name)
-                                        ->placeholder(__('labels.teacher.bank_details.name')) }}
-                            </div><!--col-->
-                        </div>
+{{--                    <div class="bank_details" style="display:{{ $teacher->teacherProfile->payment_method == 'bank'?'':'none' }}">--}}
+{{--                        <div class="form-group row">--}}
+{{--                            {{ html()->label(__('labels.teacher.bank_details.name'))->class('col-md-2 form-control-label')->for('bank_name') }}--}}
+{{--                            <div class="col-md-10">--}}
+{{--                                {{ html()->text('bank_name')--}}
+{{--                                        ->class('form-control')--}}
+{{--                                        ->value($payment_details->bank_name)--}}
+{{--                                        ->placeholder(__('labels.teacher.bank_details.name')) }}--}}
+{{--                            </div><!--col-->--}}
+{{--                        </div>--}}
 
-                        <div class="form-group row">
-                            {{ html()->label(__('labels.teacher.bank_details.bank_code'))->class('col-md-2 form-control-label')->for('ifsc_code') }}
-                            <div class="col-md-10">
-                                {{ html()->text('ifsc_code')
-                                        ->class('form-control')
-                                        ->value($payment_details->ifsc_code)
-                                        ->placeholder(__('labels.teacher.bank_details.bank_code')) }}
-                            </div><!--col-->
-                        </div>
+{{--                        <div class="form-group row">--}}
+{{--                            {{ html()->label(__('labels.teacher.bank_details.bank_code'))->class('col-md-2 form-control-label')->for('ifsc_code') }}--}}
+{{--                            <div class="col-md-10">--}}
+{{--                                {{ html()->text('ifsc_code')--}}
+{{--                                        ->class('form-control')--}}
+{{--                                        ->value($payment_details->ifsc_code)--}}
+{{--                                        ->placeholder(__('labels.teacher.bank_details.bank_code')) }}--}}
+{{--                            </div><!--col-->--}}
+{{--                        </div>--}}
 
-                        <div class="form-group row">
-                            {{ html()->label(__('labels.teacher.bank_details.account'))->class('col-md-2 form-control-label')->for('account_number') }}
-                            <div class="col-md-10">
-                                {{ html()->text('account_number')
-                                        ->class('form-control')
-                                        ->value($payment_details->account_number)
-                                        ->placeholder(__('labels.teacher.bank_details.account')) }}
-                            </div><!--col-->
-                        </div>
+{{--                        <div class="form-group row">--}}
+{{--                            {{ html()->label(__('labels.teacher.bank_details.account'))->class('col-md-2 form-control-label')->for('account_number') }}--}}
+{{--                            <div class="col-md-10">--}}
+{{--                                {{ html()->text('account_number')--}}
+{{--                                        ->class('form-control')--}}
+{{--                                        ->value($payment_details->account_number)--}}
+{{--                                        ->placeholder(__('labels.teacher.bank_details.account')) }}--}}
+{{--                            </div><!--col-->--}}
+{{--                        </div>--}}
 
-                        <div class="form-group row">
-                            {{ html()->label(__('labels.teacher.bank_details.holder_name'))->class('col-md-2 form-control-label')->for('account_name') }}
-                            <div class="col-md-10">
-                                {{ html()->text('account_name')
-                                        ->class('form-control')
-                                        ->value($payment_details->account_name)
-                                        ->placeholder(__('labels.teacher.bank_details.holder_name')) }}
-                            </div><!--col-->
-                        </div>
-                    </div>
+{{--                        <div class="form-group row">--}}
+{{--                            {{ html()->label(__('labels.teacher.bank_details.holder_name'))->class('col-md-2 form-control-label')->for('account_name') }}--}}
+{{--                            <div class="col-md-10">--}}
+{{--                                {{ html()->text('account_name')--}}
+{{--                                        ->class('form-control')--}}
+{{--                                        ->value($payment_details->account_name)--}}
+{{--                                        ->placeholder(__('labels.teacher.bank_details.holder_name')) }}--}}
+{{--                            </div><!--col-->--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
-                    <div class="paypal_details" style="display:{{ $teacher->teacherProfile->payment_method == 'paypal'?'':'none' }}">
-                        <div class="form-group row">
-                            {{ html()->label(__('labels.teacher.paypal_email'))->class('col-md-2 form-control-label')->for('paypal_email') }}
-                            <div class="col-md-10">
-                                {{ html()->text('paypal_email')
-                                        ->class('form-control')
-                                        ->value($payment_details->paypal_email)
-                                        ->placeholder(__('labels.teacher.paypal_email')) }}
-                            </div><!--col-->
-                        </div>
-                    </div>
+{{--                    <div class="paypal_details" style="display:{{ $teacher->teacherProfile->payment_method == 'paypal'?'':'none' }}">--}}
+{{--                        <div class="form-group row">--}}
+{{--                            {{ html()->label(__('labels.teacher.paypal_email'))->class('col-md-2 form-control-label')->for('paypal_email') }}--}}
+{{--                            <div class="col-md-10">--}}
+{{--                                {{ html()->text('paypal_email')--}}
+{{--                                        ->class('form-control')--}}
+{{--                                        ->value($payment_details->paypal_email)--}}
+{{--                                        ->placeholder(__('labels.teacher.paypal_email')) }}--}}
+{{--                            </div><!--col-->--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
                     <div class="form-group row">
                         {{ html()->label(__('labels.teacher.description'))->class('col-md-2 form-control-label')->for('description') }}
