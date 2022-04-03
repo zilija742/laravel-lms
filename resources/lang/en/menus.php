@@ -7,6 +7,10 @@ return array (
     array (
       'general' => 'General',
       'dashboard' => 'Dashboard',
+      'agendas' =>
+      array(
+          'title' => 'Agenda',
+      ),
       'courses' =>
       array (
         'management' => 'Courses Management',

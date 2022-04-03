@@ -191,6 +191,8 @@ Route::group(['middleware' => 'role:administrator|teacher'], function () {
 
 });
 
+//===== Agendas Routes =====//
+Route::resource('agendas', 'Admin\AgendasController');
 
 //===== Categories Routes =====//
 Route::resource('categories', 'Admin\CategoriesController');
