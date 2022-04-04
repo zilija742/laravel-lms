@@ -163,7 +163,8 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = User::findOrFail($id);
+        return view('backend.students.edit', compact('student'));
     }
 
     /**
@@ -175,7 +176,33 @@ class StudentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $student = User::findOrFail($id);
+        $student->update($request->except('email'));
+        if ($request->has('image')) {
+            $student->avatar_type = 'storage';
+            $student->avatar_location = $request->image->store('/avatars', 'public');
+        }
+        $student->active = isset($request->active)?1:0;
+        $student->save();
+
+        $data = [
+            'baptism_name'      => $request->baptism_name,
+            'birthday'          => $request->birthday,
+            'birth_place'       => $request->birth_place,
+            'candidate_number'  => $request->candidate_number,
+            'driver_license_number'     => $request->driver_license_number,
+            'driver_license_category'   => $request->driver_license_category,
+            'driver_card_expire'        => $request->driver_card_expire,
+            'code95_expire'     => $request->code95_expire,
+            'vca_number'        => $request->vca_number,
+            'personal_number'   => $request->personal_number,
+            'company_id'        => auth()->user()->teacherProfile->company_id,
+//        ];
+        ];
+        $student->studentProfile->update($data);
+
+
+        return redirect()->route('admin.students.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
     /**
