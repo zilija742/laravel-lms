@@ -40,12 +40,12 @@
                             <thead>
                             <tr>
 
-                                @can('user_delete')
+                                @if (auth()->user()->hasRole('company admin'))
                                     @if ( request('show_deleted') != 1 )
                                         <th style="text-align:center;"><input type="checkbox" class="mass"
                                                                               id="select-all"/>
                                         </th>@endif
-                                @endcan
+                                @endif
 
                                 <th>#</th>
                                 <th>ID</th>
