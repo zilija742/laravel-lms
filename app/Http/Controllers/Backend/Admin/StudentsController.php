@@ -29,7 +29,7 @@ class StudentsController extends Controller
         $has_edit = false;
         $teachers = "";
 
-//        if (auth()->user()->hasRole('company admin')) {
+        if (auth()->user()->hasRole('company admin')) {
             $id = auth()->user()->teacherProfile->company_id;
             if (request('show_deleted') == 1) {
                 $teachers = User::query()->role('student')->onlyTrashed()
@@ -42,7 +42,7 @@ class StudentsController extends Controller
                         $q->where('company_id', '=', $id);
                     })->orderBy('created_at', 'desc');
             }
-//        }
+        }
 
         if (auth()->user()->isAdmin() || auth()->user()->hasRole('company admin')) {
             $has_view = true;
@@ -83,12 +83,6 @@ class StudentsController extends Controller
 
                 return $view;
             })
-//            ->addColumn('company', function ($q) {
-//                return $q->teacherProfile->company->name;
-//            })
-//            ->addColumn('hourly_rate', function ($q) {
-//                return $q->teacherProfile->hourly_rate;
-//            })
             ->addColumn('status', function ($q) {
                 $html = html()->label(html()->checkbox('')->id($q->id)
                 ->checked(($q->active == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->active == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');
@@ -156,7 +150,9 @@ class StudentsController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = User::findOrFail($id);
+
+        return view('backend.students.show', compact('student'));
     }
 
     /**

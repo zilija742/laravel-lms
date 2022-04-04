@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', __('labels.backend.teachers.title').' | '.app_name())
+@section('title', __('labels.backend.students.title').' | '.app_name())
 @push('after-styles')
     <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
 @endpush
