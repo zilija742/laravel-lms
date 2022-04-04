@@ -25,7 +25,6 @@ class TeachersController extends Controller
      */
     public function index()
     {
-//        dd(auth()->user()->teacherProfile->company_id);
         return view('backend.teachers.index');
     }
 

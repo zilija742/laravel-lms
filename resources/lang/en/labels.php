@@ -809,6 +809,33 @@ return array (
       'edit' => 'Edit Company',
       'view' => 'View Companies',
     ),
+    'students' =>
+    array(
+        'fields' =>
+        array(
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'baptism_name' => 'Baptism Name',
+            'birthday' => 'Birthday',
+            'birth_place' => 'Birth Place',
+            'email' => 'Email',
+            'password' => 'Password',
+            'image' => 'Image',
+            'gender' => 'Gender',
+            'candidate_number' => 'Candidate Number',
+            'driver_license_number' => 'Driver License Number',
+            'driver_license_category' => 'Driver License Category',
+            'driver_card_expire' => 'Driver Card Expiry',
+            'code95_expire' => 'CODE95 Expiry',
+            'vca_number' => 'VCA Number',
+            'personal_number' => 'Personal Number',
+            'status' => 'Status'
+        ),
+        'title' => 'Students',
+        'create' => 'Create Student',
+        'edit' => 'Edit Student',
+        'view' => 'View Students',
+    ),
     'teachers' =>
     array (
       'fields' =>
