@@ -53,7 +53,7 @@
                                 <th>@lang('labels.backend.teachers.fields.last_name')</th>
                                 <th>@lang('labels.backend.teachers.fields.email')</th>
 {{--                                <th>@lang('labels.backend.teachers.fields.company')</th>--}}
-                                <th>@lang('labels.backend.teachers.fields.hourly_rate') ($)</th>
+{{--                                <th>@lang('labels.backend.teachers.fields.hourly_rate') ($)</th>--}}
                                 <th>@lang('labels.backend.teachers.fields.status')</th>
                                 @if( request('show_deleted') == 1 )
                                     <th>&nbsp; @lang('strings.backend.general.actions')</th>
@@ -127,7 +127,7 @@
                     {data: "last_name", name: 'last_name'},
                     {data: "email", name: 'email'},
                     // {data: "company", name: 'company'},
-                    {data: "hourly_rate", name: 'hourly_rate'},
+                    // {data: "hourly_rate", name: 'hourly_rate'},
                     {data: "status", name: 'status'},
                     {data: "actions", name: 'actions'}
                 ],

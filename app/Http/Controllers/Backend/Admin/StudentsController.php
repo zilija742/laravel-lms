@@ -29,34 +29,20 @@ class StudentsController extends Controller
         $has_edit = false;
         $teachers = "";
 
-        if (auth()->user()->hasRole('company admin')) {
+//        if (auth()->user()->hasRole('company admin')) {
             $id = auth()->user()->teacherProfile->company_id;
-        dd('ok');
             if (request('show_deleted') == 1) {
-                $teachers = User::query()->role('teacher')->onlyTrashed()
-                    ->whereHas('teacherProfile', function ($q) use ($id) {
+                $teachers = User::query()->role('student')->onlyTrashed()
+                    ->whereHas('studentProfile', function ($q) use ($id) {
                         $q->where('company_id', '=', $id);
                     })->orderBy('created_at', 'desc');
             } else {
-                $teachers = User::query()->role('teacher')
-                    ->whereHas('teacherProfile', function ($q) use ($id) {
+                $teachers = User::query()->role('student')
+                    ->whereHas('studentProfile', function ($q) use ($id) {
                         $q->where('company_id', '=', $id);
                     })->orderBy('created_at', 'desc');
             }
-        } else {
-
-            if (request('show_deleted') == 1) {
-                $teachers = User::query()->role('teacher')->onlyTrashed()->orderBy('created_at', 'desc');
-            } elseif (request('company_id') != "") {
-                $id = request('company_id');
-                $teachers = User::query()->role('teacher')
-                    ->whereHas('teacherProfile', function ($q) use ($id) {
-                        $q->where('company_id', '=', $id);
-                    })->orderBy('created_at', 'desc');
-            } else {
-                $teachers = User::query()->role('teacher')->orderBy('created_at', 'desc');
-            }
-        }
+//        }
 
         if (auth()->user()->isAdmin() || auth()->user()->hasRole('company admin')) {
             $has_view = true;
@@ -71,38 +57,38 @@ class StudentsController extends Controller
                 $edit = "";
                 $delete = "";
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.teachers', 'label' => 'id', 'value' => $q->id]);
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.students', 'label' => 'id', 'value' => $q->id]);
                 }
 
                 if ($has_view) {
                     $view = view('backend.datatable.action-view')
-                        ->with(['route' => route('admin.teachers.show', ['teacher' => $q->id])])->render();
+                        ->with(['route' => route('admin.students.show', ['student' => $q->id])])->render();
                 }
 
                 if ($has_edit) {
                     $edit = view('backend.datatable.action-edit')
-                        ->with(['route' => route('admin.teachers.edit', ['teacher' => $q->id])])
+                        ->with(['route' => route('admin.students.edit', ['student' => $q->id])])
                         ->render();
                     $view .= $edit;
                 }
 
                 if ($has_delete) {
                     $delete = view('backend.datatable.action-delete')
-                        ->with(['route' => route('admin.teachers.destroy', ['teacher' => $q->id])])
+                        ->with(['route' => route('admin.students.destroy', ['student' => $q->id])])
                         ->render();
                     $view .= $delete;
                 }
 
-                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.index', ['teacher_id' => $q->id]) . '">' . trans('labels.backend.courses.title') . '</a>';
+//                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.index', ['teacher_id' => $q->id]) . '">' . trans('labels.backend.courses.title') . '</a>';
 
                 return $view;
             })
 //            ->addColumn('company', function ($q) {
 //                return $q->teacherProfile->company->name;
 //            })
-            ->addColumn('hourly_rate', function ($q) {
-                return $q->teacherProfile->hourly_rate;
-            })
+//            ->addColumn('hourly_rate', function ($q) {
+//                return $q->teacherProfile->hourly_rate;
+//            })
             ->addColumn('status', function ($q) {
                 $html = html()->label(html()->checkbox('')->id($q->id)
                 ->checked(($q->active == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->active == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');

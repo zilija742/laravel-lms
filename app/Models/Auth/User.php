@@ -33,6 +33,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Auth\Traits\Relationship\UserRelationship;
 use App\Models\Earning;
 use App\Models\TeacherProfile;
+use App\Models\StudentProfile;
 use App\Models\Withdraw;
 use Lexx\ChatMessenger\Traits\Messagable;
 
@@ -246,6 +247,14 @@ class User extends Authenticatable
     public function teacherProfile()
     {
         return $this->hasOne(TeacherProfile::class);
+    }
+
+    /**
+     * Get the student profile that owns the user.
+     */
+    public function studentProfile()
+    {
+        return $this->hasOne(StudentProfile::class);
     }
 
     /**
