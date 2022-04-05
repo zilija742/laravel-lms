@@ -381,9 +381,7 @@
                 </a>
             </li>
             @endif
-            @if ($logged_in_user->isAdmin() || auth()->user()->hasRole('company admin'))
-
-
+            @if ($logged_in_user->isAdmin())
                 <li class="nav-title">
                     @lang('menus.backend.sidebar.system')
                 </li>

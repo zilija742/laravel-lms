@@ -21,6 +21,7 @@
                 <div class="col-12">
                     <div class="table-responsive">
                         <div class="d-block">
+                            @if (auth()->user()->hasRole('company admin'))
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <a href="{{ route('admin.students.index') }}"
@@ -28,10 +29,11 @@
                                 </li>
                                 |
                                 <li class="list-inline-item">
-                                    <a href="{{ route('admin.teachers.index') }}?show_deleted=1"
+                                    <a href="{{ route('admin.students.index') }}?show_deleted=1"
                                        style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                                 </li>
                             </ul>
+                            @endif
                         </div>
 
 
@@ -40,25 +42,25 @@
                             <thead>
                             <tr>
 
-                                @if (auth()->user()->hasRole('company admin'))
+                                @if (auth()->user()->hasRole('company admin') || auth()->user()->isAdmin())
                                     @if ( request('show_deleted') != 1 )
-                                        <th style="text-align:center;"><input type="checkbox" class="mass"
-                                                                              id="select-all"/>
-                                        </th>@endif
+                                        <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/>
+                                        </th>
+                                    @endif
                                 @endif
 
                                 <th>#</th>
                                 <th>ID</th>
-                                <th>@lang('labels.backend.teachers.fields.first_name')</th>
-                                <th>@lang('labels.backend.teachers.fields.last_name')</th>
-                                <th>@lang('labels.backend.teachers.fields.email')</th>
-{{--                                <th>@lang('labels.backend.teachers.fields.company')</th>--}}
-{{--                                <th>@lang('labels.backend.teachers.fields.hourly_rate') ($)</th>--}}
-                                <th>@lang('labels.backend.teachers.fields.status')</th>
+                                <th>@lang('labels.backend.students.fields.first_name')</th>
+                                <th>@lang('labels.backend.students.fields.last_name')</th>
+                                <th>@lang('labels.backend.students.fields.email')</th>
+                                @if(auth()->user()->hasRole('company admin'))
+                                <th>@lang('labels.backend.students.fields.status')</th>
                                 @if( request('show_deleted') == 1 )
                                     <th>&nbsp; @lang('strings.backend.general.actions')</th>
                                 @else
                                     <th>&nbsp; @lang('strings.backend.general.actions')</th>
+                                @endif
                                 @endif
 
                             </tr>
@@ -126,10 +128,10 @@
                     {data: "first_name", name: 'first_name'},
                     {data: "last_name", name: 'last_name'},
                     {data: "email", name: 'email'},
-                    // {data: "company", name: 'company'},
-                    // {data: "hourly_rate", name: 'hourly_rate'},
+                    @if (auth()->user()->hasRole('company admin'))
                     {data: "status", name: 'status'},
                     {data: "actions", name: 'actions'}
+                    @endif
                 ],
                 @if(request('show_deleted') != 1)
                 columnDefs: [

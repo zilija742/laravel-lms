@@ -34,11 +34,16 @@ Route::group(['middleware' => 'role:company admin'], function () {
 
     //===== Teachers Routes =====//
     Route::resource('students', 'Admin\StudentsController');
-    Route::get('get-students-data', ['uses' => 'Admin\StudentsController@getData', 'as' => 'students.get_data']);
     Route::post('students_mass_destroy', ['uses' => 'Admin\StudentsController@massDestroy', 'as' => 'students.mass_destroy']);
     Route::post('students_restore/{id}', ['uses' => 'Admin\StudentsController@restore', 'as' => 'students.restore']);
     Route::delete('students_perma_del/{id}', ['uses' => 'Admin\StudentsController@perma_del', 'as' => 'students.perma_del']);
     Route::post('student/status', ['uses' => 'Admin\StudentsController@updateStatus', 'as' => 'students.status']);
+});
+
+Route::group(['middleware' => 'role:company admin|administrator'], function () {
+    //===== Teachers Routes =====//
+    Route::get('students', ['uses' => 'Admin\StudentsController@index', 'as' => 'students.index']);
+    Route::get('get-students-data', ['uses' => 'Admin\StudentsController@getData', 'as' => 'students.get_data']);
 });
 
 Route::group(['middleware' => 'role:administrator'], function () {
@@ -371,3 +376,4 @@ Route::get('subscriptions/cancel','SubscriptionController@deleteSubscription')->
 // Wishlist Route
 Route::get('wishlist/data',['uses' => 'WishlistController@getData', 'as' => 'wishlist.get_data']);
 Route::resource('wishlist','WishlistController');
+

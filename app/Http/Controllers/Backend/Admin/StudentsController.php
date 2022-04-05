@@ -27,20 +27,35 @@ class StudentsController extends Controller
         $has_view = false;
         $has_delete = false;
         $has_edit = false;
-        $teachers = "";
+        $students = "";
 
-        if (auth()->user()->hasRole('company admin')) {
-            $id = auth()->user()->teacherProfile->company_id;
-            if (request('show_deleted') == 1) {
-                $teachers = User::query()->role('student')->onlyTrashed()
-                    ->whereHas('studentProfile', function ($q) use ($id) {
-                        $q->where('company_id', '=', $id);
-                    })->orderBy('created_at', 'desc');
+        if (auth()->user()->hasRole('company admin') || auth()->user()->isAdmin()) {
+
+            if (request('company_id') != '') {
+                if (request('show_deleted') == 1) {
+                    $students = User::query()->role('student')->onlyTrashed()
+                        ->whereHas('studentProfile', function ($q) {
+                            $q->where('company_id', '=', request('company_id'));
+                        })->orderBy('created_at', 'desc');
+                } else {
+                    $students = User::query()->role('student')
+                        ->whereHas('studentProfile', function ($q) {
+                            $q->where('company_id', '=', request('company_id'));
+                        })->orderBy('created_at', 'desc');
+                }
             } else {
-                $teachers = User::query()->role('student')
-                    ->whereHas('studentProfile', function ($q) use ($id) {
-                        $q->where('company_id', '=', $id);
-                    })->orderBy('created_at', 'desc');
+                $id = auth()->user()->teacherProfile->company_id;
+                if (request('show_deleted') == 1) {
+                    $students = User::query()->role('student')->onlyTrashed()
+                        ->whereHas('studentProfile', function ($q) use ($id) {
+                            $q->where('company_id', '=', $id);
+                        })->orderBy('created_at', 'desc');
+                } else {
+                    $students = User::query()->role('student')
+                        ->whereHas('studentProfile', function ($q) use ($id) {
+                            $q->where('company_id', '=', $id);
+                        })->orderBy('created_at', 'desc');
+                }
             }
         }
 
@@ -50,7 +65,7 @@ class StudentsController extends Controller
             $has_delete = true;
         }
 
-        return DataTables::of($teachers)
+        return DataTables::of($students)
             ->addIndexColumn()
             ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
                 $view = "";
