@@ -56,6 +56,26 @@ return array (
     array (
         'title' => 'Agendas',
     ),
+    'locations' =>
+    array(
+        'title' => 'Locations',
+        'fields' =>
+        array(
+            'location_name' => 'Name',
+            'address' => 'Address',
+            'postcode' => 'PostCode',
+            'city' => 'City',
+            'house_number' => 'House Number',
+            'state' => 'State',
+            'country' => 'Country',
+            'lat' => 'Latitude',
+            'long' => 'Longitude',
+            'status' => 'Status',
+        ),
+        'create' => 'Create Location',
+        'edit' => 'Edit Location',
+        'view' => 'View Locations',
+    ),
     'tests' =>
     array (
       'title' => 'Tests',

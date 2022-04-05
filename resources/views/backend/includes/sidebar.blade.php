@@ -59,6 +59,16 @@
                 </li>
             @endif
 
+            @if (auth()->user()->isAdmin())
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(2) == 'locations' ? 'active' : '' }}"
+                       href="{{ route('admin.locations.index') }}">
+                        <i class="nav-icon icon-directions"></i>
+                        <span class="title">@lang('menus.backend.sidebar.locations.title')</span>
+                    </a>
+                </li>
+            @endif
+
             @can('category_access')
                 <li class="nav-item ">
                     <a class="nav-link {{ $request->segment(2) == 'categories' ? 'active' : '' }}"

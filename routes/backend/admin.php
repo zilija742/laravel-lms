@@ -54,6 +54,12 @@ Route::group(['middleware' => 'role:administrator'], function () {
     Route::post('companies_mass_destroy', ['uses' => 'Admin\CompaniesController@massDestroy', 'as' => 'companies.mass_destroy']);
     Route::post('company/status', ['uses' => 'Admin\CompaniesController@updateStatus', 'as' => 'companies.status']);
 
+    //===== Location Routes =====//
+    Route::resource('locations', 'Admin\LocationsController');
+    Route::get('get-locations-data', ['uses' => 'Admin\LocationsController@getData', 'as' => 'locations.get_data']);
+    Route::post('locations_mass_destroy', ['uses' => 'Admin\LocationsController@massDestroy', 'as' => 'locations.mass_destroy']);
+    Route::post('location/status', ['uses' => 'Admin\LocationsController@updateStatus', 'as' => 'locations.status']);
+
     //===== FORUMS Routes =====//
     Route::resource('forums-category', 'Admin\ForumController');
     Route::get('forums-category/status/{id}', 'Admin\ForumController@status')->name('forums-category.status');

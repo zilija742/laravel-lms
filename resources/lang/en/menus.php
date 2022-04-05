@@ -15,6 +15,10 @@ return array (
       array(
           'title' => 'Students',
       ),
+      'locations' =>
+      array(
+          'title' => 'Locations',
+      ),
       'courses' =>
       array (
         'management' => 'Courses Management',
