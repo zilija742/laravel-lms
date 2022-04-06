@@ -382,4 +382,3 @@ Route::get('subscriptions/cancel','SubscriptionController@deleteSubscription')->
 // Wishlist Route
 Route::get('wishlist/data',['uses' => 'WishlistController@getData', 'as' => 'wishlist.get_data']);
 Route::resource('wishlist','WishlistController');
-
