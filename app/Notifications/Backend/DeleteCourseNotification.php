@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewCourseNotification extends Notification
+class DeleteCourseNotification extends Notification
 {
     use Queueable;
 
@@ -41,9 +41,8 @@ class NewCourseNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('New Course, ' . $this->course->name . ' created for your company')
-                    ->action('View the new course', url('/user/courses/' . $this->course->id))
-                    ->line('Please check the course information and approve');
+                    ->line($this->course->name . ' deleted');
+
     }
 
     /**
@@ -55,9 +54,8 @@ class NewCourseNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'type' => 'create_course',
-            'course_name' => $this->course->name,
-            'url' => url('/user/courses/' . $this->course->id),
+            'type' => 'delete_course',
+            'course_name' => $this->course->name
         ];
     }
 }

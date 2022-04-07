@@ -8,7 +8,9 @@ use App\Models\Course;
 use App\Models\CourseTimeline;
 use App\Models\Company;
 use App\Models\Media;
+use App\Notifications\Backend\DeleteCourseNotification;
 use App\Notifications\Backend\NewCourseNotification;
+use App\Notifications\Backend\UpdateCourseNotification;
 use Illuminate\Support\Facades\Notification;
 use function foo\func;
 use Illuminate\Support\Facades\File;
@@ -461,7 +463,7 @@ class CoursesController extends Controller
         $teachers = (\Auth::user()->isAdmin() || \Auth::user()->hasRole('company admin')) ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 
-
+        Notification::send($course->company->companyAdmin(), new UpdateCourseNotification($course));
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
@@ -505,7 +507,7 @@ class CoursesController extends Controller
         } else {
             $course->delete();
         }
-
+        Notification::send($course->company->companyAdmin(), new DeleteCourseNotification($course));
 
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }
