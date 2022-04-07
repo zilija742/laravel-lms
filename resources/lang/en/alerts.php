@@ -11,6 +11,7 @@ return array (
       'updated' => 'Updated successfully.',
       'deleted' => 'Deleted successfully.',
       'restored' => 'Restored successfully.',
+      'send_email' => 'Sent email successfully.',
       'cancelled' => 'Update Cancelled.',
       'unverified' => 'Unverified Update files.',
       'backup_warning' => 'Please fill necessary details for backup',

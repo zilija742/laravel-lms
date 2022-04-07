@@ -8,6 +8,8 @@ use App\Models\Course;
 use App\Models\CourseTimeline;
 use App\Models\Company;
 use App\Models\Media;
+use App\Models\StudentProfile;
+use App\Notifications\Backend\CourseSendEmailNotification;
 use App\Notifications\Backend\DeleteCourseNotification;
 use App\Notifications\Backend\NewCourseNotification;
 use App\Notifications\Backend\UpdateCourseByCompanyNotification;
@@ -140,6 +142,12 @@ class CoursesController extends Controller
 
                 $view .= view('backend.datatable.'.$type)
                     ->with(['route' => route('admin.courses.publish', ['id' => $q->id])])->render();
+
+                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.view_students', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
+
+                if (auth()->user()->hasRole('company admin')) {
+                    $view .= '<a class="btn btn-info ml-1 mb-1" href="' . route('admin.courses.send_email', [$q->id]) . '">' . trans('labels.backend.courses.send_email') . '</a>';
+                }
                 return $view;
             })
             ->addColumn('teachers', function ($q) {
@@ -613,5 +621,33 @@ class CoursesController extends Controller
         $course->save();
 
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
+    }
+
+    public function view_students($id)
+    {
+        $course = Course::findOrFail($id);
+
+        $students = User::query()->whereHas('studentProfile', function($q) use ($course) {
+            return $q->where('company_id', $course->company_id);
+        })->get()->pluck('name', 'id');
+        return view('backend.courses.view_students', compact('course', 'students'));
+    }
+
+    public function add_students(Request $request, $id)
+    {
+        $course = Course::findOrFail($id);
+
+        $course->students()->sync($request->students);
+        return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
+        dd($request);
+        dd($id);
+    }
+
+    public function send_email($id) {
+        $course = Course::findOrFail($id);
+        $students = $course->students;
+
+        Notification::send($students, new CourseSendEmailNotification($course));
+        return back()->withFlashSuccess(trans('alerts.backend.general.send_email'));
     }
 }
