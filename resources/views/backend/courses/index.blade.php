@@ -36,7 +36,7 @@
                 <table id="myTable" class="table table-bordered table-striped @can('course_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                     <thead>
                     <tr>
-                        @can('course_delete')
+                        @can('course_view')
                             @if ( request('show_deleted') != 1 )
                                 <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/></th>@endif
                         @endcan

@@ -43,13 +43,16 @@
         <div class="alert alert-success" role="alert">
             @switch($notification->data['type'])
                 @case('create_course')
-                    <a href="{{ $notification->data['url'] }}">New course, {{ $notification->course_name }}</a> was created for company! Please check it and approve.
+                    <a href="{{ $notification->data['url'] }}">New course, {{ $notification->data['course_name'] }}</a> was created for company! Please check it and approve.
                     @break
                 @case('update_course')
-                    <a href="{{ $notification->data['url'] }}">{{ $notification->course_name }}</a> was updated! Please check it.
+                    <a href="{{ $notification->data['url'] }}">{{ $notification->data['course_name'] }}</a> was updated! Please check it.
                     @break
                 @case('delete_course')
-                    {{ $notification->course_name }} was deleted!
+                    {{ $notification->data['course_name'] }} was deleted!
+                    @break
+                @case('update_course_by_company')
+                    <a href="{{ $notification->data['url'] }}">{{ $notification->data['course_name'] }}</a> was updated by {{ $notification->data['company_name'] }}. Please check it.
                     @break
             @endswitch
             <a href="#" class="float-right mark-as-read" data-id="{{ $notification->id }}">

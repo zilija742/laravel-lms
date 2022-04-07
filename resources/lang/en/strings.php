@@ -105,6 +105,7 @@ return array (
       'app_save' => 'Save',
       'actions' => 'Actions',
       'app_update' => 'Update',
+      'app_approve_update' => 'Update and Approve',
       'app_restore' => 'Restore',
       'app_permadel' => 'Permanently Delete',
       'all_rights_reserved' => 'All Rights Reserved.',

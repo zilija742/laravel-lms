@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Media;
 use App\Notifications\Backend\DeleteCourseNotification;
 use App\Notifications\Backend\NewCourseNotification;
+use App\Notifications\Backend\UpdateCourseByCompanyNotification;
 use App\Notifications\Backend\UpdateCourseNotification;
 use Illuminate\Support\Facades\Notification;
 use function foo\func;
@@ -463,7 +464,12 @@ class CoursesController extends Controller
         $teachers = (\Auth::user()->isAdmin() || \Auth::user()->hasRole('company admin')) ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 
-        Notification::send($course->company->companyAdmin(), new UpdateCourseNotification($course));
+        if (auth()->user()->isAdmin()) {
+            Notification::send($course->company->companyAdmin(), new UpdateCourseNotification($course));
+        } else if (auth()->user()->hasRole('company admin')) {
+            $admins = User::query()->role('administrator')->get();
+            Notification::send($admins, new UpdateCourseByCompanyNotification($course, auth()->user()->teacherProfile->company));
+        }
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
