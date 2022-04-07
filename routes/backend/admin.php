@@ -13,6 +13,7 @@ use \App\Http\Controllers\Backend\Auth\User\UserPasswordController;
 //===== General Routes =====//
 Route::redirect('/', '/user/dashboard', 301);
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::post('/mark-as-read', [DashboardController::class, 'markNotification'])->name('markNotification');
 
 
 Route::group(['middleware' => 'role:teacher|administrator'], function () {

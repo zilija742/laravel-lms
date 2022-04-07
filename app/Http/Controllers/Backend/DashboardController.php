@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Review;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 /**
  * Class DashboardController.
@@ -82,7 +83,20 @@ class DashboardController extends Controller
             }
         }
 
+        $notifications = auth()->user()->unreadNotifications;
 
-        return view('backend.dashboard',compact('purchased_courses','students_count','recent_reviews','threads','purchased_bundles','teachers_count','courses_count','recent_orders','recent_contacts','pending_orders', 'subscribed_courses','subscribed_bundles'));
+        return view('backend.dashboard',compact('purchased_courses','students_count','recent_reviews','threads','purchased_bundles','teachers_count','courses_count','recent_orders','recent_contacts','pending_orders', 'subscribed_courses','subscribed_bundles', 'notifications'));
+    }
+
+    public function markNotification(Request $request)
+    {
+        auth()->user()
+            ->unreadNotifications
+            ->when($request->id, function ($query) use ($request) {
+                return $query->where('id', $request->id);
+            })
+            ->markAsRead();
+
+        return response()->noContent();
     }
 }

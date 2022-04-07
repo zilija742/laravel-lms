@@ -8,6 +8,8 @@ use App\Models\Course;
 use App\Models\CourseTimeline;
 use App\Models\Company;
 use App\Models\Media;
+use App\Notifications\Backend\NewCourseNotification;
+use Illuminate\Support\Facades\Notification;
 use function foo\func;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
@@ -32,6 +34,7 @@ class CoursesController extends Controller
         if (!Gate::allows('course_access')) {
             return abort(401);
         }
+
 
         return view('backend.courses.index');
     }
@@ -186,24 +189,17 @@ class CoursesController extends Controller
             return abort(401);
         }
 
-        if (auth()->user()->hasRole('company admin')) {
-            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
-                $q->where('role_id', 2);
-            })->whereHas('teacherProfile', function ($q) {
-                $q->where('company_id', auth()->user()->teacherProfile->company_id);
-            })
-                ->get()->pluck('name', 'id');
-        } else {
 
-            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
-                $q->where('role_id', 2);
-            })->get()->pluck('name', 'id');
 
-        }
+        $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+            $q->where('role_id', 2);
+        })->get()->pluck('name', 'id');
+
 
         $categories = Category::where('status', '=', 1)->pluck('name', 'id');
+        $companies = Company::all()->pluck('name', 'id');
 
-        return view('backend.courses.create', compact('teachers', 'categories'));
+        return view('backend.courses.create', compact('teachers', 'categories', 'companies'));
     }
 
     /**
@@ -236,6 +232,7 @@ class CoursesController extends Controller
 
         $course = Course::create($request->all());
         $course->slug = $slug;
+        $course->published = 1;
         $course->save();
 
         //Saving  videos
@@ -334,6 +331,7 @@ class CoursesController extends Controller
         $teachers = (\Auth::user()->isAdmin() || \Auth::user()->hasRole('company admin')) ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 
+        Notification::send($course->company->companyAdmin(), new NewCourseNotification($course));
 
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
@@ -353,20 +351,12 @@ class CoursesController extends Controller
         $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
             $q->where('role_id', 2);
         })->get()->pluck('name', 'id');
-        if (auth()->user()->hasRole('company admin')) {
-            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
-                $q->where('role_id', 2);
-            })->whereHas('teacherProfile', function ($q) {
-                $q->where('company_id', auth()->user()->teacherProfile->company_id);
-            })
-                ->get()->pluck('name', 'id');
-        }
         $categories = Category::where('status', '=', 1)->pluck('name', 'id');
-
+        $companies = Company::all()->pluck('name', 'id');
 
         $course = Course::findOrFail($id);
 
-        return view('backend.courses.edit', compact('course', 'teachers', 'categories'));
+        return view('backend.courses.edit', compact('course', 'teachers', 'categories', 'companies'));
     }
 
     /**
@@ -470,6 +460,7 @@ class CoursesController extends Controller
 
         $teachers = (\Auth::user()->isAdmin() || \Auth::user()->hasRole('company admin')) ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
+
 
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }

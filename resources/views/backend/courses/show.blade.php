@@ -55,12 +55,20 @@
                 <div class="col-12">
                     <table class="table table-bordered table-striped">
                         <tr>
+                            <th>@lang('labels.backend.courses.fields.official_code')</th>
+                            <td>{{ $course->official_code }}</td>
+                        </tr>
+                        <tr>
                             <th>@lang('labels.backend.courses.fields.teachers')</th>
                             <td>
                                 @foreach ($course->teachers as $singleTeachers)
                                     <span class="label label-info label-many">{{ $singleTeachers->name }}</span>
                                 @endforeach
                             </td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.courses.fields.company')</th>
+                            <td>{{ $course->company->name }}</td>
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.title')</th>
@@ -85,10 +93,10 @@
                             <th>@lang('labels.backend.courses.fields.description')</th>
                             <td>{!! $course->description !!}</td>
                         </tr>
-                        <tr>
-                            <th>@lang('labels.backend.courses.fields.price')</th>
-                            <td>{{ ($course->free == 1) ? trans('labels.backend.courses.fields.free') : $course->price.' '.$appCurrency['symbol'] }}</td>
-                        </tr>
+{{--                        <tr>--}}
+{{--                            <th>@lang('labels.backend.courses.fields.price')</th>--}}
+{{--                            <td>{{ ($course->free == 1) ? trans('labels.backend.courses.fields.free') : $course->price.' '.$appCurrency['symbol'] }}</td>--}}
+{{--                        </tr>--}}
                         <tr>
                             <th>@lang('labels.backend.courses.fields.course_image')</th>
                             <td>@if($course->course_image)<a
@@ -97,22 +105,26 @@
                                             src="{{ asset('storage/uploads/' . $course->course_image) }}"
                                             height="50px"/></a>@endif</td>
                         </tr>
-                        <tr>
-                            <th>@lang('labels.backend.lessons.fields.media_video')</th>
-                            <td>
-                                @if($course->mediaVideo !=  null )
-                                    <p class="form-group mb-0">
-                                        <a href="{{$course->mediaVideo->url}}"
-                                           target="_blank">{{$course->mediaVideo->url}}</a>
-                                    </p>
-                                @else
-                                    <p>No Videos</p>
-                                @endif
-                            </td>
-                        </tr>
+{{--                        <tr>--}}
+{{--                            <th>@lang('labels.backend.lessons.fields.media_video')</th>--}}
+{{--                            <td>--}}
+{{--                                @if($course->mediaVideo !=  null )--}}
+{{--                                    <p class="form-group mb-0">--}}
+{{--                                        <a href="{{$course->mediaVideo->url}}"--}}
+{{--                                           target="_blank">{{$course->mediaVideo->url}}</a>--}}
+{{--                                    </p>--}}
+{{--                                @else--}}
+{{--                                    <p>No Videos</p>--}}
+{{--                                @endif--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
                         <tr>
                             <th>@lang('labels.backend.courses.fields.start_date')</th>
                             <td>{{ $course->start_date }}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.courses.fields.end_date')</th>
+                            <td>{{ $course->end_date }}</td>
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.expire_at')</th>
@@ -123,18 +135,18 @@
                             <td>{{ Form::checkbox("published", 1, $course->published == 1 ? true : false, ["disabled"]) }}</td>
                         </tr>
 
-                        <tr>
-                            <th>@lang('labels.backend.courses.fields.meta_title')</th>
-                            <td>{{ $course->meta_title }}</td>
-                        </tr>
-                        <tr>
-                            <th>@lang('labels.backend.courses.fields.meta_description')</th>
-                            <td>{{ $course->meta_description }}</td>
-                        </tr>
-                        <tr>
-                            <th>@lang('labels.backend.courses.fields.meta_keywords')</th>
-                            <td>{{ $course->meta_keywords }}</td>
-                        </tr>
+{{--                        <tr>--}}
+{{--                            <th>@lang('labels.backend.courses.fields.meta_title')</th>--}}
+{{--                            <td>{{ $course->meta_title }}</td>--}}
+{{--                        </tr>--}}
+{{--                        <tr>--}}
+{{--                            <th>@lang('labels.backend.courses.fields.meta_description')</th>--}}
+{{--                            <td>{{ $course->meta_description }}</td>--}}
+{{--                        </tr>--}}
+{{--                        <tr>--}}
+{{--                            <th>@lang('labels.backend.courses.fields.meta_keywords')</th>--}}
+{{--                            <td>{{ $course->meta_keywords }}</td>--}}
+{{--                        </tr>--}}
                     </table>
                 </div>
             </div><!-- Nav tabs -->

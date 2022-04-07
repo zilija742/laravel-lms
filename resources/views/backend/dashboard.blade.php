@@ -39,6 +39,24 @@
 @endpush
 
 @section('content')
+    @foreach($notifications as $notification)
+        <div class="alert alert-success" role="alert">
+            @switch($notification->data['type'])
+                @case('create_course')
+                    <a href="{{ $notification->data['url'] }}">New course</a> for company was created! Check and approve.
+                @break
+            @endswitch
+            <a href="#" class="float-right mark-as-read" data-id="{{ $notification->id }}">
+                Mark as read
+            </a>
+        </div>
+
+        @if($loop->last)
+            <a href="#" id="mark-all">
+                Mark all as read
+            </a>
+        @endif
+    @endforeach
     <div class="row">
         <div class="col">
             <div class="card">
@@ -641,3 +659,30 @@
         </div><!--card-->
     </div><!--col-->
 @endsection
+@push('after-scripts')
+    <script>
+        function sendMarkRequest(id = null) {
+            return $.ajax("{{ route('admin.markNotification') }}", {
+                method: 'POST',
+                data: {
+                    _token,
+                    id
+                }
+            });
+        }
+        $(function() {
+            $('.mark-as-read').click(function() {
+                let request = sendMarkRequest($(this).data('id'));
+                request.done(() => {
+                    $(this).parents('div.alert').remove();
+                });
+            });
+            $('#mark-all').click(function() {
+                let request = sendMarkRequest();
+                request.done(() => {
+                    $('div.alert').remove();
+                })
+            });
+        });
+    </script>
+@endpush

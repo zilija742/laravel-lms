@@ -27,7 +27,7 @@ class Course extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords', 'expire_at','strike'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords', 'expire_at','strike', 'company_id', 'end_date', 'official_code'];
 
     protected $appends = ['image'];
 
@@ -174,6 +174,11 @@ class Course extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     public function tests()

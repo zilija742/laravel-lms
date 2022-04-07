@@ -54,9 +54,9 @@
 
                         <th>@lang('labels.backend.courses.fields.title')</th>
                         <th>@lang('labels.backend.courses.fields.category')</th>
-                        <th>@lang('labels.backend.courses.fields.price') <br><small>(in {{$appCurrency['symbol']}})</small></th>
+{{--                        <th>@lang('labels.backend.courses.fields.price') <br><small>(in {{$appCurrency['symbol']}})</small></th>--}}
                             <th>@lang('labels.backend.courses.fields.status')</th>
-                            <th>@lang('labels.backend.lessons.title')</th>
+{{--                            <th>@lang('labels.backend.lessons.title')</th>--}}
                         @if( request('show_deleted') == 1 )
                             <th>&nbsp; @lang('strings.backend.general.actions')</th>
                         @else
@@ -131,9 +131,9 @@
                     @endif
                     {data: "title", name: 'title'},
                     {data: "category", name: 'category'},
-                    {data: "price", name: "price"},
+                    // {data: "price", name: "price"},
                     {data: "status", name: "status"},
-                    {data: "lessons", name: "lessons"},
+                    // {data: "lessons", name: "lessons"},
                     {data: "actions", name: "actions"}
                 ],
                 @if(request('show_deleted') != 1)

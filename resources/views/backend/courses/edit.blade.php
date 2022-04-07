@@ -16,7 +16,17 @@
 
         <div class="card-body">
 
-            @if (Auth::user()->isAdmin() || Auth::user()->hasRole('company admin'))
+            @if (Auth::user()->isAdmin())
+                <div class="row">
+                    <div class="col-10 form-group">
+                        {!! Form::label('company_id',trans('labels.backend.courses.fields.company'), ['class' => 'control-label']) !!}
+                        {!! Form::select('company_id', $companies, old('company_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
+                    </div>
+                    <div class="col-2 d-flex form-group flex-column">
+                        OR <a target="_blank" class="btn btn-primary mt-auto"
+                              href="{{route('admin.companies.index').'?create'}}">{{trans('labels.backend.courses.add_companies')}}</a>
+                    </div>
+                </div>
                 <div class="row">
 
                     <div class="col-10 form-group">
@@ -42,6 +52,10 @@
             </div>
             <div class="row">
                 <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('official_code', trans('labels.backend.courses.fields.official_code').' *', ['class' => 'control-label']) !!}
+                    {!! Form::text('official_code', old('official_code'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.title'), 'required' => false]) !!}
+                </div>
+                <div class="col-12 col-lg-6 form-group">
                     {!! Form::label('title', trans('labels.backend.courses.fields.title').' *', ['class' => 'control-label']) !!}
                     {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
                 </div>
@@ -59,14 +73,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-lg-4 form-group">
-                    {!! Form::label('price', trans('labels.backend.courses.fields.price').' (in '.$appCurrency["symbol"].')', ['class' => 'control-label']) !!}
-                    {!! Form::number('price', old('price'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.price') ,'step' => 'any', 'pattern' => "[0-9]"]) !!}
-                </div>
-                <div class="col-12 col-lg-4 form-group">
-                    {!! Form::label('strike', trans('labels.backend.courses.fields.strike').' (in '.$appCurrency["symbol"].')', ['class' => 'control-label']) !!}
-                    {!! Form::number('strike', old('strike'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.strike') ,'step' => 'any', 'pattern' => "[0-9]"]) !!}
-                </div>
+{{--                <div class="col-12 col-lg-4 form-group">--}}
+{{--                    {!! Form::label('price', trans('labels.backend.courses.fields.price').' (in '.$appCurrency["symbol"].')', ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::number('price', old('price'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.price') ,'step' => 'any', 'pattern' => "[0-9]"]) !!}--}}
+{{--                </div>--}}
+{{--                <div class="col-12 col-lg-4 form-group">--}}
+{{--                    {!! Form::label('strike', trans('labels.backend.courses.fields.strike').' (in '.$appCurrency["symbol"].')', ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::number('strike', old('strike'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.strike') ,'step' => 'any', 'pattern' => "[0-9]"]) !!}--}}
+{{--                </div>--}}
                 <div class="col-12 col-lg-4 form-group">
 
                     {!! Form::label('course_image', trans('labels.backend.courses.fields.course_image'), ['class' => 'control-label','accept' => 'image/jpeg,image/gif,image/png']) !!}
@@ -90,7 +104,17 @@
                         </p>
                     @endif
                 </div>
-                @if (Auth::user()->isAdmin() || Auth::user()->hasRole('company admin'))
+                <div class="col-12 col-lg-4 form-group">
+                    {!! Form::label('end_date', trans('labels.backend.courses.fields.end_date').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}
+                    {!! Form::text('end_date', old('end_date'), ['class' => 'form-control date', 'pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.courses.fields.end_date').' (Ex . 2019-01-01)']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('end_date'))
+                        <p class="help-block">
+                            {{ $errors->first('end_date') }}
+                        </p>
+                    @endif
+                </div>
+                @if (Auth::user()->isAdmin())
                 <div class="col-12 col-lg-4 form-group">
                     {!! Form::label('expire_at', trans('labels.backend.courses.fields.expire_at').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}
                     {!! Form::text('expire_at', old('expire_at'), ['class' => 'form-control date', 'pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.courses.fields.expire_at').' (Ex . 2019-01-01)','autocomplete' => 'off']) !!}
@@ -103,92 +127,92 @@
                 </div>
                 @endif
             </div>
-            <div class="row">
-                <div class="col-md-12 form-group">
-                    {!! Form::label('add_video', trans('labels.backend.lessons.fields.add_video'), ['class' => 'control-label']) !!}
-                    {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],($course->mediavideo) ? $course->mediavideo->type : null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-12 form-group">--}}
+{{--                    {!! Form::label('add_video', trans('labels.backend.lessons.fields.add_video'), ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],($course->mediavideo) ? $course->mediavideo->type : null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}--}}
 
 
-                    {!! Form::text('video', ($course->mediavideo) ? $course->mediavideo->url : null, ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
+{{--                    {!! Form::text('video', ($course->mediavideo) ? $course->mediavideo->url : null, ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}--}}
 
-                    {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file','accept' =>'video/mp4'  ]) !!}
-                    <input type="hidden" name="old_video_file"
-                           value="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}">
-                    @if($course->mediavideo != null)
-                        <div class="form-group">
-                            <a href="#" data-media-id="{{$course->mediaVideo->id}}"
-                               class="btn btn-xs btn-danger my-3 delete remove-file">@lang('labels.backend.lessons.remove')</a>
-                        </div>
-                    @endif
+{{--                    {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file','accept' =>'video/mp4'  ]) !!}--}}
+{{--                    <input type="hidden" name="old_video_file"--}}
+{{--                           value="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}">--}}
+{{--                    @if($course->mediavideo != null)--}}
+{{--                        <div class="form-group">--}}
+{{--                            <a href="#" data-media-id="{{$course->mediaVideo->id}}"--}}
+{{--                               class="btn btn-xs btn-danger my-3 delete remove-file">@lang('labels.backend.lessons.remove')</a>--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
 
 
 
-                    @if($course->mediavideo && ($course->mediavideo->type == 'upload'))
-                        <video width="300" class="mt-2 d-none video-player" controls>
-                            <source src="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}"
-                                    type="video/mp4">
-                            Your browser does not support HTML5 video.
-                        </video>
+{{--                    @if($course->mediavideo && ($course->mediavideo->type == 'upload'))--}}
+{{--                        <video width="300" class="mt-2 d-none video-player" controls>--}}
+{{--                            <source src="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}"--}}
+{{--                                    type="video/mp4">--}}
+{{--                            Your browser does not support HTML5 video.--}}
+{{--                        </video>--}}
 
-                    @endif
+{{--                    @endif--}}
 
-                    @lang('labels.backend.lessons.video_guide')
-                </div>
-            </div>
+{{--                    @lang('labels.backend.lessons.video_guide')--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-            <div class="row">
-                <div class="col-12 form-group">
-                    <div class="checkbox d-inline mr-4">
-                        {!! Form::hidden('published', 0) !!}
-                        {!! Form::checkbox('published', 1, old('published'), []) !!}
-                        {!! Form::label('published', trans('labels.backend.courses.fields.published'), ['class' => 'checkbox control-label font-weight-bold']) !!}
-                    </div>
+{{--            <div class="row">--}}
+{{--                <div class="col-12 form-group">--}}
+{{--                    <div class="checkbox d-inline mr-4">--}}
+{{--                        {!! Form::hidden('published', 0) !!}--}}
+{{--                        {!! Form::checkbox('published', 1, old('published'), []) !!}--}}
+{{--                        {!! Form::label('published', trans('labels.backend.courses.fields.published'), ['class' => 'checkbox control-label font-weight-bold']) !!}--}}
+{{--                    </div>--}}
 
-                    @if (Auth::user()->isAdmin() || Auth::user()->hasRole('company admin'))
+{{--                    @if (Auth::user()->isAdmin() || Auth::user()->hasRole('company admin'))--}}
 
-                    <div class="checkbox d-inline mr-4">
-                        {!! Form::hidden('featured', 0) !!}
-                        {!! Form::checkbox('featured', 1, old('featured'), []) !!}
-                        {!! Form::label('featured',  trans('labels.backend.courses.fields.featured'), ['class' => 'checkbox control-label font-weight-bold']) !!}
-                    </div>
+{{--                    <div class="checkbox d-inline mr-4">--}}
+{{--                        {!! Form::hidden('featured', 0) !!}--}}
+{{--                        {!! Form::checkbox('featured', 1, old('featured'), []) !!}--}}
+{{--                        {!! Form::label('featured',  trans('labels.backend.courses.fields.featured'), ['class' => 'checkbox control-label font-weight-bold']) !!}--}}
+{{--                    </div>--}}
 
-                    <div class="checkbox d-inline mr-4">
-                        {!! Form::hidden('trending', 0) !!}
-                        {!! Form::checkbox('trending', 1, old('trending'), []) !!}
-                        {!! Form::label('trending',  trans('labels.backend.courses.fields.trending'), ['class' => 'checkbox control-label font-weight-bold']) !!}
-                    </div>
+{{--                    <div class="checkbox d-inline mr-4">--}}
+{{--                        {!! Form::hidden('trending', 0) !!}--}}
+{{--                        {!! Form::checkbox('trending', 1, old('trending'), []) !!}--}}
+{{--                        {!! Form::label('trending',  trans('labels.backend.courses.fields.trending'), ['class' => 'checkbox control-label font-weight-bold']) !!}--}}
+{{--                    </div>--}}
 
-                    <div class="checkbox d-inline mr-4">
-                        {!! Form::hidden('popular', 0) !!}
-                        {!! Form::checkbox('popular', 1, old('popular'), []) !!}
-                        {!! Form::label('popular',  trans('labels.backend.courses.fields.popular'), ['class' => 'checkbox control-label font-weight-bold']) !!}
-                    </div>
-                    @endif
-                    <div class="checkbox d-inline mr-4">
-                        {!! Form::hidden('free', 0) !!}
-                        {!! Form::checkbox('free', 1, old('free'), []) !!}
-                        {!! Form::label('free',  trans('labels.backend.courses.fields.free'), ['class' => 'checkbox control-label font-weight-bold']) !!}
-                    </div>
+{{--                    <div class="checkbox d-inline mr-4">--}}
+{{--                        {!! Form::hidden('popular', 0) !!}--}}
+{{--                        {!! Form::checkbox('popular', 1, old('popular'), []) !!}--}}
+{{--                        {!! Form::label('popular',  trans('labels.backend.courses.fields.popular'), ['class' => 'checkbox control-label font-weight-bold']) !!}--}}
+{{--                    </div>--}}
+{{--                    @endif--}}
+{{--                    <div class="checkbox d-inline mr-4">--}}
+{{--                        {!! Form::hidden('free', 0) !!}--}}
+{{--                        {!! Form::checkbox('free', 1, old('free'), []) !!}--}}
+{{--                        {!! Form::label('free',  trans('labels.backend.courses.fields.free'), ['class' => 'checkbox control-label font-weight-bold']) !!}--}}
+{{--                    </div>--}}
 
-                </div>
-            </div>
+{{--                </div>--}}
+{{--            </div>--}}
 
-            <div class="row">
-                <div class="col-12 form-group">
-                    {!! Form::label('meta_title',trans('labels.backend.courses.fields.meta_title'), ['class' => 'control-label']) !!}
-                    {!! Form::text('meta_title', old('meta_title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_title')]) !!}
+{{--            <div class="row">--}}
+{{--                <div class="col-12 form-group">--}}
+{{--                    {!! Form::label('meta_title',trans('labels.backend.courses.fields.meta_title'), ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::text('meta_title', old('meta_title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_title')]) !!}--}}
 
-                </div>
-                <div class="col-12 form-group">
-                    {!! Form::label('meta_description',trans('labels.backend.courses.fields.meta_description'), ['class' => 'control-label']) !!}
-                    {!! Form::textarea('meta_description', old('meta_description'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_description')]) !!}
-                </div>
-                <div class="col-12 form-group">
-                    {!! Form::label('meta_keywords',trans('labels.backend.courses.fields.meta_keywords'), ['class' => 'control-label']) !!}
-                    {!! Form::textarea('meta_keywords', old('meta_keywords'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_keywords')]) !!}
-                </div>
+{{--                </div>--}}
+{{--                <div class="col-12 form-group">--}}
+{{--                    {!! Form::label('meta_description',trans('labels.backend.courses.fields.meta_description'), ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::textarea('meta_description', old('meta_description'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_description')]) !!}--}}
+{{--                </div>--}}
+{{--                <div class="col-12 form-group">--}}
+{{--                    {!! Form::label('meta_keywords',trans('labels.backend.courses.fields.meta_keywords'), ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::textarea('meta_keywords', old('meta_keywords'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_keywords')]) !!}--}}
+{{--                </div>--}}
 
-            </div>
+{{--            </div>--}}
 
             <div class="row">
                 <div class="col-12  text-center form-group">
@@ -221,6 +245,10 @@
 
         $(document).ready(function () {
             $('#start_date').datepicker({
+                autoclose: true,
+                dateFormat: "{{ config('app.date_format_js') }}"
+            });
+            $('#end_date').datepicker({
                 autoclose: true,
                 dateFormat: "{{ config('app.date_format_js') }}"
             });
