@@ -146,7 +146,7 @@ class CoursesController extends Controller
                 $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.view_students', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
 
                 if (auth()->user()->hasRole('company admin')) {
-                    $view .= '<a class="btn btn-info ml-1 mb-1" href="' . route('admin.courses.send_email', [$q->id]) . '">' . trans('labels.backend.courses.send_email') . '</a>';
+                    $view .= '<form action="' . route('admin.courses.send_email', [$q->id]) . '" method="POST">'.csrf_field().'<button class="btn btn-info ml-1 mb-1" href="">' . trans('labels.backend.courses.send_email') . '</button></form>';
                 }
                 return $view;
             })
