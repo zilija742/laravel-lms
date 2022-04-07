@@ -41,7 +41,7 @@ class DeleteCourseNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line($this->course->name . ' deleted');
+                    ->line($this->course->title . ' deleted');
 
     }
 
@@ -55,7 +55,7 @@ class DeleteCourseNotification extends Notification
     {
         return [
             'type' => 'delete_course',
-            'course_name' => $this->course->name
+            'course_name' => $this->course->title
         ];
     }
 }

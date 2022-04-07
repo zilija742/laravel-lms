@@ -42,7 +42,7 @@ class UpdateCourseByCompanyNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line($this->course->name . ' was updated by ' . $this->company->name)
+                    ->line($this->course->title . ' was updated by ' . $this->company->name)
                     ->action('View the course', url('/user/courses/' . $this->course->id))
                     ->line('Please check it');
     }
@@ -57,7 +57,7 @@ class UpdateCourseByCompanyNotification extends Notification
     {
         return [
             'type' => 'update_course_by_company',
-            'course_name' => $this->course->name,
+            'course_name' => $this->course->title,
             'company_name' => $this->company->name,
             'url' => url('/user/courses/' . $this->course->id),
         ];

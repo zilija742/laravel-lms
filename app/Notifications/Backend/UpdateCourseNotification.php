@@ -41,7 +41,7 @@ class UpdateCourseNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line($this->course->name . ' updated')
+                    ->line($this->course->title . ' updated')
                     ->action('View the course', url('/user/courses/' . $this->course->id))
                     ->line('Please check the course information');
     }
@@ -56,7 +56,7 @@ class UpdateCourseNotification extends Notification
     {
         return [
             'type' => 'update_course',
-            'course_name' => $this->course->name,
+            'course_name' => $this->course->title,
             'url' => url('/user/courses/' . $this->course->id),
         ];
     }

@@ -25,7 +25,7 @@ class UpdateCoursesRequest extends FormRequest
         return [
             
             'teachers.*' => 'exists:users,id',
-            'title' => 'required',
+//            'title' => 'required',
             'start_date' => 'nullable|date_format:'.config('app.date_format'),
         ];
     }
