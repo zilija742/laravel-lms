@@ -117,12 +117,16 @@
          class="row h-100 justify-content-center text-center position-relative m-0">
         <img class="logo" src="{{public_path('storage/logos/'.config('logo_b_image'))}}">
 
-        <div class="col-12 text-block align-self-center">
+        <div class="col-12 text-block align-self-center" style="font-size: 15px !important;">
             <p class="text-center mb-0">This is to certify that <span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['name']}}</span> successfully completed
             </p>
             <p style="word-wrap: break-word;white-space: nowrap"><span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['course_name']}}</span>
             </p>
             <p  style="word-wrap: break-word;white-space: nowrap">on <span class="font-weight-bold" style="font-family: DejaVu Sans;">{{config('app.name')}}</span> online course on <span class="font-weight-bold">{{$data['date']}}</span></p>
+            <p>Name: {{ $data['name'] }}</p>
+            <p>Baptism Name: {{ $data['baptism_name'] }}</p>
+            <p>Birthday: {{ $data['birthday'] }}</p>
+            <p>Course Expire Date: {{ $data['expire_at'] }}</p>
         </div>
         <img width="100%" src="{{public_path('images/certificate.jpg')}}">
     </div>

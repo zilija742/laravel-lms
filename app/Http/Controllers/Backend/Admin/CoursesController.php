@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Models\Auth\User;
 use App\Models\Category;
+use App\Models\Certificate;
 use App\Models\Course;
 use App\Models\CourseTimeline;
 use App\Models\Company;
@@ -702,9 +703,16 @@ class CoursesController extends Controller
                     $student_comment = StudentComment::where('course_id', $id)
                     ->where('user_id', $q->id)->first();
 
+                    $certificate = Certificate::where('course_id', $id)
+                        ->where('user_id', $q->id)->first();
                     if (isset($student_comment) && $student_comment->is_approved) {
-                        $view .= '<form action="' . route('admin.certificates.generate', ['course_id' => $id, 'user_id' => $q->id]) . '" method="POST" style="display: inline;">'.csrf_field().'<button class="btn btn-info ml-1 mb-1">' . trans('labels.backend.students.publish_certification') . '</button></form>';
+                        if (isset($certificate)) {
+                            $view .= '<a href="' . asset('storage/certificates/'.$certificate->url) . '" class="btn btn-success mr-1 mb-1">' . trans('labels.backend.certificates.view') . '</a><a class="btn btn-primary mr-1 mb-1" href="' . route('admin.certificates.download',['certificate_id'=>$certificate->id]) . '">' .trans('labels.backend.certificates.download') . '</a>';
+                        } else {
+                            $view .= '<form action="' . route('admin.certificates.generate', ['course_id' => $id, 'user_id' => $q->id]) . '" method="POST" style="display: inline;">'.csrf_field().'<button class="btn btn-info mr-1 mb-1">' . trans('labels.backend.students.publish_certification') . '</button></form>';
+                        }
                     }
+
                 }
 
                 return $view;

@@ -57,6 +57,9 @@ class CertificateController extends Controller
 
             $data = [
                 'name' => $student->name,
+                'baptism_name' => $student->studentProfile->baptism_name,
+                'birthday' => $student->studentProfile->birthday,
+                'expire_at' => $course->expire_at,
                 'course_name' => $course->title,
                 'date' => Carbon::now()->format('d M, Y'),
             ];

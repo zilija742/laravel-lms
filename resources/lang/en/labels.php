@@ -1065,8 +1065,8 @@ return array (
         'progress' => 'Progress',
         'action' => 'Action',
       ),
-      'view' => 'View',
-      'download' => 'Download',
+      'view' => 'View Certification',
+      'download' => 'Download Certification',
     ),
     'bundles' =>
     array (
