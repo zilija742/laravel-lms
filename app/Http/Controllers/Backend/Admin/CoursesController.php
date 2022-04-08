@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\CourseTimeline;
 use App\Models\Company;
 use App\Models\Media;
+use App\Models\StudentComment;
 use App\Models\StudentProfile;
 use App\Notifications\Backend\CourseSendEmailNotification;
 use App\Notifications\Backend\DeleteCourseNotification;
@@ -143,10 +144,15 @@ class CoursesController extends Controller
                 $view .= view('backend.datatable.'.$type)
                     ->with(['route' => route('admin.courses.publish', ['id' => $q->id])])->render();
 
-                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.view_students', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
+                if (auth()->user()->hasRole('company admin')) {
+                    $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.view_students', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
+                } else {
+                    $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.student_comments.index', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
+
+                }
 
                 if (auth()->user()->hasRole('company admin')) {
-                    $view .= '<form action="' . route('admin.courses.send_email', [$q->id]) . '" method="POST">'.csrf_field().'<button class="btn btn-info ml-1 mb-1" href="">' . trans('labels.backend.courses.send_email') . '</button></form>';
+                    $view .= '<form action="' . route('admin.courses.send_email', [$q->id]) . '" method="POST" style="display: inline;">'.csrf_field().'<button class="btn btn-info ml-1 mb-1" href="">' . trans('labels.backend.courses.send_email') . '</button></form>';
                 }
                 return $view;
             })
@@ -639,8 +645,6 @@ class CoursesController extends Controller
 
         $course->students()->sync($request->students);
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
-        dd($request);
-        dd($id);
     }
 
     public function send_email($id) {
@@ -649,5 +653,99 @@ class CoursesController extends Controller
 
         Notification::send($students, new CourseSendEmailNotification($course));
         return back()->withFlashSuccess(trans('alerts.backend.general.send_email'));
+    }
+
+    public function get_students($id)
+    {
+        $course = Course::findOrFail($id);
+        $students = $course->students;
+
+        return view('backend.studentcomments.index', compact('course', 'students'));
+    }
+
+    public function get_students_data($id)
+    {
+        $has_view = false;
+        $has_delete = false;
+        $has_edit = true;
+
+        $course = Course::findOrFail($id);
+        $students = $course->students;
+
+
+        return DataTables::of($students)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $id) {
+                $view = "";
+                $edit = "";
+                $delete = "";
+
+//                if ($has_view) {
+//                    $view = view('backend.datatable.action-view')
+//                        ->with(['route' => route('admin.courses.show', ['course' => $q->id])])->render();
+//                }
+                if ($has_edit) {
+                    $edit = view('backend.datatable.action-edit')
+                        ->with(['route' => route('admin.student_comments.edit', ['course_id' => $id, 'user_id' => $q->id])])
+                        ->render();
+                    $view .= $edit;
+                }
+
+//                if ($has_delete) {
+//                    $delete = view('backend.datatable.action-delete')
+//                        ->with(['route' => route('admin.courses.destroy', ['course' => $q->id])])
+//                        ->render();
+//                    $view .= $delete;
+//                }
+
+                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.view_students', [$q->id]) . '">' . trans('labels.backend.students.publish_certification') . '</a>';
+
+                return $view;
+            })
+            ->addColumn('birthday', function ($q) {
+                return $q->studentProfile->birthday;
+            })
+            ->addColumn('name', function ($q) {
+                return $q->name;
+            })
+            ->addColumn('approved', function ($q) use ($id) {
+                $student_comment = StudentComment::where('course_id', $id)
+                    ->where('user_id', $q->id)->first();
+
+                if (isset($student_comment)) {
+                    if ($student_comment->is_approved) {
+                        return 'Approved';
+                    } else {
+                        return 'Failed';
+                    }
+                } else {
+                    return 'Not evaluated';
+                }
+            })
+            ->rawColumns(['actions', 'birthday', 'name'])
+            ->make();
+    }
+
+    public function edit_student_comment($course_id, $user_id) {
+        $student_comment = StudentComment::where('course_id', $course_id)
+            ->where('user_id', $user_id)
+            ->first();
+
+        return view('backend.studentcomments.edit', compact('student_comment', 'course_id', 'user_id'));
+    }
+
+    public function update_student_comment(Request $request, $course_id, $user_id) {
+        $student_comment = new StudentComment();
+        $student_comment->course_id = $course_id;
+        $student_comment->user_id = $user_id;
+        $student_comment->is_approved = $request->is_approved;
+        $student_comment->comment = $request->comment;
+
+        $student_comment->save();
+
+        $course = Course::findOrFail($course_id);
+        $students = $course->students;
+
+        return view('backend.studentcomments.index', compact('course', 'students'))->withFlashSuccess(trans('alerts.backend.general.updated'));;
     }
 }

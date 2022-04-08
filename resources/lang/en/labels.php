@@ -31,6 +31,8 @@ return array (
         'meta_description' => 'Meta Description',
         'meta_keywords' => 'Meta Keywords',
         'sidebar' => 'Add Sidebar',
+        'approved' => 'Approve',
+        'comment' => 'Comment',
         'lessons' =>
         array (
           'add' => 'Add Lessons',
@@ -47,6 +49,8 @@ return array (
       'slug_placeholder' => 'Input slug or it will be generated automatically',
       'select_category' => 'Select Category',
       'select_teachers' => 'Select Teachers',
+      'evaluate_student' => 'Evaluate Student',
+      'view_students' => 'View Students',
       'test' => 'Test',
       'lesson' => 'Lesson',
       'create' => 'Create Course',
@@ -840,6 +844,7 @@ return array (
     array(
         'fields' =>
         array(
+            'name' => 'Name',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
             'baptism_name' => 'Baptism Name',
@@ -862,6 +867,7 @@ return array (
         'create' => 'Create Student',
         'edit' => 'Edit Student',
         'view' => 'View Students',
+        'publish_certification' => 'Publish Certification',
     ),
     'teachers' =>
     array (

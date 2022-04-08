@@ -182,6 +182,11 @@ class Course extends Model
         return $this->hasMany('App\Models\Test');
     }
 
+    public function studentComments()
+    {
+        return $this->hasMany(StudentComment::class);
+    }
+
     public function courseTimeline()
     {
         return $this->hasMany(CourseTimeline::class);

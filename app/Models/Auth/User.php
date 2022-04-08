@@ -14,6 +14,7 @@ use App\Models\OrderItem;
 use App\Models\Stripe\StripePlan;
 use App\Models\Stripe\Subscription;
 use App\Models\Stripe\UserCourses;
+use App\Models\StudentComment;
 use App\Models\Traits\Uuid;
 use App\Models\VideoProgress;
 use App\Models\WishList;
@@ -263,6 +264,11 @@ class User extends Authenticatable
     public function earnings()
     {
         return $this->hasMany(Earning::class, 'user_id', 'id');
+    }
+
+    public function studentComments()
+    {
+        return $this->hasMany(StudentComment::class);
     }
 
     /**

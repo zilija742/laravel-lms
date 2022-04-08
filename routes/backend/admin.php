@@ -236,7 +236,10 @@ Route::get('course-publish/{id}', ['uses' => 'Admin\CoursesController@publish', 
 Route::get('course-students/{id}', ['uses' => 'Admin\CoursesController@view_students', 'as' => 'courses.view_students']);
 Route::post('course-students/{id}', ['uses' => 'Admin\CoursesController@add_students', 'as' => 'courses.add_students']);
 Route::post('course-send-email/{id}', ['uses' => 'Admin\CoursesController@send_email', 'as' => 'courses.send_email']);
-
+Route::get('student-comments/{id}', ['uses' => 'Admin\CoursesController@get_students', 'as' => 'student_comments.index']);
+Route::get('get-students-data/{id}', ['uses' => 'Admin\CoursesController@get_students_data', 'as' => 'student_comments.get_data']);
+Route::get('get-students-data/{course_id}/edit/{user_id}', ['uses' => 'Admin\CoursesController@edit_student_comment', 'as' => 'student_comments.edit']);
+Route::put('get-students-data/{course_id}/update/{user_id}', ['uses' => 'Admin\CoursesController@update_student_comment', 'as' => 'student_comments.update']);
 
 //===== Bundles Routes =====//
 Route::resource('bundles', 'Admin\BundlesController');
