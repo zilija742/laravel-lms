@@ -38,7 +38,11 @@
     <script src="{{asset('codebase/dhtmlxscheduler.js')}}" type="text/javascript"></script>
     <script>
 		window.addEventListener("DOMContentLoaded", function(){
-			scheduler.init('scheduler_here',new Date(),"week");
+		    scheduler.config.drag_create = false;
+		    scheduler.config.dblclick_create = false;
+		    scheduler.config.readonly_form = true;
+			scheduler.init('scheduler_here',new Date(),"month");
+			scheduler.load("{{ route('admin.agendas.get_agendas') }}", "json");
 		});
 		scheduler.attachEvent("onEventChanged", function(id,ev){
             console.log(id, ev);

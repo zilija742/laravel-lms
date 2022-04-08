@@ -8,6 +8,7 @@ use App\Models\Certificate;
 use App\Models\Course;
 use App\Models\CourseTimeline;
 use App\Models\Company;
+use App\Models\Location;
 use App\Models\Media;
 use App\Models\StudentComment;
 use App\Models\StudentProfile;
@@ -146,7 +147,8 @@ class CoursesController extends Controller
                     ->with(['route' => route('admin.courses.publish', ['id' => $q->id])])->render();
 
                 if (auth()->user()->hasRole('company admin')) {
-                    $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.view_students', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
+                    $view .= '<a class="btn btn-info mb-1 mr-1" href="' . route('admin.courses.view_students', [$q->id]) . '">' . trans('labels.backend.courses.add_students') . '</a>';
+                    $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.student_comments.index', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
                 } else {
                     $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.student_comments.index', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
 
@@ -216,8 +218,9 @@ class CoursesController extends Controller
 
         $categories = Category::where('status', '=', 1)->pluck('name', 'id');
         $companies = Company::all()->pluck('name', 'id');
+        $locations = Location::all()->pluck('location_name', 'id');
 
-        return view('backend.courses.create', compact('teachers', 'categories', 'companies'));
+        return view('backend.courses.create', compact('teachers', 'categories', 'companies', 'locations'));
     }
 
     /**
@@ -371,10 +374,11 @@ class CoursesController extends Controller
         })->get()->pluck('name', 'id');
         $categories = Category::where('status', '=', 1)->pluck('name', 'id');
         $companies = Company::all()->pluck('name', 'id');
+        $locations = Location::all()->pluck('location_name', 'id');
 
         $course = Course::findOrFail($id);
 
-        return view('backend.courses.edit', compact('course', 'teachers', 'categories', 'companies'));
+        return view('backend.courses.edit', compact('course', 'teachers', 'categories', 'companies', 'locations'));
     }
 
     /**
@@ -762,5 +766,19 @@ class CoursesController extends Controller
         $students = $course->students;
 
         return view('backend.studentcomments.index', compact('course', 'students'))->withFlashSuccess(trans('alerts.backend.general.updated'));;
+    }
+
+    public function get_agendas() {
+
+        if (auth()->user()->hasRole('company admin')) {
+            $courses = Course::where('company_id', auth()->user()->teacherProfile->company_id)->get();
+        } else {
+            $courses = Course::all();
+
+        }
+
+        return response()->json([
+            "data" => $courses,
+        ]);
     }
 }

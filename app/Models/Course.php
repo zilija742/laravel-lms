@@ -27,9 +27,9 @@ class Course extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords', 'expire_at','strike', 'company_id', 'end_date', 'official_code'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords', 'expire_at','strike', 'company_id', 'end_date', 'official_code', 'location_id'];
 
-    protected $appends = ['image'];
+    protected $appends = ['image', 'text'];
 
 //    protected $dates = ['expire_at'];
 
@@ -70,6 +70,16 @@ class Course extends Model
             return url('storage/uploads/'.$this->course_image);
         }
         return NULL;
+    }
+
+    public function getTextAttribute() {
+        $text = $this->title . ', ';
+        foreach ($this->teachers as $teacher) {
+            $text .= $teacher->name . ', ';
+        }
+        $text .= $this->location->location_name;
+
+        return $text;
     }
 
     public function getPriceAttribute()
@@ -175,6 +185,11 @@ class Course extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
     }
 
     public function tests()

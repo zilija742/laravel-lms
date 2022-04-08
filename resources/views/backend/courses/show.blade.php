@@ -67,6 +67,10 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>@lang('labels.backend.courses.fields.location')</th>
+                            <td>{{ $course->location->location_name }}</td>
+                        </tr>
+                        <tr>
                             <th>@lang('labels.backend.courses.fields.company')</th>
                             <td>{{ $course->company->name }}</td>
                         </tr>

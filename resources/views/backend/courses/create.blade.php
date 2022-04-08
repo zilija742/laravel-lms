@@ -18,6 +18,16 @@
             @if (Auth::user()->isAdmin())
                 <div class="row">
                    <div class="col-10 form-group">
+                        {!! Form::label('location_id',trans('labels.backend.courses.fields.location'), ['class' => 'control-label']) !!}
+                        {!! Form::select('location_id', $locations, old('location_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
+                    </div>
+                    <div class="col-2 d-flex form-group flex-column">
+                        OR <a target="_blank" class="btn btn-primary mt-auto"
+                              href="{{route('admin.locations.index').'?create'}}">{{trans('labels.backend.courses.add_locations')}}</a>
+                    </div>
+                </div>
+                <div class="row">
+                   <div class="col-10 form-group">
                         {!! Form::label('company_id',trans('labels.backend.courses.fields.company'), ['class' => 'control-label']) !!}
                         {!! Form::select('company_id', $companies, old('company_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
                     </div>

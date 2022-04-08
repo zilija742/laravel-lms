@@ -29,7 +29,7 @@
                 <div class="col-md-10">
                     {{ html()->label(html()->checkbox('')->name('is_approved')
                                        ->checked(old('is_approved'))->class('switch-input')->value(old('is_approved'))
-
+                                       ->disabled(auth()->user()->hasRole('company admin') ? true : false)
                                    . '<span class="switch-label"></span><span class="switch-handle"></span>')
                                ->class('switch switch-lg switch-3d switch-primary')
                     }}
@@ -38,7 +38,7 @@
 
             <div class="row">
                 <div class="col-12  text-center form-group">
-                    {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn btn-danger']) !!}
+                    {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn btn-danger', 'disabled' => auth()->user()->hasRole('company admin') ? true : false]) !!}
                 </div>
             </div>
         </div>

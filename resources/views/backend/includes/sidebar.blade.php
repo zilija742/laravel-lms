@@ -13,25 +13,25 @@
                 </a>
             </li>
 
-            <li class="nav-item ">
-                <a class="nav-link {{ $request->segment(2) == 'agendas' ? 'active' : '' }}"
-                   href="{{ route('admin.agendas.index') }}">
-                    <i class="nav-icon icon-folder-alt"></i>
-                    <span class="title">@lang('menus.backend.sidebar.agendas.title')</span>
-                </a>
-            </li>
+{{--            <li class="nav-item ">--}}
+{{--                <a class="nav-link {{ $request->segment(2) == 'agendas' ? 'active' : '' }}"--}}
+{{--                   href="{{ route('admin.agendas.index') }}">--}}
+{{--                    <i class="nav-icon icon-folder-alt"></i>--}}
+{{--                    <span class="title">@lang('menus.backend.sidebar.agendas.title')</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
 
 
             <!--=======================Custom menus===============================-->
-            @can('order_access')
-                <li class="nav-item ">
-                    <a class="nav-link {{ $request->segment(1) == 'orders' ? 'active' : '' }}"
-                       href="{{ route('admin.orders.index') }}">
-                        <i class="nav-icon icon-bag"></i>
-                        <span class="title">@lang('menus.backend.sidebar.orders.title')</span>
-                    </a>
-                </li>
-            @endcan
+{{--            @can('order_access')--}}
+{{--                <li class="nav-item ">--}}
+{{--                    <a class="nav-link {{ $request->segment(1) == 'orders' ? 'active' : '' }}"--}}
+{{--                       href="{{ route('admin.orders.index') }}">--}}
+{{--                        <i class="nav-icon icon-bag"></i>--}}
+{{--                        <span class="title">@lang('menus.backend.sidebar.orders.title')</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
             @if ($logged_in_user->isAdmin())
                 <li class="nav-item ">
                     <a class="nav-link {{ $request->segment(2) == 'companies' ? 'active' : '' }}"
@@ -100,52 +100,52 @@
                             </li>
                         @endcan
 
-                        @can('lesson_access')
-                            <li class="nav-item ">
-                                <a class="nav-link {{ $request->segment(2) == 'lessons' ? 'active' : '' }}"
-                                   href="{{ route('admin.lessons.index') }}">
-                                    <span class="title">@lang('menus.backend.sidebar.lessons.title')</span>
-                                </a>
-                            </li>
-                        @endcan
+{{--                        @can('lesson_access')--}}
+{{--                            <li class="nav-item ">--}}
+{{--                                <a class="nav-link {{ $request->segment(2) == 'lessons' ? 'active' : '' }}"--}}
+{{--                                   href="{{ route('admin.lessons.index') }}">--}}
+{{--                                    <span class="title">@lang('menus.backend.sidebar.lessons.title')</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        @endcan--}}
 
-                        @can('test_access')
-                            <li class="nav-item ">
-                                <a class="nav-link {{ $request->segment(2) == 'tests' ? 'active' : '' }}"
-                                   href="{{ route('admin.tests.index') }}">
-                                    <span class="title">@lang('menus.backend.sidebar.tests.title')</span>
-                                </a>
-                            </li>
-                        @endcan
-
-
-                        @can('question_access')
-                            <li class="nav-item">
-                                <a class="nav-link {{ $request->segment(2) == 'questions' ? 'active' : '' }}"
-                                   href="{{ route('admin.questions.index') }}">
-                                    <span class="title">@lang('menus.backend.sidebar.questions.title')</span>
-                                </a>
-                            </li>
-                        @endcan
+{{--                        @can('test_access')--}}
+{{--                            <li class="nav-item ">--}}
+{{--                                <a class="nav-link {{ $request->segment(2) == 'tests' ? 'active' : '' }}"--}}
+{{--                                   href="{{ route('admin.tests.index') }}">--}}
+{{--                                    <span class="title">@lang('menus.backend.sidebar.tests.title')</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        @endcan--}}
 
 
-                        @can('live_lesson_access')
-                            <li class="nav-item ">
-                                <a class="nav-link {{ $request->segment(2) == 'live-lessons' ? 'active' : '' }}"
-                                   href="{{ route('admin.live-lessons.index') }}">
-                                    <span class="title">@lang('menus.backend.sidebar.live_lessons.title')</span>
-                                </a>
-                            </li>
-                        @endcan
+{{--                        @can('question_access')--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a class="nav-link {{ $request->segment(2) == 'questions' ? 'active' : '' }}"--}}
+{{--                                   href="{{ route('admin.questions.index') }}">--}}
+{{--                                    <span class="title">@lang('menus.backend.sidebar.questions.title')</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        @endcan--}}
 
-                        @can('live_lesson_slot_access')
-                            <li class="nav-item ">
-                                <a class="nav-link {{ $request->segment(2) == 'live-lesson-slots' ? 'active' : '' }}"
-                                   href="{{ route('admin.live-lesson-slots.index') }}">
-                                    <span class="title">@lang('menus.backend.sidebar.live_lesson_slots.title')</span>
-                                </a>
-                            </li>
-                        @endcan
+
+{{--                        @can('live_lesson_access')--}}
+{{--                            <li class="nav-item ">--}}
+{{--                                <a class="nav-link {{ $request->segment(2) == 'live-lessons' ? 'active' : '' }}"--}}
+{{--                                   href="{{ route('admin.live-lessons.index') }}">--}}
+{{--                                    <span class="title">@lang('menus.backend.sidebar.live_lessons.title')</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        @endcan--}}
+
+{{--                        @can('live_lesson_slot_access')--}}
+{{--                            <li class="nav-item ">--}}
+{{--                                <a class="nav-link {{ $request->segment(2) == 'live-lesson-slots' ? 'active' : '' }}"--}}
+{{--                                   href="{{ route('admin.live-lesson-slots.index') }}">--}}
+{{--                                    <span class="title">@lang('menus.backend.sidebar.live_lesson_slots.title')</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        @endcan--}}
 
                     </ul>
                 </li>
@@ -158,28 +158,28 @@
 {{--                        </a>--}}
 {{--                    </li>--}}
 {{--                @endcan--}}
-                @if($logged_in_user->hasRole('teacher') || $logged_in_user->isAdmin())
-                    <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/reports*']), 'open') }}">
-                        <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
-                           href="#">
-                            <i class="nav-icon icon-pie-chart"></i>@lang('menus.backend.sidebar.reports.title')
+{{--                @if($logged_in_user->hasRole('teacher') || $logged_in_user->isAdmin())--}}
+{{--                    <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/reports*']), 'open') }}">--}}
+{{--                        <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"--}}
+{{--                           href="#">--}}
+{{--                            <i class="nav-icon icon-pie-chart"></i>@lang('menus.backend.sidebar.reports.title')--}}
 
-                        </a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item ">
-                                <a class="nav-link {{ $request->segment(1) == 'sales' ? 'active' : '' }}"
-                                   href="{{ route('admin.reports.sales') }}">
-                                    @lang('menus.backend.sidebar.reports.sales')
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link {{ $request->segment(1) == 'students' ? 'active' : '' }}"
-                                   href="{{ route('admin.reports.students') }}">@lang('menus.backend.sidebar.reports.students')
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
+{{--                        </a>--}}
+{{--                        <ul class="nav-dropdown-items">--}}
+{{--                            <li class="nav-item ">--}}
+{{--                                <a class="nav-link {{ $request->segment(1) == 'sales' ? 'active' : '' }}"--}}
+{{--                                   href="{{ route('admin.reports.sales') }}">--}}
+{{--                                    @lang('menus.backend.sidebar.reports.sales')--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                            <li class="nav-item ">--}}
+{{--                                <a class="nav-link {{ $request->segment(1) == 'students' ? 'active' : '' }}"--}}
+{{--                                   href="{{ route('admin.reports.students') }}">@lang('menus.backend.sidebar.reports.students')--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
+{{--                @endif--}}
             @endif
 
 
@@ -312,22 +312,22 @@
                             class="title">@lang('menus.backend.sidebar.messages.title')</span>
                 </a>
             </li>
-            @if ($logged_in_user->hasRole('student'))
-                <li class="nav-item ">
-                    <a class="nav-link {{ $request->segment(1) == 'invoices' ? 'active' : '' }}"
-                       href="{{ route('admin.invoices.index') }}">
-                        <i class="nav-icon icon-notebook"></i> <span
-                                class="title">@lang('menus.backend.sidebar.invoices.title')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link {{ $request->segment(1) == 'certificates' ? 'active' : '' }}"
-                       href="{{ route('admin.certificates.index') }}">
-                        <i class="nav-icon icon-badge"></i> <span
-                                class="title">@lang('menus.backend.sidebar.certificates.title')</span>
-                    </a>
-                </li>
-            @endif
+{{--            @if ($logged_in_user->hasRole('student'))--}}
+{{--                <li class="nav-item ">--}}
+{{--                    <a class="nav-link {{ $request->segment(1) == 'invoices' ? 'active' : '' }}"--}}
+{{--                       href="{{ route('admin.invoices.index') }}">--}}
+{{--                        <i class="nav-icon icon-notebook"></i> <span--}}
+{{--                                class="title">@lang('menus.backend.sidebar.invoices.title')</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item ">--}}
+{{--                    <a class="nav-link {{ $request->segment(1) == 'certificates' ? 'active' : '' }}"--}}
+{{--                       href="{{ route('admin.certificates.index') }}">--}}
+{{--                        <i class="nav-icon icon-badge"></i> <span--}}
+{{--                                class="title">@lang('menus.backend.sidebar.certificates.title')</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endif--}}
             @if ($logged_in_user->hasRole('teacher'))
                 <li class="nav-item ">
                     <a class="nav-link {{ $request->segment(1) == 'reviews' ? 'active' : '' }}"
@@ -339,34 +339,34 @@
             @endif
 
             @if ($logged_in_user->isAdmin())
-                <li class="nav-item ">
-                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"
-                       href="{{ route('admin.contact-requests.index') }}">
-                        <i class="nav-icon icon-envelope-letter"></i>
-                        <span class="title">@lang('menus.backend.sidebar.contacts.title')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"
-                       href="{{ route('admin.coupons.index') }}">
-                        <i class="nav-icon icon-star"></i>
-                        <span class="title">@lang('menus.backend.sidebar.coupons.title')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"
-                       href="{{ route('admin.tax.index') }}">
-                        <i class="nav-icon icon-credit-card"></i>
-                        <span class="title">@lang('menus.backend.sidebar.tax.title')</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"
-                       href="{{ route('admin.payments.requests') }}">
-                        <i class="nav-icon icon-people"></i>
-                        <span class="title">@lang('menus.backend.sidebar.payments_requests.title')</span>
-                    </a>
-                </li>
+{{--                <li class="nav-item ">--}}
+{{--                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"--}}
+{{--                       href="{{ route('admin.contact-requests.index') }}">--}}
+{{--                        <i class="nav-icon icon-envelope-letter"></i>--}}
+{{--                        <span class="title">@lang('menus.backend.sidebar.contacts.title')</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item ">--}}
+{{--                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"--}}
+{{--                       href="{{ route('admin.coupons.index') }}">--}}
+{{--                        <i class="nav-icon icon-star"></i>--}}
+{{--                        <span class="title">@lang('menus.backend.sidebar.coupons.title')</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item ">--}}
+{{--                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"--}}
+{{--                       href="{{ route('admin.tax.index') }}">--}}
+{{--                        <i class="nav-icon icon-credit-card"></i>--}}
+{{--                        <span class="title">@lang('menus.backend.sidebar.tax.title')</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item ">--}}
+{{--                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"--}}
+{{--                       href="{{ route('admin.payments.requests') }}">--}}
+{{--                        <i class="nav-icon icon-people"></i>--}}
+{{--                        <span class="title">@lang('menus.backend.sidebar.payments_requests.title')</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
             @endif
             <li class="nav-item ">
                 <a class="nav-link {{ $request->segment(1) == 'account' ? 'active' : '' }}"
@@ -376,40 +376,40 @@
                 </a>
             </li>
             @if ($logged_in_user->hasRole('student'))
-            <li class="nav-item ">
-                <a class="nav-link {{ $request->segment(1) == 'subscriptions' ? 'active' : '' }}"
-                   href="{{ route('admin.subscriptions') }}">
-                    <i class="nav-icon fas fa-briefcase"></i>
-                    <span class="title">@lang('menus.backend.sidebar.subscription.title')</span>
-                </a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link {{ $request->segment(1) == 'wishlist' ? 'active' : '' }}"
-                   href="{{ route('admin.wishlist.index') }}">
-                    <i class="nav-icon fas fa-heart"></i>
-                    <span class="title">@lang('menus.backend.sidebar.wishlist.title')</span>
-                </a>
-            </li>
+{{--            <li class="nav-item ">--}}
+{{--                <a class="nav-link {{ $request->segment(1) == 'subscriptions' ? 'active' : '' }}"--}}
+{{--                   href="{{ route('admin.subscriptions') }}">--}}
+{{--                    <i class="nav-icon fas fa-briefcase"></i>--}}
+{{--                    <span class="title">@lang('menus.backend.sidebar.subscription.title')</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--            <li class="nav-item ">--}}
+{{--                <a class="nav-link {{ $request->segment(1) == 'wishlist' ? 'active' : '' }}"--}}
+{{--                   href="{{ route('admin.wishlist.index') }}">--}}
+{{--                    <i class="nav-icon fas fa-heart"></i>--}}
+{{--                    <span class="title">@lang('menus.backend.sidebar.wishlist.title')</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
             @endif
             @if ($logged_in_user->isAdmin())
                 <li class="nav-title">
                     @lang('menus.backend.sidebar.system')
                 </li>
                 @if ($logged_in_user->isAdmin())
-                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['admin/stripe*','admin/stripe/plans*']), 'open') }}">
-                    <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/stripe*')) }}"
-                       href="#">
-                        <i class="nav-icon fab fa-stripe"></i> @lang('menus.backend.stripe.title')
-                    </a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/stripe/plans*')) }}"
-                               href="{{ route('admin.stripe.plans.index') }}">
-                                @lang('menus.backend.stripe.plan')
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+{{--                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['admin/stripe*','admin/stripe/plans*']), 'open') }}">--}}
+{{--                    <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/stripe*')) }}"--}}
+{{--                       href="#">--}}
+{{--                        <i class="nav-icon fab fa-stripe"></i> @lang('menus.backend.stripe.title')--}}
+{{--                    </a>--}}
+{{--                    <ul class="nav-dropdown-items">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/stripe/plans*')) }}"--}}
+{{--                               href="{{ route('admin.stripe.plans.index') }}">--}}
+{{--                                @lang('menus.backend.stripe.plan')--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
                 @endif
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/auth*'), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/auth*')) }}"
@@ -458,18 +458,18 @@
                                 @lang('menus.backend.sidebar.settings.general')
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/log-viewer/logs*')) }}"
-                               href="{{ route('admin.social-settings') }}">
-                                @lang('menus.backend.sidebar.settings.social-login')
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/settings/zoom-settings*')) }}"
-                               href="{{ route('admin.zoom-settings') }}">
-                                @lang('menus.backend.sidebar.settings.zoom_setting')
-                            </a>
-                        </li>
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/log-viewer/logs*')) }}"--}}
+{{--                               href="{{ route('admin.social-settings') }}">--}}
+{{--                                @lang('menus.backend.sidebar.settings.social-login')--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/settings/zoom-settings*')) }}"--}}
+{{--                               href="{{ route('admin.zoom-settings') }}">--}}
+{{--                                @lang('menus.backend.sidebar.settings.zoom_setting')--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
                     </ul>
                 </li>
 
@@ -521,13 +521,13 @@
             @endif
 
             @if ($logged_in_user->hasRole('teacher'))
-            <li class="nav-item ">
-                <a class="nav-link {{ $request->segment(2) == 'payments' ? 'active' : '' }}"
-                    href="{{ route('admin.payments') }}">
-                    <i class="nav-icon icon-wallet"></i>
-                    <span class="title">@lang('menus.backend.sidebar.payments.title')</span>
-                </a>
-            </li>
+{{--            <li class="nav-item ">--}}
+{{--                <a class="nav-link {{ $request->segment(2) == 'payments' ? 'active' : '' }}"--}}
+{{--                    href="{{ route('admin.payments') }}">--}}
+{{--                    <i class="nav-icon icon-wallet"></i>--}}
+{{--                    <span class="title">@lang('menus.backend.sidebar.payments.title')</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
             @endif
 
         </ul>
