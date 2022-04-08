@@ -431,80 +431,80 @@
 
                 <div class="col-md-3">
                     <div class="side-bar">
-                        <div class="course-side-bar-widget">
+{{--                        <div class="course-side-bar-widget">--}}
 
-                            @php
-                                $matched = checkCourseSubscribeOrNot($checkSubcribePlan,$course->id);
-                                $courseExpire = courseOrBundleExpire($course->id,'');
-                            @endphp
-                            @if ($courseExpire==false && !$purchased_course && $matched['matched']==false && $matched['matchedBundle']==false)
-                                <h3>
-                                    @if($course->free == 1)
-                                        <span> {{trans('labels.backend.courses.fields.free')}}</span>
-                                    @else
-                                        {!!  $course->CoursePageStrikePrice  !!}
-                                        @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$course->price}}</span>
-                                    @endif</h3>
+{{--                            @php--}}
+{{--                                $matched = checkCourseSubscribeOrNot($checkSubcribePlan,$course->id);--}}
+{{--                                $courseExpire = courseOrBundleExpire($course->id,'');--}}
+{{--                            @endphp--}}
+{{--                            @if ($courseExpire==false && !$purchased_course && $matched['matched']==false && $matched['matchedBundle']==false)--}}
+{{--                                <h3>--}}
+{{--                                    @if($course->free == 1)--}}
+{{--                                        <span> {{trans('labels.backend.courses.fields.free')}}</span>--}}
+{{--                                    @else--}}
+{{--                                        {!!  $course->CoursePageStrikePrice  !!}--}}
+{{--                                        @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$course->price}}</span>--}}
+{{--                                    @endif</h3>--}}
 
-                                @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))
-                                    <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"
-                                            type="submit">@lang('labels.frontend.course.added_to_cart')
-                                    </button>
+{{--                                @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))--}}
+{{--                                    <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"--}}
+{{--                                            type="submit">@lang('labels.frontend.course.added_to_cart')--}}
+{{--                                    </button>--}}
 
-                                @elseif(!auth()->check())
-                                    @if($course->free == 1)
-                                        <a id="openLoginModal"
-                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                           data-target="#myModal" href="#">@lang('labels.frontend.course.get_now') <i
-                                                    class="fas fa-caret-right"></i></a>
-                                    @else
-                                        <a id="openLoginModal"
-                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                           data-target="#myModal" href="#">@lang('labels.frontend.course.buy_now') <i
-                                                    class="fas fa-caret-right"></i></a>
+{{--                                @elseif(!auth()->check())--}}
+{{--                                    @if($course->free == 1)--}}
+{{--                                        <a id="openLoginModal"--}}
+{{--                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"--}}
+{{--                                           data-target="#myModal" href="#">@lang('labels.frontend.course.get_now') <i--}}
+{{--                                                    class="fas fa-caret-right"></i></a>--}}
+{{--                                    @else--}}
+{{--                                        <a id="openLoginModal"--}}
+{{--                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"--}}
+{{--                                           data-target="#myModal" href="#">@lang('labels.frontend.course.buy_now') <i--}}
+{{--                                                    class="fas fa-caret-right"></i></a>--}}
 
-                                        <a id="openLoginModal"
-                                           class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "
-                                           data-target="#myModal" href="#">@lang('labels.frontend.course.add_to_cart') <i
-                                                    class="fa fa-shopping-bag"></i></a>
+{{--                                        <a id="openLoginModal"--}}
+{{--                                           class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "--}}
+{{--                                           data-target="#myModal" href="#">@lang('labels.frontend.course.add_to_cart') <i--}}
+{{--                                                    class="fa fa-shopping-bag"></i></a>--}}
 
-                                        <a id="openLoginModal"
-                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                           data-target="#myModal" href="#">@lang('labels.frontend.course.subscribe')</a>
-                                    @endif
-                                @elseif(auth()->check() && (auth()->user()->hasRole('student')))
+{{--                                        <a id="openLoginModal"--}}
+{{--                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"--}}
+{{--                                           data-target="#myModal" href="#">@lang('labels.frontend.course.subscribe')</a>--}}
+{{--                                    @endif--}}
+{{--                                @elseif(auth()->check() && (auth()->user()->hasRole('student')))--}}
 
-                                    @if($course->free == 1)
-                                        <form action="{{ route('cart.getnow') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>
-                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>
-                                            <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                                    href="#">@lang('labels.frontend.course.get_now') <i
-                                                        class="fas fa-caret-right"></i></button>
-                                        </form>
-                                    @else
-                                        <form action="{{ route('cart.checkout') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>
-                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>
-                                            <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                                    href="#">@lang('labels.frontend.course.buy_now') <i
-                                                        class="fas fa-caret-right"></i></button>
-                                        </form>
-                                        <form action="{{ route('cart.addToCart') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>
-                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>
-                                            <button type="submit"
-                                                    class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">
-                                                @lang('labels.frontend.course.add_to_cart') <i
-                                                        class="fa fa-shopping-bag"></i></button>
-                                        </form>
-                                        @if($courseInPlan==true)
-                                            <a class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                           href="{{ route('subscription.plans') }}">@lang('labels.frontend.course.subscribe')</a>
-                                        @endif
+{{--                                    @if($course->free == 1)--}}
+{{--                                        <form action="{{ route('cart.getnow') }}" method="POST">--}}
+{{--                                            @csrf--}}
+{{--                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>--}}
+{{--                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>--}}
+{{--                                            <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"--}}
+{{--                                                    href="#">@lang('labels.frontend.course.get_now') <i--}}
+{{--                                                        class="fas fa-caret-right"></i></button>--}}
+{{--                                        </form>--}}
+{{--                                    @else--}}
+{{--                                        <form action="{{ route('cart.checkout') }}" method="POST">--}}
+{{--                                            @csrf--}}
+{{--                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>--}}
+{{--                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>--}}
+{{--                                            <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"--}}
+{{--                                                    href="#">@lang('labels.frontend.course.buy_now') <i--}}
+{{--                                                        class="fas fa-caret-right"></i></button>--}}
+{{--                                        </form>--}}
+{{--                                        <form action="{{ route('cart.addToCart') }}" method="POST">--}}
+{{--                                            @csrf--}}
+{{--                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>--}}
+{{--                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>--}}
+{{--                                            <button type="submit"--}}
+{{--                                                    class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">--}}
+{{--                                                @lang('labels.frontend.course.add_to_cart') <i--}}
+{{--                                                        class="fa fa-shopping-bag"></i></button>--}}
+{{--                                        </form>--}}
+{{--                                        @if($courseInPlan==true)--}}
+{{--                                            <a class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"--}}
+{{--                                           href="{{ route('subscription.plans') }}">@lang('labels.frontend.course.subscribe')</a>--}}
+{{--                                        @endif--}}
 
 {{--                                        @if(auth()->user()->subscription('default'))--}}
 {{--                                        <form action="{{ route('subscription.course_subscribe') }}" method="POST">--}}
@@ -522,43 +522,43 @@
 {{--                                        <a class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"--}}
 {{--                                           href="{{ route('subscription.plans') }}">@lang('labels.frontend.course.subscribe')</a>--}}
 {{--                                        @endif--}}
-                                    @endif
+{{--                                    @endif--}}
 
 
-                                @else
-                                    <h6 class="alert alert-danger"> @lang('labels.frontend.course.buy_note')</h6>
-                                @endif
-                                @include('frontend.layouts.partials.wishlist',['course' => $course->id, 'price' => $course->price])
-                            @else
+{{--                                @else--}}
+{{--                                    <h6 class="alert alert-danger"> @lang('labels.frontend.course.buy_note')</h6>--}}
+{{--                                @endif--}}
+{{--                                @include('frontend.layouts.partials.wishlist',['course' => $course->id, 'price' => $course->price])--}}
+{{--                            @else--}}
 
-                                @if($continue_course || !empty($checkSubcribePlan))
-                                    <a href="{{route('lessons.show',['course_id' => $course->id,'slug'=>$continue_course->model->slug])}}"
-                                       class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
+{{--                                @if($continue_course || !empty($checkSubcribePlan))--}}
+{{--                                    <a href="{{route('lessons.show',['course_id' => $course->id,'slug'=>$continue_course->model->slug])}}"--}}
+{{--                                       class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">--}}
 
-                                        @lang('labels.frontend.course.continue_course')
+{{--                                        @lang('labels.frontend.course.continue_course')--}}
 
-                                        <i class="fa fa-arow-right"></i></a>
-                                @endif
+{{--                                        <i class="fa fa-arow-right"></i></a>--}}
+{{--                                @endif--}}
 
-                            @endif
+{{--                            @endif--}}
 
-                        </div>
-                        <div class="enrolled-student">
-                            <div class="comment-ratting float-left ul-li">
-                                <ul>
-                                    @for($i=1; $i<=(int)$course->rating; $i++)
-                                        <li><i class="fas fa-star"></i></li>
-                                    @endfor
-                                </ul>
-                            </div>
-                            <div class="student-number bold-font">
-                                {{ $course->students()->count() }}  @lang('labels.frontend.course.enrolled')
-                            </div>
-                        </div>
+{{--                        </div>--}}
+{{--                        <div class="enrolled-student">--}}
+{{--                            <div class="comment-ratting float-left ul-li">--}}
+{{--                                <ul>--}}
+{{--                                    @for($i=1; $i<=(int)$course->rating; $i++)--}}
+{{--                                        <li><i class="fas fa-star"></i></li>--}}
+{{--                                    @endfor--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                            <div class="student-number bold-font">--}}
+{{--                                {{ $course->students()->count() }}  @lang('labels.frontend.course.enrolled')--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="couse-feature ul-li-block">
                             <ul>
-                                <li > @lang('labels.frontend.course.chapters')
-                                    <span>  {{$course->chapterCount()}} </span></li>
+{{--                                <li > @lang('labels.frontend.course.chapters')--}}
+{{--                                    <span>  {{$course->chapterCount()}} </span></li>--}}
                                 {{--<li>Language <span>English</span></li>--}}
                                 <li class="d-inline-block w-100">@lang('labels.frontend.course.category')<span class="text-right"><a
                                                 href="{{route('courses.category',['category'=>$course->category->slug])}}"

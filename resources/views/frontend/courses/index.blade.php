@@ -114,16 +114,16 @@
                                                                         <span>@lang('labels.backend.courses.fields.free')</span>
                                                                     </div>
                                                                 @endif
-                                                            <div class="course-price text-center gradient-bg">
-                                                                @if($course->free == 1)
-                                                                    <span>{{trans('labels.backend.courses.fields.free')}}</span>
-                                                                @else
-                                                                    <span>
-                                                                        {!!  $course->strikePrice  !!}
-                                                                        {{$appCurrency['symbol'].' '.$course->price}}
-                                                                    </span>
-                                                                @endif
-                                                            </div>
+{{--                                                            <div class="course-price text-center gradient-bg">--}}
+{{--                                                                @if($course->free == 1)--}}
+{{--                                                                    <span>{{trans('labels.backend.courses.fields.free')}}</span>--}}
+{{--                                                                @else--}}
+{{--                                                                    <span>--}}
+{{--                                                                        {!!  $course->strikePrice  !!}--}}
+{{--                                                                        {{$appCurrency['symbol'].' '.$course->price}}--}}
+{{--                                                                    </span>--}}
+{{--                                                                @endif--}}
+{{--                                                            </div>--}}
 
                                                             <div class="course-rate ul-li">
                                                                 <ul>

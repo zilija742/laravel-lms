@@ -128,13 +128,13 @@
                                                             <span>@lang('labels.backend.courses.fields.free')</span>
                                                         </div>
                                                     @endif
-                                                <div class="course-price text-center gradient-bg">
-                                                    @if($item->free == 1)
-                                                        <span> {{trans('labels.backend.courses.fields.free')}}</span>
-                                                    @else
-                                                       <span>{{$appCurrency['symbol'].' '.$item->price}}</span>
-                                                    @endif
-                                                </div>
+{{--                                                <div class="course-price text-center gradient-bg">--}}
+{{--                                                    @if($item->free == 1)--}}
+{{--                                                        <span> {{trans('labels.backend.courses.fields.free')}}</span>--}}
+{{--                                                    @else--}}
+{{--                                                       <span>{{$appCurrency['symbol'].' '.$item->price}}</span>--}}
+{{--                                                    @endif--}}
+{{--                                                </div>--}}
                                                 <div class="course-rate ul-li">
                                                     <ul>
                                                         @for($i=1; $i<=(int)$item->rating; $i++)
