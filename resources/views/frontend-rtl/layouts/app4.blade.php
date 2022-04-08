@@ -139,21 +139,21 @@
                         </ul>
                     </div>
 
-                    <div class="nav-menu-4">
-                        <div class="login-cart-lang float-right ul-li">
-                            <ul class="search_cart">
-                                <li>
-                                    <div class="cart_search">
-                                        <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
-                                            @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
-                                                <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
-                                            @endif
-                                        </a>
-                                    </div>
-                                </li>
+{{--                    <div class="nav-menu-4">--}}
+{{--                        <div class="login-cart-lang float-right ul-li">--}}
+{{--                            <ul class="search_cart">--}}
+{{--                                <li>--}}
+{{--                                    <div class="cart_search">--}}
+{{--                                        <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>--}}
+{{--                                            @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)--}}
+{{--                                                <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>--}}
+{{--                                            @endif--}}
+{{--                                        </a>--}}
+{{--                                    </div>--}}
+{{--                                </li>--}}
 
-                            </ul>
-                        </div>
+{{--                            </ul>--}}
+{{--                        </div>--}}
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <nav class="navbar-menu float-left">
                             <div class="nav-menu ul-li">
@@ -285,13 +285,13 @@
                                         </ul>
                                     </li>
                                 @endif
-                                <li>
-                                    <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
-                                        @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
-                                            <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
-                                        @endif
-                                    </a>
-                                </li>
+{{--                                <li>--}}
+{{--                                    <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>--}}
+{{--                                        @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)--}}
+{{--                                            <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>--}}
+{{--                                        @endif--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
                             </ul>
 
                         </div>

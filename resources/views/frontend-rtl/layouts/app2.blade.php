@@ -106,18 +106,18 @@
                             </div><!-- /.navbar-header -->
 
 
-                            <div class="cart-search float-right ul-li">
-                                <ul>
-                                    <li>
-                                        <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
-                                            @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
-                                                <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
-                                            @endif
-                                        </a>
+{{--                            <div class="cart-search float-right ul-li">--}}
+{{--                                <ul>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>--}}
+{{--                                            @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)--}}
+{{--                                                <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>--}}
+{{--                                            @endif--}}
+{{--                                        </a>--}}
 
-                                    </li>
-                                </ul>
-                            </div>
+{{--                                    </li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <nav class="navbar-menu float-right">
