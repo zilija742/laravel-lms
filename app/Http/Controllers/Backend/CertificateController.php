@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Auth\User;
 use App\Models\Certificate;
 use App\Models\Course;
 use Carbon\Carbon;
@@ -41,25 +42,26 @@ class CertificateController extends Controller
     /**
      * Generate certificate for completed course
      */
-    public function generateCertificate(Request $request)
+    public function generateCertificate($course_id, $user_id)
     {
-        $course = Course::whereHas('students', function ($query) {
-            $query->where('id', \Auth::id());
+        $course = Course::whereHas('students', function ($query) use($user_id) {
+            $query->where('id', $user_id);
         })
-        ->where('id', '=', $request->course_id)->first();
-        if (($course != null) && ($course->progress() == 100)) {
+        ->where('id', '=', $course_id)->first();
+        $student = User::findOrFail($user_id);
+        if (($course != null)) {
             $certificate = Certificate::firstOrCreate([
-                'user_id' => auth()->user()->id,
-                'course_id' => $request->course_id
+                'user_id' => $user_id,
+                'course_id' => $course_id
             ]);
 
             $data = [
-                'name' => auth()->user()->name,
+                'name' => $student->name,
                 'course_name' => $course->title,
                 'date' => Carbon::now()->format('d M, Y'),
             ];
-            $certificate_name = 'Certificate-' . $course->id . '-' . auth()->user()->id . '.pdf';
-            $certificate->name = auth()->user()->name;
+            $certificate_name = 'Certificate-' . $course->id . '-' . $user_id . '.pdf';
+            $certificate->name = $student->name;
             $certificate->url = $certificate_name;
             $certificate->save();
             
@@ -67,7 +69,7 @@ class CertificateController extends Controller
             
             $pdf->save(public_path('storage/certificates/' . $certificate_name));
             
-            return back()->withFlashSuccess(trans('alerts.frontend.course.completed'));
+            return back()->withFlashSuccess(trans('alerts.backend.general.created'));
         }
         return abort(404);
     }

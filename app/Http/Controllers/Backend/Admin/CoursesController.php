@@ -698,7 +698,14 @@ class CoursesController extends Controller
 //                    $view .= $delete;
 //                }
 
-                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.view_students', [$q->id]) . '">' . trans('labels.backend.students.publish_certification') . '</a>';
+                if (auth()->user()->isAdmin()) {
+                    $student_comment = StudentComment::where('course_id', $id)
+                    ->where('user_id', $q->id)->first();
+
+                    if (isset($student_comment) && $student_comment->is_approved) {
+                        $view .= '<form action="' . route('admin.certificates.generate', ['course_id' => $id, 'user_id' => $q->id]) . '" method="POST" style="display: inline;">'.csrf_field().'<button class="btn btn-info ml-1 mb-1">' . trans('labels.backend.students.publish_certification') . '</button></form>';
+                    }
+                }
 
                 return $view;
             })
