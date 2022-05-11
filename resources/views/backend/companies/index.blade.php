@@ -50,7 +50,7 @@
                                 <th>#</th>
                                 <th>ID</th>
                                 <th>@lang('labels.backend.companies.fields.name')</th>
-                                <th>@lang('labels.backend.companies.fields.number')</th>
+                                <th>@lang('labels.backend.companies.fields.kvk_number')</th>
                                 <th>@lang('labels.backend.companies.fields.contact_number')</th>
                                 <th>@lang('labels.backend.companies.fields.contact_email')</th>
                                 <th>@lang('labels.backend.companies.fields.status')</th>
@@ -119,7 +119,7 @@
                     {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false, orderable:false},
                     {data: "id", name: 'id'},
                     {data: "name", name: 'name'},
-                    {data: "number", name: 'number'},
+                    {data: "kvk_number", name: 'kvk_number'},
                     {data: "contact_number", name: 'contact_number'},
                     {data: "contact_email", name: 'contact_email'},
                     {data: "status", name: 'status'},

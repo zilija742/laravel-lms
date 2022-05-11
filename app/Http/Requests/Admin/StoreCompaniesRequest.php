@@ -25,7 +25,8 @@ class StoreCompaniesRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'number' => 'required',
+            'kvk_number' => 'required',
+            'btw_number' => 'required',
             'contact_email' => 'required|email',
             'contact_number' => 'required',
             'location' => 'required',

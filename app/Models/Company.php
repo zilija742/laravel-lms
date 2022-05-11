@@ -10,7 +10,7 @@ class Company extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'number', 'location', 'contact_number', 'contact_email', 'active', 'description', 'picture'];
+    protected $fillable = ['name', 'kvk_number', 'btw_number', 'location', 'contact_number', 'contact_email', 'active', 'description', 'picture'];
 
     public function teacherProfiles(){
         return $this->hasMany(TeacherProfile::class);
@@ -24,5 +24,14 @@ class Company extends Model
             ->first();
 
         return $user;
+    }
+
+    public function countEmployee() {
+        $students = User::query()->role('student')
+            ->whereHas('studentProfile', function ($q) {
+                $q->where('company_id', '=', $this->id);
+            })->count();
+
+        return $students;
     }
 }

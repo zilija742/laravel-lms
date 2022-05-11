@@ -824,7 +824,8 @@ return array (
       'fields' =>
       array(
         'name' => 'Company Name',
-        'number' => 'Company Number',
+        'kvk_number' => 'KVK Number',
+        'btw_number' => 'BTW Number',
         'company_image' => 'Company Image',
         'contact_number' => 'Phone Number',
         'contact_email' => 'Email Address',
@@ -836,6 +837,7 @@ return array (
         'admin_last_name' => 'Admin Last Name',
         'admin_email' => 'Admin Email',
         'admin_password' => 'Admin Password',
+        'count_employee' => 'Number of Employees/Students',
         'status' => 'Status',
       ),
       'create' => 'Create Company',

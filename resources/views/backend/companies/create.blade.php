@@ -29,12 +29,24 @@
                     </div><!--form-group-->
 
                     <div class="form-group row">
-                        {{ html()->label(__('labels.backend.companies.fields.number'))->class('col-md-2 form-control-label')->for('number') }}
+                        {{ html()->label(__('labels.backend.companies.fields.kvk_number'))->class('col-md-2 form-control-label')->for('kvk_number') }}
 
                         <div class="col-md-10">
-                            {{ html()->text('number')
+                            {{ html()->text('kvk_number')
                                 ->class('form-control')
-                                ->placeholder(__('labels.backend.companies.fields.number'))
+                                ->placeholder(__('labels.backend.companies.fields.kvk_number'))
+                                ->attribute('maxlength', 191)
+                                ->required() }}
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.companies.fields.btw_number'))->class('col-md-2 form-control-label')->for('btw_number') }}
+
+                        <div class="col-md-10">
+                            {{ html()->text('btw_number')
+                                ->class('form-control')
+                                ->placeholder(__('labels.backend.companies.fields.btw_number'))
                                 ->attribute('maxlength', 191)
                                 ->required() }}
                         </div><!--col-->

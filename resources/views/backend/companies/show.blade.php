@@ -29,9 +29,15 @@
                         </tr>
 
                         <tr>
-                            <th>@lang('labels.backend.companies.fields.number')</th>
-                            <td>{{ $company->number }}</td>
+                            <th>@lang('labels.backend.companies.fields.kvk_number')</th>
+                            <td>{{ $company->kvk_number }}</td>
                         </tr>
+
+                        <tr>
+                            <th>@lang('labels.backend.companies.fields.btw_number')</th>
+                            <td>{{ $company->btw_number }}</td>
+                        </tr>
+
                          <tr>
                             <th>@lang('labels.backend.companies.fields.company_image')</th>
                             <td>@if($company->picture)<a
@@ -58,6 +64,11 @@
                         <tr>
                             <th>@lang('labels.backend.companies.fields.description')</th>
                             <td>{{ $company->description }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>@lang('labels.backend.companies.fields.count_employee')</th>
+                            <td>{{ $company->countEmployee() }}</td>
                         </tr>
                     </table>
                 </div>
