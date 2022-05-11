@@ -45,7 +45,7 @@
                         @if (Auth::user()->isAdmin())
                                 <th>@lang('labels.general.sr_no')</th>
                                 <th>@lang('labels.general.id')
-                                <th>@lang('labels.backend.courses.fields.teachers')</th>
+{{--                                <th>@lang('labels.backend.courses.fields.teachers')</th>--}}
                         @else
                                 <th>@lang('labels.general.sr_no')</th>
                                 <th>@lang('labels.general.id')
@@ -122,7 +122,7 @@
                         @if (Auth::user()->isAdmin())
                     {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false, orderable:false},
                     {data: "id", name: 'id'},
-                    {data: "teachers", name: 'teachers'},
+                    // {data: "teachers", name: 'teachers'},
 
                     @else
                     {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false},

@@ -59,22 +59,6 @@
                             <td>{{ $course->official_code }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('labels.backend.courses.fields.teachers')</th>
-                            <td>
-                                @foreach ($course->teachers as $singleTeachers)
-                                    <span class="label label-info label-many">{{ $singleTeachers->name }}</span>
-                                @endforeach
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@lang('labels.backend.courses.fields.location')</th>
-                            <td>{{ $course->location->location_name }}</td>
-                        </tr>
-                        <tr>
-                            <th>@lang('labels.backend.courses.fields.company')</th>
-                            <td>{{ $course->company->name }}</td>
-                        </tr>
-                        <tr>
                             <th>@lang('labels.backend.courses.fields.title')</th>
                             <td>
                                 @if($course->published == 1)
@@ -109,6 +93,18 @@
                                             src="{{ asset('storage/uploads/' . $course->course_image) }}"
                                             height="50px"/></a>@endif</td>
                         </tr>
+                        <tr>
+                            <th>@lang('labels.backend.courses.fields.duration')</th>
+                            <td>{!! $course->duration !!}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.courses.fields.validity')</th>
+                            <td>{!! $course->validity !!}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.courses.fields.code95_hours')</th>
+                            <td>{!! $course->code95_hours !!}</td>
+                        </tr>
 {{--                        <tr>--}}
 {{--                            <th>@lang('labels.backend.lessons.fields.media_video')</th>--}}
 {{--                            <td>--}}
@@ -122,18 +118,7 @@
 {{--                                @endif--}}
 {{--                            </td>--}}
 {{--                        </tr>--}}
-                        <tr>
-                            <th>@lang('labels.backend.courses.fields.start_date')</th>
-                            <td>{{ $course->start_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>@lang('labels.backend.courses.fields.end_date')</th>
-                            <td>{{ $course->end_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>@lang('labels.backend.courses.fields.expire_at')</th>
-                            <td>{{ $course->expire_at }}</td>
-                        </tr>
+{{--                        <tr>--}}
                         <tr>
                             <th>@lang('labels.backend.courses.fields.published')</th>
                             <td>{{ Form::checkbox("published", 1, $course->published == 1 ? true : false, ["disabled"]) }}</td>

@@ -34,6 +34,9 @@ return array (
         'sidebar' => 'Add Sidebar',
         'approved' => 'Approve',
         'comment' => 'Comment',
+        'duration' => 'Duration (days)',
+        'validity' => 'Validity (years)',
+        'code95_hours' => 'Hours for code95 (hours)',
         'lessons' =>
         array (
           'add' => 'Add Lessons',

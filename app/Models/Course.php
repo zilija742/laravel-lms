@@ -27,7 +27,7 @@ class Course extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords', 'expire_at','strike', 'company_id', 'end_date', 'official_code', 'location_id'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords', 'expire_at','strike', 'company_id', 'end_date', 'official_code', 'location_id', 'duration', 'validity', 'code95_hours'];
 
     protected $appends = ['image', 'text'];
 
@@ -74,10 +74,10 @@ class Course extends Model
 
     public function getTextAttribute() {
         $text = $this->title . ', ';
-        foreach ($this->teachers as $teacher) {
-            $text .= $teacher->name . ', ';
-        }
-        $text .= $this->location->location_name;
+//        foreach ($this->teachers as $teacher) {
+//            $text .= $teacher->name . ', ';
+//        }
+//        $text .= $this->location->location_name;
 
         return $text;
     }

@@ -147,14 +147,6 @@ class CoursesController extends Controller
                     ->with(['route' => route('admin.courses.publish', ['id' => $q->id])])->render();
 
                 if (auth()->user()->hasRole('company admin')) {
-                    $view .= '<a class="btn btn-info mb-1 mr-1" href="' . route('admin.courses.view_students', [$q->id]) . '">' . trans('labels.backend.courses.add_students') . '</a>';
-                    $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.student_comments.index', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
-                } else {
-                    $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.student_comments.index', [$q->id]) . '">' . trans('labels.backend.students.title') . '</a>';
-
-                }
-
-                if (auth()->user()->hasRole('company admin')) {
                     $view .= '<form action="' . route('admin.courses.send_email', [$q->id]) . '" method="POST" style="display: inline;">'.csrf_field().'<button class="btn btn-info ml-1 mb-1" href="">' . trans('labels.backend.courses.send_email') . '</button></form>';
                 }
                 return $view;
@@ -217,10 +209,8 @@ class CoursesController extends Controller
 
 
         $categories = Category::where('status', '=', 1)->pluck('name', 'id');
-        $companies = Company::all()->pluck('name', 'id');
-        $locations = Location::all()->pluck('location_name', 'id');
 
-        return view('backend.courses.create', compact('teachers', 'categories', 'companies', 'locations'));
+        return view('backend.courses.create', compact('teachers', 'categories'));
     }
 
     /**
@@ -352,7 +342,7 @@ class CoursesController extends Controller
         $teachers = (\Auth::user()->isAdmin() || \Auth::user()->hasRole('company admin')) ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 
-        Notification::send($course->company->companyAdmin(), new NewCourseNotification($course));
+//        Notification::send($course->company->companyAdmin(), new NewCourseNotification($course));
 
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
@@ -483,12 +473,12 @@ class CoursesController extends Controller
         $teachers = (\Auth::user()->isAdmin() || \Auth::user()->hasRole('company admin')) ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 
-        if (auth()->user()->isAdmin()) {
-            Notification::send($course->company->companyAdmin(), new UpdateCourseNotification($course));
-        } else if (auth()->user()->hasRole('company admin')) {
-            $admins = User::query()->role('administrator')->get();
-            Notification::send($admins, new UpdateCourseByCompanyNotification($course, auth()->user()->teacherProfile->company));
-        }
+//        if (auth()->user()->isAdmin()) {
+//            Notification::send($course->company->companyAdmin(), new UpdateCourseNotification($course));
+//        } else if (auth()->user()->hasRole('company admin')) {
+//            $admins = User::query()->role('administrator')->get();
+//            Notification::send($admins, new UpdateCourseByCompanyNotification($course, auth()->user()->teacherProfile->company));
+//        }
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 

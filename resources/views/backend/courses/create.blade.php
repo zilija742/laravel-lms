@@ -15,39 +15,6 @@
         </div>
 
         <div class="card-body">
-            @if (Auth::user()->isAdmin())
-                <div class="row">
-                   <div class="col-10 form-group">
-                        {!! Form::label('location_id',trans('labels.backend.courses.fields.location'), ['class' => 'control-label']) !!}
-                        {!! Form::select('location_id', $locations, old('location_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
-                    </div>
-                    <div class="col-2 d-flex form-group flex-column">
-                        OR <a target="_blank" class="btn btn-primary mt-auto"
-                              href="{{route('admin.locations.index').'?create'}}">{{trans('labels.backend.courses.add_locations')}}</a>
-                    </div>
-                </div>
-                <div class="row">
-                   <div class="col-10 form-group">
-                        {!! Form::label('company_id',trans('labels.backend.courses.fields.company'), ['class' => 'control-label']) !!}
-                        {!! Form::select('company_id', $companies, old('company_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
-                    </div>
-                    <div class="col-2 d-flex form-group flex-column">
-                        OR <a target="_blank" class="btn btn-primary mt-auto"
-                              href="{{route('admin.companies.index').'?create'}}">{{trans('labels.backend.courses.add_companies')}}</a>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-10 form-group">
-                        {!! Form::label('teachers',trans('labels.backend.courses.fields.teachers'), ['class' => 'control-label']) !!}
-                        {!! Form::select('teachers[]', $teachers, old('teachers'), ['class' => 'form-control select2 js-example-placeholder-multiple', 'multiple' => 'multiple', 'required' => true]) !!}
-                    </div>
-                    <div class="col-2 d-flex form-group flex-column">
-                        OR <a target="_blank" class="btn btn-primary mt-auto"
-                              href="{{route('admin.teachers.create')}}">{{trans('labels.backend.courses.add_teachers')}}</a>
-                    </div>
-                </div>
-            @endif
 
             <div class="row">
                 <div class="col-10 form-group">
@@ -100,23 +67,35 @@
                     {!! Form::hidden('course_image_max_height', 4000) !!}
 
                 </div>
-                <div class="col-12 col-lg-4  form-group">
-                    {!! Form::label('start_date', trans('labels.backend.courses.fields.start_date').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}
-                    {!! Form::text('start_date', old('start_date'), ['class' => 'form-control date','pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.courses.fields.start_date').' (Ex . 2019-01-01)', 'autocomplete' => 'off']) !!}
-
+                <div class="col-12 col-lg-4 form-group">
+                    {!! Form::label('duration',  trans('labels.backend.courses.fields.duration'), ['class' => 'control-label']) !!}
+                    {!! Form::number('duration', old('duration'), ['class' => 'form-control', 'placeholder' =>  trans('labels.backend.courses.fields.duration')]) !!}
                 </div>
-                <div class="col-12 col-lg-4  form-group">
-                    {!! Form::label('end_date', trans('labels.backend.courses.fields.end_date').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}
-                    {!! Form::text('end_date', old('start_date'), ['class' => 'form-control date','pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.courses.fields.start_date').' (Ex . 2019-01-01)', 'autocomplete' => 'off']) !!}
-
+                <div class="col-12 col-lg-4 form-group">
+                    {!! Form::label('validity',  trans('labels.backend.courses.fields.validity'), ['class' => 'control-label']) !!}
+                    {!! Form::number('validity', old('validity'), ['class' => 'form-control', 'placeholder' =>  trans('labels.backend.courses.fields.validity')]) !!}
                 </div>
-                @if (Auth::user()->isAdmin())
-                <div class="col-12 col-lg-4  form-group">
-                    {!! Form::label('expire_at', trans('labels.backend.courses.fields.expire_at').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}
-                    {!! Form::text('expire_at', old('expire_at'), ['class' => 'form-control date','pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.courses.fields.expire_at').' (Ex . 2019-01-01)', 'autocomplete' => 'off']) !!}
-
+                <div class="col-12 col-lg-4 form-group">
+                    {!! Form::label('code95_hours',  trans('labels.backend.courses.fields.code95_hours'), ['class' => 'control-label']) !!}
+                    {!! Form::number('code95_hours', old('code95_hours'), ['class' => 'form-control', 'placeholder' =>  trans('labels.backend.courses.fields.code95_hours')]) !!}
                 </div>
-                @endif
+{{--                <div class="col-12 col-lg-4  form-group">--}}
+{{--                    {!! Form::label('start_date', trans('labels.backend.courses.fields.start_date').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::text('start_date', old('start_date'), ['class' => 'form-control date','pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.courses.fields.start_date').' (Ex . 2019-01-01)', 'autocomplete' => 'off']) !!}--}}
+
+{{--                </div>--}}
+{{--                <div class="col-12 col-lg-4  form-group">--}}
+{{--                    {!! Form::label('end_date', trans('labels.backend.courses.fields.end_date').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::text('end_date', old('start_date'), ['class' => 'form-control date','pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.courses.fields.start_date').' (Ex . 2019-01-01)', 'autocomplete' => 'off']) !!}--}}
+
+{{--                </div>--}}
+{{--                @if (Auth::user()->isAdmin())--}}
+{{--                <div class="col-12 col-lg-4  form-group">--}}
+{{--                    {!! Form::label('expire_at', trans('labels.backend.courses.fields.expire_at').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}--}}
+{{--                    {!! Form::text('expire_at', old('expire_at'), ['class' => 'form-control date','pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.courses.fields.expire_at').' (Ex . 2019-01-01)', 'autocomplete' => 'off']) !!}--}}
+
+{{--                </div>--}}
+{{--                @endif--}}
             </div>
 {{--                <div class="row">--}}
 {{--                    <div class="col-md-12 form-group">--}}
