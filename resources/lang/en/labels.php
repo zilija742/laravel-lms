@@ -71,6 +71,22 @@ return array (
     'agendas' =>
     array (
         'title' => 'Agendas',
+        'fields' =>
+        array(
+            'company' => 'Company',
+            'course' => 'Course',
+            'teacher' => 'Teacher',
+            'location' => 'Location',
+            'student_quantity' => 'Student Quantity',
+            'start_date' => 'Start Date',
+            'end_date' => 'End Date',
+        ),
+        'create' => 'Create Agenda',
+        'view' => 'View Agendas',
+        'add_companies' => 'Add Companies',
+        'add_courses' => 'Add Courses',
+        'add_teachers' => 'Add Teachers',
+        'add_locations' => 'Add Locations',
     ),
     'locations' =>
     array(

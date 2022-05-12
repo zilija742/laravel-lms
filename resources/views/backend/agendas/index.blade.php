@@ -1,3 +1,4 @@
+@inject('request', 'Illuminate\Http\Request')
 @extends('backend.layouts.app')
 @section('title', __('labels.backend.companies.title').' | '.app_name())
 @push('after-styles')
@@ -9,7 +10,14 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-                <h3 class="page-title d-inline">@lang('labels.backend.agendas.title')</h3>
+                <h3 class="page-title d-inline">@lang('labels.backend.agendas.title')
+                @if(auth()->user()->isAdmin())
+                    <div class="float-right">
+                        <a href="{{ route('admin.agendas.create') }}"
+                            class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
+
+                    </div>
+                @endif
         </div>
         <div class="card-body">
             <div class="row">
