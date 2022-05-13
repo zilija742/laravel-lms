@@ -82,6 +82,7 @@ return array (
             'end_date' => 'End Date',
         ),
         'create' => 'Create Agenda',
+        'edit' => 'Edit Agenda',
         'view' => 'View Agendas',
         'add_companies' => 'Add Companies',
         'add_courses' => 'Add Courses',

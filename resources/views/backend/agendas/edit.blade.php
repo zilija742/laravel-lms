@@ -3,11 +3,12 @@
 
 @section('content')
 
-    {!! Form::open(['method' => 'POST', 'route' => ['admin.agendas.store'], 'files' => true]) !!}
+    {!! Form::model($agenda,
+['method' => 'PUT', 'route' => ['admin.agendas.update', $agenda->id], 'files' => true]) !!}
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title float-left">@lang('labels.backend.agendas.create')</h3>
+            <h3 class="page-title float-left">@lang('labels.backend.agendas.edit')</h3>
             <div class="float-right">
                 <a href="{{ route('admin.agendas.index') }}"
                    class="btn btn-success">@lang('labels.backend.agendas.view')</a>
@@ -19,7 +20,7 @@
             <div class="row">
                 <div class="col-10 form-group">
                     {!! Form::label('company_id',trans('labels.backend.agendas.fields.company'), ['class' => 'control-label']) !!}
-                    {!! Form::select('company_id', $companies, old('company_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
+                    {!! Form::select('company_id', $companies, old('company_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true, 'disabled' => true]) !!}
                 </div>
                 <div class="col-2 d-flex form-group flex-column">
                     OR <a target="_blank" class="btn btn-primary mt-auto"
@@ -69,7 +70,7 @@
                 </div>
                 <div class="col-12 col-lg-4  form-group">
                     {!! Form::label('end_date', trans('labels.backend.agendas.fields.end_date').' (yyyy-mm-dd)', ['class' => 'control-label']) !!}
-                    {!! Form::text('end_date', old('end_date'), ['class' => 'form-control date','pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.agendas.fields.end_date').' (Ex . 2019-01-01)', 'autocomplete' => 'off']) !!}
+                    {!! Form::text('end_date', old('start_date'), ['class' => 'form-control date','pattern' => '(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))', 'placeholder' => trans('labels.backend.agendas.fields.start_date').' (Ex . 2019-01-01)', 'autocomplete' => 'off']) !!}
 
                 </div>
 
@@ -82,7 +83,7 @@
             <div class="row">
                 <div class="col-12  text-center form-group">
 
-                    {!! Form::submit(trans('strings.backend.general.app_save'), ['class' => 'btn btn-lg btn-danger']) !!}
+                    {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn btn-lg btn-danger']) !!}
                 </div>
             </div>
         </div>

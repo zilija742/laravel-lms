@@ -217,6 +217,7 @@ Route::group(['middleware' => 'role:administrator|teacher'], function () {
 //===== Agendas Routes =====//
 Route::resource('agendas', 'Admin\AgendasController');
 Route::get('get-agendas', ['uses' => 'Admin\CoursesController@get_agendas', 'as' => 'agendas.get_agendas']);
+Route::get('get-agendas-data', ['uses' => 'Admin\AgendasController@getData', 'as' => 'agendas.get_data']);
 
 
 //===== Categories Routes =====//

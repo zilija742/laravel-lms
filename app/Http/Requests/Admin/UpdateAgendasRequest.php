@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Helpers\Auth\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAgendasRequest extends FormRequest
+class UpdateAgendasRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,6 @@ class StoreAgendasRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_id' => 'required',
             'course_id' => 'required',
             'location_id' => 'required',
             'teacher_id' => 'required',
