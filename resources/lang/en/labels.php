@@ -81,6 +81,10 @@ return array (
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
         ),
+        'alerts' =>
+        array(
+            'student_quantity' => 'The number of students are exceed.'
+        ),
         'create' => 'Create Agenda',
         'edit' => 'Edit Agenda',
         'view' => 'View Agendas',
@@ -88,6 +92,10 @@ return array (
         'add_courses' => 'Add Courses',
         'add_teachers' => 'Add Teachers',
         'add_locations' => 'Add Locations',
+        'presence_list' => 'Presence List',
+        'evaluate' => 'Evaluate',
+        'comment' => 'Comment',
+        'approve' => 'Approve',
     ),
     'locations' =>
     array(

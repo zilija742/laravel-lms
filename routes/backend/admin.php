@@ -218,6 +218,12 @@ Route::group(['middleware' => 'role:administrator|teacher'], function () {
 Route::resource('agendas', 'Admin\AgendasController');
 Route::get('get-agendas', ['uses' => 'Admin\CoursesController@get_agendas', 'as' => 'agendas.get_agendas']);
 Route::get('get-agendas-data', ['uses' => 'Admin\AgendasController@getData', 'as' => 'agendas.get_data']);
+Route::get('get-presence-list/{id}', ['uses' => 'Admin\AgendasController@getPresenceList', 'as' => 'agendas.get_presence_list']);
+Route::post('agenda-students/{id}', ['uses' => 'Admin\AgendasController@add_students', 'as' => 'agendas.add_students']);
+Route::get('get-presence-list-data/{id}', ['uses' => 'Admin\AgendasController@getPresenceListData', 'as' => 'agendas.get_presence_list_data']);
+Route::get('evaluate/{agenda_id}/{user_id}', ['uses' => 'Admin\AgendasController@getEvaluate', 'as' => 'agendas.get_evaluate']);
+Route::post('evaluate', ['uses' => 'Admin\AgendasController@evaluate', 'as' => 'agendas.evaluate']);
+
 
 
 //===== Categories Routes =====//
@@ -236,8 +242,8 @@ Route::post('courses_restore/{id}', ['uses' => 'Admin\CoursesController@restore'
 Route::delete('courses_perma_del/{id}', ['uses' => 'Admin\CoursesController@perma_del', 'as' => 'courses.perma_del']);
 Route::post('course-save-sequence', ['uses' => 'Admin\CoursesController@saveSequence', 'as' => 'courses.saveSequence']);
 Route::get('course-publish/{id}', ['uses' => 'Admin\CoursesController@publish', 'as' => 'courses.publish']);
-Route::get('course-students/{id}', ['uses' => 'Admin\CoursesController@view_students', 'as' => 'courses.view_students']);
-Route::post('course-students/{id}', ['uses' => 'Admin\CoursesController@add_students', 'as' => 'courses.add_students']);
+//Route::get('course-students/{id}', ['uses' => 'Admin\CoursesController@view_students', 'as' => 'courses.view_students']);
+//Route::post('course-students/{id}', ['uses' => 'Admin\CoursesController@add_students', 'as' => 'courses.add_students']);
 Route::post('course-send-email/{id}', ['uses' => 'Admin\CoursesController@send_email', 'as' => 'courses.send_email']);
 Route::get('student-comments/{id}', ['uses' => 'Admin\CoursesController@get_students', 'as' => 'student_comments.index']);
 Route::get('get-students-data/{id}', ['uses' => 'Admin\CoursesController@get_students_data', 'as' => 'student_comments.get_data']);

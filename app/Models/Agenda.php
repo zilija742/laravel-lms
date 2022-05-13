@@ -31,4 +31,9 @@ class Agenda extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'agenda_student')->withTimestamps()->withPivot('is_approved', 'comment');
+    }
 }

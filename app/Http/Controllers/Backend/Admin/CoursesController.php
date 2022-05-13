@@ -624,23 +624,23 @@ class CoursesController extends Controller
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
-    public function view_students($id)
-    {
-        $course = Course::findOrFail($id);
+//    public function view_students($id)
+//    {
+//        $course = Course::findOrFail($id);
+//
+//        $students = User::query()->whereHas('studentProfile', function($q) use ($course) {
+//            return $q->where('company_id', $course->company_id);
+//        })->get()->pluck('name', 'id');
+//        return view('backend.agendas.view_students', compact('course', 'students'));
+//    }
 
-        $students = User::query()->whereHas('studentProfile', function($q) use ($course) {
-            return $q->where('company_id', $course->company_id);
-        })->get()->pluck('name', 'id');
-        return view('backend.courses.view_students', compact('course', 'students'));
-    }
-
-    public function add_students(Request $request, $id)
-    {
-        $course = Course::findOrFail($id);
-
-        $course->students()->sync($request->students);
-        return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
-    }
+//    public function add_students(Request $request, $id)
+//    {
+//        $course = Course::findOrFail($id);
+//
+//        $course->students()->sync($request->students);
+//        return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
+//    }
 
     public function send_email($id) {
         $course = Course::findOrFail($id);

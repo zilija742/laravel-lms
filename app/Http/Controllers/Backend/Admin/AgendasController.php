@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreAgendasRequest;
 use App\Http\Requests\Admin\UpdateAgendasRequest;
 use App\Models\Agenda;
+use App\Models\Auth\User;
 use App\Models\Company;
 use App\Models\Course;
 use App\Models\Location;
@@ -39,12 +40,26 @@ class AgendasController extends Controller
             $has_edit = true;
         }
 
-        $agendas = Agenda::query()
-            ->whereHas('course')
-            ->whereHas('teacher')
-            ->whereHas('location')
-            ->whereHas('company')
-            ->orderBy('created_at', 'desc');
+        if (auth()->user()->isAdmin()) {
+
+            $agendas = Agenda::query()
+                ->whereHas('course')
+                ->whereHas('teacher')
+                ->whereHas('location')
+                ->whereHas('company')
+                ->orderBy('created_at', 'desc');
+        }
+
+        if (auth()->user()->hasRole('company admin')) {
+            $agendas = Agenda::query()
+                ->where('company_id', auth()->user()->teacherProfile->company_id)
+                ->whereHas('course')
+                ->whereHas('teacher')
+                ->whereHas('location')
+                ->whereHas('company')
+                ->orderBy('created_at', 'desc');
+        }
+
 
         return DataTables::of($agendas)
             ->addIndexColumn()
@@ -52,22 +67,31 @@ class AgendasController extends Controller
                 $view = "";
                 $edit = "";
                 $delete = "";
-                if ($has_view) {
-                    $view = view('backend.datatable.action-view')
-                        ->with(['route' => route('admin.agendas.show', ['agenda' => $q->id])])->render();
-                }
-                if ($has_edit) {
-                    $edit = view('backend.datatable.action-edit')
-                        ->with(['route' => route('admin.agendas.edit', ['agenda' => $q->id])])
-                        ->render();
-                    $view .= $edit;
+
+                if (auth()->user()->isAdmin()) {
+
+                    if ($has_view) {
+                        $view = view('backend.datatable.action-view')
+                            ->with(['route' => route('admin.agendas.show', ['agenda' => $q->id])])->render();
+                    }
+                    if ($has_edit) {
+                        $edit = view('backend.datatable.action-edit')
+                            ->with(['route' => route('admin.agendas.edit', ['agenda' => $q->id])])
+                            ->render();
+                        $view .= $edit;
+                    }
+
+                    if ($has_delete) {
+                        $delete = view('backend.datatable.action-delete')
+                            ->with(['route' => route('admin.agendas.destroy', ['agenda' => $q->id])])
+                            ->render();
+                        $view .= $delete;
+                    }
+                    $view .= '<a href="' . route('admin.agendas.get_presence_list', ['id' => $q->id]) . '" class="btn btn-success mb-1">' . trans('labels.backend.agendas.presence_list') .  '</a> ';
                 }
 
-                if ($has_delete) {
-                    $delete = view('backend.datatable.action-delete')
-                        ->with(['route' => route('admin.agendas.destroy', ['agenda' => $q->id])])
-                        ->render();
-                    $view .= $delete;
+                if (auth()->user()->hasRole('company admin')) {
+                    $view .= '<a href="' . route('admin.agendas.get_presence_list', ['id' => $q->id]) . '" class="btn btn-success mb-1">' . trans('labels.backend.agendas.presence_list') .  '</a> ';
                 }
                 return $view;
             })
@@ -181,5 +205,83 @@ class AgendasController extends Controller
 
         $agenda->delete();
         return redirect()->route('admin.agendas.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
+    }
+
+    public function getPresenceList($id)
+    {
+//        if (auth()->user()->hasRole('company admin')) {
+//
+//            $agenda = Agenda::findOrFail($id);
+//
+//            $students = User::query()->whereHas('studentProfile', function($q) use ($agenda) {
+//                return $q->where('company_id', $agenda->company_id);
+//            })->get()->pluck('name', 'id');
+//
+//            return view('backend.agendas.view_students', compact('agenda', 'students'));
+//        } else {
+             return view('backend.agendas.presence_list', compact('id'));
+//        }
+    }
+
+    public function getPresenceListData(Request $request, $id) {
+        $agenda = Agenda::findOrFail($id);
+        $students = $agenda->students;
+
+        return DataTables::of($students)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($q) use ($request, $agenda) {
+                $view = "";
+                $edit = "";
+                $delete = "";
+
+                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.agendas.get_evaluate', ['agenda_id' => $agenda->id, 'user_id' => $q->id]) . '" style="color: white;">' . trans('labels.backend.agendas.evaluate') . '</a>';
+
+                return $view;
+            })
+            ->rawColumns(['actions'])
+            ->make();
+    }
+
+    public function add_students(Request $request, $id)
+    {
+        $agenda = Agenda::findOrFail($id);
+
+        if (count($request->students) > $agenda->student_quantity) {
+            return back()->withFlashSuccess(trans('labels.backend.agendas.alerts.student_quantity'));
+        }
+
+        $agenda->students()->sync($request->students);
+        return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
+    }
+
+    public function getEvaluate($agenda_id, $user_id)
+    {
+        $agenda = Agenda::findOrFail($agenda_id);
+        $agenda_student = $agenda->students->find($user_id);
+
+
+//         $agenda->students()->updateExistingPivot(
+//            $user_id,                         // lang_id
+//            [
+//                'is_approved' => true,
+//                'comment' => 'Very good'
+//            ]
+//        );
+        $student = User::findOrFail($user_id);
+
+        return view('backend.agendas.get_evaluate', compact('student', 'agenda_student', 'agenda_id', 'user_id'));
+    }
+
+    public function evaluate(Request $request)
+    {
+        $agenda = Agenda::findOrFail($request->agenda_id);
+             $agenda->students()->updateExistingPivot(
+                    $request->user_id,
+                    [
+                        'is_approved' => $request->is_approved,
+                        'comment' => $request->comment
+                    ]
+        );
+        return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 }
