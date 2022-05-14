@@ -123,22 +123,32 @@ class AgendasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if (!Gate::allows('course_create')) {
             return abort(401);
         }
 
+        $course_id = $request->course_id;
 
 
-        $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
-            $q->where('role_id', 2);
-        })->get()->pluck('name', 'id');
+        if($course_id != '') {
+            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->whereHas('certifications', function ($q) use ($course_id) {
+                $q->where('course_id', $course_id);
+            })->get()->pluck('name', 'id');
+        } else {
+
+            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->get()->pluck('name', 'id');
+        }
         $companies = Company::all()->pluck('name', 'id');
-        $courses = Course::all()->pluck('title', 'id');
+        $courses = Course::all()->pluck('title', 'id')->prepend('Please select', '');
         $locations = Location::all()->pluck('location_name', 'id');
 
-        return view('backend.agendas.create', compact('teachers', 'companies', 'courses', 'locations'));
+        return view('backend.agendas.create', compact('teachers', 'companies', 'courses', 'locations', 'course_id'));
     }
 
     /**

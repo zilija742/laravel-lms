@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Requests\Admin\StoreTeachersRequest;
 use App\Http\Requests\Admin\UpdateTeachersRequest;
 use App\Models\Auth\User;
+use App\Models\Course;
 use App\Models\TeacherProfile;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -189,8 +190,11 @@ class TeachersController extends Controller
     public function edit($id)
     {
         $teacher = User::findOrFail($id);
+        $certifications = $teacher->certifications;
+        $courses = Course::all()->pluck('title', 'id');
         $companies = Company::where('active', '=', 1)->pluck('name', 'id');
-        return view('backend.teachers.edit', compact('teacher', 'companies'));
+
+        return view('backend.teachers.edit', compact('teacher', 'companies', 'certifications', 'courses'));
     }
 
     /**
@@ -328,5 +332,19 @@ class TeachersController extends Controller
         $teacher = User::find(request('id'));
         $teacher->active = $teacher->active == 1? 0 : 1;
         $teacher->save();
+    }
+
+    public function addCertification(Request $request, $id) {
+        $teacher = User::findOrFail($id);
+        $course = Course::findOrFail($request->course_id);
+        $teacher->certifications()->attach($course, ['expiry_date' => $request->expiry_date]);
+//        $teacher->certifications()->updateExistingPivot(
+//            $request->course_id,
+//            [
+//                'expiry_date' => $request->expiry_date,
+//            ]
+//        );
+
+        return redirect()->route('admin.teachers.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 }

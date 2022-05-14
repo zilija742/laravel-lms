@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-10 form-group">
                     {!! Form::label('course_id',trans('labels.backend.agendas.fields.course'), ['class' => 'control-label']) !!}
-                    {!! Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
+                    {!! Form::select('course_id', $courses, $course_id, ['class' => 'form-control select2 js-example-placeholder-single', 'id' => 'course_id', 'multiple' => false, 'required' => true]) !!}
                 </div>
                 <div class="col-2 d-flex form-group flex-column">
                     OR <a target="_blank" class="btn btn-primary mt-auto"
@@ -110,6 +110,13 @@
         });
 
         $(document).ready(function () {
+            $(".js-example-placeholder-single").select2({
+                placeholder: "{{trans('labels.backend.agendas.select_course')}}",
+            });
+            $(document).on('change', '#course_id', function (e) {
+                var course_id = $(this).val();
+                window.location.href = "{{route('admin.agendas.create')}}" + "?course_id=" + course_id;
+            });
             $('#start_date').datepicker({
                 autoclose: true,
                 dateFormat: "{{ config('app.date_format_js') }}"
@@ -125,10 +132,6 @@
                 autoclose: true,
                 minDate: dateToday,
                 dateFormat: "{{ config('app.date_format_js') }}"
-            });
-
-            $(".js-example-placeholder-single").select2({
-                placeholder: "{{trans('labels.backend.courses.select_category')}}",
             });
 
             $(".js-example-placeholder-multiple").select2({

@@ -29,6 +29,7 @@ Route::group(['middleware' => 'role:administrator'], function () {
     Route::post('teachers_restore/{id}', ['uses' => 'Admin\TeachersController@restore', 'as' => 'teachers.restore']);
     Route::delete('teachers_perma_del/{id}', ['uses' => 'Admin\TeachersController@perma_del', 'as' => 'teachers.perma_del']);
     Route::post('teacher/status', ['uses' => 'Admin\TeachersController@updateStatus', 'as' => 'teachers.status']);
+    Route::post('teacher/add-certification/{id}', ['uses' => 'Admin\TeachersController@addCertification', 'as' => 'teachers.add_certification']);
 });
 
 Route::group(['middleware' => 'role:company admin'], function () {

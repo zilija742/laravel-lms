@@ -2,7 +2,6 @@
 @section('title', __('labels.backend.teachers.title').' | '.app_name())
 
 @section('content')
-    {{ html()->modelForm($teacher, 'PATCH', route('admin.teachers.update', $teacher->id))->class('form-horizontal')->acceptsFiles()->open() }}
 
     <div class="card">
         <div class="card-header">
@@ -31,6 +30,7 @@
 {{--            </div>--}}
 {{--            @endif--}}
 
+            {{ html()->modelForm($teacher, 'PATCH', route('admin.teachers.update', $teacher->id))->class('form-horizontal')->acceptsFiles()->open() }}
             <div class="row">
                 <div class="col-12">
                     <div class="form-group row">
@@ -78,7 +78,7 @@
                                 ->class('form-control')
                                 ->value('')
                                 ->placeholder(__('labels.backend.teachers.fields.password'))
-}}
+                            }}
                         </div><!--col-->
                     </div><!--form-group-->
 
@@ -240,6 +240,8 @@
                     </div>
 
 
+
+
                     <div class="form-group row justify-content-center">
                         <div class="col-4">
                             {{ form_cancel(route('admin.teachers.index'), __('buttons.general.cancel')) }}
@@ -248,10 +250,42 @@
                     </div><!--col-->
                 </div>
             </div>
+            {{ html()->closeModelForm() }}
+            {!! Form::open(['method' => 'POST', 'route' => ['admin.teachers.add_certification', $teacher->id], 'files' => true,]) !!}
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group row">
+                        {!! Form::label('course_id',trans('labels.backend.teachers.fields.certifications'), ['class' => 'control-label col-md-2']) !!}
+                        <div class="col-md-10">
+                            {!! Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
+                        </div><!--col-->
+                    </div><!--form-group-->
+                    <div class="form-group row">
+                        {!! Form::label('expiry_date', trans('labels.backend.teachers.fields.expiry_date'), ['class' => 'control-label col-md-2']) !!}
+                        <div class="col-md-10">
+                            {!! Form::input('date', 'expiry_date', null, ['class' => 'form-control', 'required' => true]) !!}
+                        </div><!--col-->
+                    </div><!--form-group-->
+                    <div class="form-group row justify-content-center">
+                        <div class="col-2">
+                            {{ form_submit(__('labels.backend.teachers.add_certification')) }}
+                        </div>
+                    </div><!--col-->
+                </div>
+                <div style="padding: 30px;">
+
+                    <h5>{{ trans('labels.backend.teachers.fields.certifications') }}</h5>
+                    @foreach($certifications as $certification)
+                        <div>
+                            {{ $certification->title }} - {{trans('labels.backend.teachers.fields.expiry_date')}} :  {{ $teacher->certifications->find($certification->id)->pivot->expiry_date }}
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            {!! Form::close() !!}
         </div>
 
     </div>
-    {{ html()->closeModelForm() }}
 @endsection
 @push('after-scripts')
     <script>

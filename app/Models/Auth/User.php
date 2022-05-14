@@ -374,5 +374,8 @@ class User extends Authenticatable
         return $plansArr;
     }
 
-
+    public function certifications()
+    {
+        return $this->belongsToMany(Course::class, 'teacher_certification')->withTimestamps()->withPivot('expiry_date');
+    }
 }

@@ -104,6 +104,7 @@ return array (
         'course_rating' => 'Course Rating',
         'course_comment' => 'Course Comment',
         'select_agenda' => 'Select Agenda',
+        'select_course' => 'Select Course',
         'training_result' => 'Training Result',
     ),
     'locations' =>
@@ -921,13 +922,16 @@ return array (
         'image' => 'Image',
         'status' => 'Status',
         'company' => 'Company',
-        'hourly_rate' => 'Hourly Rate'
+        'hourly_rate' => 'Hourly Rate',
+          'certifications' => 'Certifications',
+          'expiry_date' => 'Expiry Date',
       ),
       'title' => 'Teachers',
       'create' => 'Create Teacher',
       'edit' => 'Edit Teacher',
       'view' => 'View Teachers',
       'add_companies' => 'Add Companies',
+        'add_certification' => 'Add Certification'
     ),
     'testimonials' =>
     array (
