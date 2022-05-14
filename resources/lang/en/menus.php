@@ -10,6 +10,7 @@ return array (
       'agendas' =>
       array(
           'title' => 'Agenda',
+          'training_result' => 'Training Result',
       ),
       'students' =>
       array(

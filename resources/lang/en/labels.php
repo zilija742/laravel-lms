@@ -103,6 +103,8 @@ return array (
         'teacher_comment' => 'Teacher Comment',
         'course_rating' => 'Course Rating',
         'course_comment' => 'Course Comment',
+        'select_agenda' => 'Select Agenda',
+        'training_result' => 'Training Result',
     ),
     'locations' =>
     array(

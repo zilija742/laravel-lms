@@ -41,6 +41,7 @@
                     {!! Form::label('course_comment',trans('labels.backend.agendas.course_comment'), ['class' => 'control-label']) !!}
                     {!! Form::input('text', 'course_comment', '', ['class' => 'form-control', 'multiple' => 'multiple','required' => true]) !!}
                 </div>
+                <input type="hidden" value="{{ $agenda->id }}" name="agenda_id">
                 <input type="hidden" value="{{ $agenda->course_id }}" name="course_id">
                 <input type="hidden" value="{{ $agenda->teacher_id }}" name="user_id">
             </div>

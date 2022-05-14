@@ -226,6 +226,7 @@ Route::post('evaluate', ['uses' => 'Admin\AgendasController@evaluate', 'as' => '
 Route::post('complete-agenda/{id}', ['uses' => 'Admin\AgendasController@completeAgenda', 'as' => 'agendas.complete']);
 Route::get('rating/{id}', ['uses' => 'Admin\AgendasController@rating', 'as' => 'agendas.rating']);
 Route::post('rating', ['uses' => 'Admin\AgendasController@storeRating', 'as' => 'agendas.store_rating']);
+Route::get('training-result', ['uses' => 'Admin\AgendasController@trainingResult', 'as' => 'agendas.training_result']);
 
 
 

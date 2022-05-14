@@ -91,13 +91,15 @@ class AgendasController extends Controller
                         $view .= $delete;
                     }
                     $view .= '<a href="' . route('admin.agendas.get_presence_list', ['id' => $q->id]) . '" class="btn btn-success mb-1">' . trans('labels.backend.agendas.presence_list') .  '</a> ';
-                    $view .= '<form action="' . route('admin.agendas.complete', [$q->id]) . '" method="POST" style="display: inline;">'.csrf_field().'<button class="btn btn-info ml-1 mb-1" href="">' . trans('labels.backend.agendas.complete') . '</button></form>';
+                    if (!isset($q->completed_at)) {
+                        $view .= '<form action="' . route('admin.agendas.complete', [$q->id]) . '" method="POST" style="display: inline;">'.csrf_field().'<button class="btn btn-info ml-1 mb-1" href="">' . trans('labels.backend.agendas.complete') . '</button></form>';
+                    }
                 }
 
                 if (auth()->user()->hasRole('company admin')) {
                     $view .= '<a href="' . route('admin.agendas.get_presence_list', ['id' => $q->id]) . '" class="btn btn-success mb-1">' . trans('labels.backend.agendas.presence_list') .  '</a> ';
 
-                    if (isset($q->completed_at)) {
+                    if (isset($q->completed_at) && !$q->is_rated) {
                         $view .= '<a href="' . route('admin.agendas.rating', ['id' => $q->id]) . '" class="btn btn-success mb-1">' . trans('labels.backend.agendas.rating') .  '</a> ';
                     }
                 }
@@ -312,6 +314,7 @@ class AgendasController extends Controller
         $teacher_review->reviewable_type = User::class;
         $teacher_review->rating = $request->teacher_rating;
         $teacher_review->content = $request->teacher_comment;
+        $teacher_review->agenda_id = $request->agenda_id;
         $teacher_review->save();
 
         $course_review = new Review();
@@ -320,8 +323,30 @@ class AgendasController extends Controller
         $course_review->reviewable_type = Course::class;
         $course_review->rating = $request->course_rating;
         $course_review->content = $request->course_comment;
+        $course_review->agenda_id = $request->agenda_id;
         $course_review->save();
 
+        $agenda = Agenda::findOrFail($request->agenda_id);
+        $agenda->is_rated = 1;
+        $agenda->save();
+
         return redirect()->route('admin.agendas.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
+    }
+
+    public function trainingResult(Request $request)
+    {
+        $agendas = Agenda::whereNotNull('completed_at')->get()->pluck('text', 'id')->prepend('Please select', '');
+
+        if (auth()->user()->hasRole('company admin')) {
+            $agendas = Agenda::whereNotNull('completed_at')
+                ->where('company_id', auth()->user()->teacherProfile->company_id)->get()->pluck('text', 'id')->prepend('Please select', '');
+        }
+
+        if ($request->agenda_id != '') {
+            $agenda = Agenda::findOrFail($request->agenda_id);
+        } else {
+            $agenda = Agenda::first();
+        }
+        return view('backend.agendas.training_result', compact('agendas', 'agenda'));
     }
 }

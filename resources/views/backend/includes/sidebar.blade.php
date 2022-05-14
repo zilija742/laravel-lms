@@ -21,6 +21,14 @@
                 </a>
             </li>
 
+            <li class="nav-item ">
+                <a class="nav-link {{ $request->segment(2) == 'training-result' ? 'active' : '' }}"
+                   href="{{ route('admin.agendas.training_result') }}">
+                    <i class="nav-icon icon-folder-alt"></i>
+                    <span class="title">@lang('menus.backend.sidebar.agendas.training_result')</span>
+                </a>
+            </li>
+
 
             <!--=======================Custom menus===============================-->
 {{--            @can('order_access')--}}

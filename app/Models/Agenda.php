@@ -36,4 +36,10 @@ class Agenda extends Model
     {
         return $this->belongsToMany(User::class, 'agenda_student')->withTimestamps()->withPivot('is_approved', 'comment');
     }
+
+    public function getTextAttribute() {
+        $text = $this->id . ' - ' . $this->course->title . ' - ' . $this->company->name . ' - ' . $this->completed_at;
+
+        return $text;
+    }
 }
