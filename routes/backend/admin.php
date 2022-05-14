@@ -223,6 +223,9 @@ Route::post('agenda-students/{id}', ['uses' => 'Admin\AgendasController@add_stud
 Route::get('get-presence-list-data/{id}', ['uses' => 'Admin\AgendasController@getPresenceListData', 'as' => 'agendas.get_presence_list_data']);
 Route::get('evaluate/{agenda_id}/{user_id}', ['uses' => 'Admin\AgendasController@getEvaluate', 'as' => 'agendas.get_evaluate']);
 Route::post('evaluate', ['uses' => 'Admin\AgendasController@evaluate', 'as' => 'agendas.evaluate']);
+Route::post('complete-agenda/{id}', ['uses' => 'Admin\AgendasController@completeAgenda', 'as' => 'agendas.complete']);
+Route::get('rating/{id}', ['uses' => 'Admin\AgendasController@rating', 'as' => 'agendas.rating']);
+Route::post('rating', ['uses' => 'Admin\AgendasController@storeRating', 'as' => 'agendas.store_rating']);
 
 
 

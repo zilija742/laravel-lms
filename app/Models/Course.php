@@ -192,6 +192,11 @@ class Course extends Model
         return $this->hasMany('App\Models\Test');
     }
 
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'course_student')->withTimestamps()->withPivot('comment');
+    }
+
     public function studentComments()
     {
         return $this->hasMany(StudentComment::class);

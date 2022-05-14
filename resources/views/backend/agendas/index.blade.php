@@ -1,6 +1,6 @@
 @inject('request', 'Illuminate\Http\Request')
 @extends('backend.layouts.app')
-@section('title', __('labels.backend.companies.title').' | '.app_name())
+@section('title', __('labels.backend.agendas.title').' | '.app_name())
 @push('after-styles')
     <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
 
@@ -54,7 +54,6 @@
                     </ul>
                 </div>
 
-
                 <table id="myTable" class="table table-bordered table-striped @can('course_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                     <thead>
                     <tr>
@@ -77,6 +76,7 @@
                         <th>@lang('labels.backend.agendas.fields.company')</th>
                         <th>@lang('labels.backend.agendas.fields.course')</th>
                         <th>@lang('labels.backend.agendas.fields.teacher')</th>
+                        <th>@lang('labels.backend.agendas.fields.completed_at')</th>
                         <th>&nbsp; @lang('strings.backend.general.actions')</th>
                     </tr>
                     </thead>
@@ -154,6 +154,7 @@
                     {data: "company", name: 'company'},
                     {data: "course", name: 'course'},
                     {data: 'teacher', name: 'teacher'},
+                    {data: 'completed_at', name: 'completed_at'},
                     {data: "actions", name: "actions"}
                 ],
                 @if(request('show_deleted') != 1)

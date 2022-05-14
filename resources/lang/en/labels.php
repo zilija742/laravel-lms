@@ -80,6 +80,7 @@ return array (
             'student_quantity' => 'Student Quantity',
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
+            'completed_at' => 'Complete Date',
         ),
         'alerts' =>
         array(
@@ -96,6 +97,12 @@ return array (
         'evaluate' => 'Evaluate',
         'comment' => 'Comment',
         'approve' => 'Approve',
+        'complete' => 'Complete',
+        'rating' => 'Rating',
+        'teacher_rating' => 'Teacher Rating',
+        'teacher_comment' => 'Teacher Comment',
+        'course_rating' => 'Course Rating',
+        'course_comment' => 'Course Comment',
     ),
     'locations' =>
     array(

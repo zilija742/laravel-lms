@@ -10,6 +10,9 @@ use App\Models\Auth\User;
 use App\Models\Company;
 use App\Models\Course;
 use App\Models\Location;
+use App\Models\Review;
+use Arcanedev\Html\Elements\A;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
@@ -88,10 +91,15 @@ class AgendasController extends Controller
                         $view .= $delete;
                     }
                     $view .= '<a href="' . route('admin.agendas.get_presence_list', ['id' => $q->id]) . '" class="btn btn-success mb-1">' . trans('labels.backend.agendas.presence_list') .  '</a> ';
+                    $view .= '<form action="' . route('admin.agendas.complete', [$q->id]) . '" method="POST" style="display: inline;">'.csrf_field().'<button class="btn btn-info ml-1 mb-1" href="">' . trans('labels.backend.agendas.complete') . '</button></form>';
                 }
 
                 if (auth()->user()->hasRole('company admin')) {
                     $view .= '<a href="' . route('admin.agendas.get_presence_list', ['id' => $q->id]) . '" class="btn btn-success mb-1">' . trans('labels.backend.agendas.presence_list') .  '</a> ';
+
+                    if (isset($q->completed_at)) {
+                        $view .= '<a href="' . route('admin.agendas.rating', ['id' => $q->id]) . '" class="btn btn-success mb-1">' . trans('labels.backend.agendas.rating') .  '</a> ';
+                    }
                 }
                 return $view;
             })
@@ -209,18 +217,18 @@ class AgendasController extends Controller
 
     public function getPresenceList($id)
     {
-//        if (auth()->user()->hasRole('company admin')) {
-//
-//            $agenda = Agenda::findOrFail($id);
-//
-//            $students = User::query()->whereHas('studentProfile', function($q) use ($agenda) {
-//                return $q->where('company_id', $agenda->company_id);
-//            })->get()->pluck('name', 'id');
-//
-//            return view('backend.agendas.view_students', compact('agenda', 'students'));
-//        } else {
+        if (auth()->user()->hasRole('company admin')) {
+
+            $agenda = Agenda::findOrFail($id);
+
+            $students = User::query()->whereHas('studentProfile', function($q) use ($agenda) {
+                return $q->where('company_id', $agenda->company_id);
+            })->get()->pluck('name', 'id');
+
+            return view('backend.agendas.view_students', compact('agenda', 'students'));
+        } else {
              return view('backend.agendas.presence_list', compact('id'));
-//        }
+        }
     }
 
     public function getPresenceListData(Request $request, $id) {
@@ -234,7 +242,9 @@ class AgendasController extends Controller
                 $edit = "";
                 $delete = "";
 
-                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.agendas.get_evaluate', ['agenda_id' => $agenda->id, 'user_id' => $q->id]) . '" style="color: white;">' . trans('labels.backend.agendas.evaluate') . '</a>';
+                if (isset($agenda->completed_at)) {
+                    $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.agendas.get_evaluate', ['agenda_id' => $agenda->id, 'user_id' => $q->id]) . '" style="color: white;">' . trans('labels.backend.agendas.evaluate') . '</a>';
+                }
 
                 return $view;
             })
@@ -260,13 +270,6 @@ class AgendasController extends Controller
         $agenda_student = $agenda->students->find($user_id);
 
 
-//         $agenda->students()->updateExistingPivot(
-//            $user_id,                         // lang_id
-//            [
-//                'is_approved' => true,
-//                'comment' => 'Very good'
-//            ]
-//        );
         $student = User::findOrFail($user_id);
 
         return view('backend.agendas.get_evaluate', compact('student', 'agenda_student', 'agenda_id', 'user_id'));
@@ -283,5 +286,42 @@ class AgendasController extends Controller
                     ]
         );
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
+    }
+
+    public function completeAgenda(Request $request, $id) {
+        $agenda = Agenda::findOrFail($id);
+
+        $agenda->completed_at = Carbon::now();
+        $agenda->save();
+
+        return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
+    }
+
+    public function rating(Request $request, $id)
+    {
+        $agenda = Agenda::findOrFail($id);
+
+        return view('backend.agendas.rating', compact('agenda'));
+    }
+
+    public function storeRating(Request $request)
+    {
+        $teacher_review = new Review();
+        $teacher_review->user_id = auth()->user()->id;
+        $teacher_review->reviewable_id = $request->user_id;
+        $teacher_review->reviewable_type = User::class;
+        $teacher_review->rating = $request->teacher_rating;
+        $teacher_review->content = $request->teacher_comment;
+        $teacher_review->save();
+
+        $course_review = new Review();
+        $course_review->user_id = auth()->user()->id;
+        $course_review->reviewable_id = $request->course_id;
+        $course_review->reviewable_type = Course::class;
+        $course_review->rating = $request->course_rating;
+        $course_review->content = $request->course_comment;
+        $course_review->save();
+
+        return redirect()->route('admin.agendas.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 }
