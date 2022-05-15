@@ -184,18 +184,29 @@ class AgendasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
-            $q->where('role_id', 2);
-        })->get()->pluck('name', 'id');
+        $course_id = $request->course_id;
+
+        if($course_id != '') {
+            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->whereHas('certifications', function ($q) use ($course_id) {
+                $q->where('course_id', $course_id);
+            })->get()->pluck('name', 'id');
+        } else {
+
+            $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+                $q->where('role_id', 2);
+            })->get()->pluck('name', 'id');
+        }
         $companies = Company::all()->pluck('name', 'id');
-        $courses = Course::all()->pluck('title', 'id');
+        $courses = Course::all()->pluck('title', 'id')->prepend('Please select', '');
         $locations = Location::all()->pluck('location_name', 'id');
 
         $agenda = Agenda::findOrFail($id);
 
-        return view('backend.agendas.edit', compact('agenda', 'teachers', 'companies', 'courses', 'locations'));
+        return view('backend.agendas.edit', compact('agenda', 'teachers', 'companies', 'courses', 'locations', 'course_id'));
     }
 
     /**
