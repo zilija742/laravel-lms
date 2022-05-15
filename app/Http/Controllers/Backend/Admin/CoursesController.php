@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Models\Agenda;
 use App\Models\Auth\User;
 use App\Models\Category;
 use App\Models\Certificate;
@@ -761,14 +762,14 @@ class CoursesController extends Controller
     public function get_agendas() {
 
         if (auth()->user()->hasRole('company admin')) {
-            $courses = Course::where('company_id', auth()->user()->teacherProfile->company_id)->get();
+            $agendas = Agenda::where('company_id', auth()->user()->teacherProfile->company_id)->get();
         } else {
-            $courses = Course::all();
+            $agendas = Agenda::all();
 
         }
 
         return response()->json([
-            "data" => $courses,
+            "data" => $agendas,
         ]);
     }
 }

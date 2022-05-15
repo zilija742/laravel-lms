@@ -20,25 +20,25 @@
                 @endif
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-12">
-                    <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:600px'>
-                        <div class="dhx_cal_navline">
-                            <div class="dhx_cal_prev_button">&nbsp;</div>
-                            <div class="dhx_cal_next_button">&nbsp;</div>
-                            <div class="dhx_cal_today_button"></div>
-                            <div class="dhx_cal_date"></div>
-                            <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-                            <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-                            <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
-                        </div>
-                        <div class="dhx_cal_header">
-                        </div>
-                        <div class="dhx_cal_data">
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="row">--}}
+{{--                <div class="col-12">--}}
+{{--                    <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:600px'>--}}
+{{--                        <div class="dhx_cal_navline">--}}
+{{--                            <div class="dhx_cal_prev_button">&nbsp;</div>--}}
+{{--                            <div class="dhx_cal_next_button">&nbsp;</div>--}}
+{{--                            <div class="dhx_cal_today_button"></div>--}}
+{{--                            <div class="dhx_cal_date"></div>--}}
+{{--                            <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>--}}
+{{--                            <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>--}}
+{{--                            <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>--}}
+{{--                        </div>--}}
+{{--                        <div class="dhx_cal_header">--}}
+{{--                        </div>--}}
+{{--                        <div class="dhx_cal_data">--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="table-responsive">
                 <div class="d-block">
                     <ul class="list-inline">
@@ -91,25 +91,25 @@
 @push('after-scripts')
     <script src="{{asset('codebase/dhtmlxscheduler.js')}}" type="text/javascript"></script>
     <script>
-		window.addEventListener("DOMContentLoaded", function(){
-		    scheduler.config.drag_create = false;
-		    scheduler.config.dblclick_create = false;
-		    scheduler.config.readonly_form = true;
-			scheduler.init('scheduler_here',new Date(),"month");
-			scheduler.load("{{ route('admin.agendas.get_agendas') }}", "json");
-		});
-		scheduler.attachEvent("onEventChanged", function(id,ev){
-            console.log(id, ev);
-        });
-		scheduler.attachEvent("onEventSave",function(id,ev,is_new){
-            console.log(id, ev, is_new);
-        });
-		scheduler.attachEvent("onEventDeleted", function(id,ev){
-            console.log(id, ev);
-        });
-		scheduler.attachEvent("onEventAdded", function(id,ev){
-            console.log('created! ', id, ev);
-        });
+		{{--window.addEventListener("DOMContentLoaded", function(){--}}
+		{{--    scheduler.config.drag_create = false;--}}
+		{{--    scheduler.config.dblclick_create = false;--}}
+		{{--    scheduler.config.readonly_form = true;--}}
+		{{--	scheduler.init('scheduler_here',new Date(),"month");--}}
+		{{--	scheduler.load("{{ route('admin.agendas.get_agendas') }}", "json");--}}
+		{{--});--}}
+		{{--scheduler.attachEvent("onEventChanged", function(id,ev){--}}
+        {{--    console.log(id, ev);--}}
+        {{--});--}}
+		{{--scheduler.attachEvent("onEventSave",function(id,ev,is_new){--}}
+        {{--    console.log(id, ev, is_new);--}}
+        {{--});--}}
+		{{--scheduler.attachEvent("onEventDeleted", function(id,ev){--}}
+        {{--    console.log(id, ev);--}}
+        {{--});--}}
+		{{--scheduler.attachEvent("onEventAdded", function(id,ev){--}}
+        {{--    console.log('created! ', id, ev);--}}
+        {{--});--}}
 
 		$(document).ready(function () {
             var route = '{{route('admin.agendas.get_data')}}';

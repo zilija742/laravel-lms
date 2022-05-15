@@ -12,6 +12,8 @@ class Agenda extends Model
 
     protected $fillable = ['start_date', 'end_date', 'is_approved', 'created_at', 'updated_at', 'company_id', 'course_id', 'teacher_id', 'location_id', 'student_quantity', 'completed_at'];
 
+    protected $appends = ['text'];
+
     public function course()
     {
         return $this->belongsTo(Course::class);
@@ -38,7 +40,7 @@ class Agenda extends Model
     }
 
     public function getTextAttribute() {
-        $text = $this->id . ' - ' . $this->course->title . ' - ' . $this->company->name . ' - ' . $this->completed_at;
+        $text = $this->id . ' - ' . $this->course->title . ' - ' . $this->teacher->name . ' - ' . $this->company->name;
 
         return $text;
     }
